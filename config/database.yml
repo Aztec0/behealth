@@ -82,5 +82,5 @@ test:
 production:
   <<: *default
   database: behealth_production
-  username: behealth
+  username: alex
   password: <%= ENV["BEHEALTH_DATABASE_PASSWORD"] %>
