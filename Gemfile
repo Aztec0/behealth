@@ -46,10 +46,12 @@ gem 'rswag-ui'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
-
   gem 'annotate'
-
+  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem 'byebug'
+  gem 'rubocop', '~> 1.40', require: false
+  gem 'rubocop-performance', '~> 1.15', require: false
+  gem 'rubocop-rails', '~> 2.17', require: false
   gem 'rspec-rails'
   gem 'rswag-specs'
 end
@@ -58,5 +60,7 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
   gem "letter_opener"
+  gem 'active_model_serializers'
+  gem 'pagy'
 end
 
