@@ -29,6 +29,7 @@ class Doctor < ApplicationRecord
   require 'securerandom'
 
   belongs_to :hospital
+  belongs_to :head_doctor, optional: true
 
   has_secure_password
 
