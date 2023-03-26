@@ -8,10 +8,13 @@
 /.bundle
 
 # Ignore all logfiles and tempfiles.
+.idea
+.idea/
 /log/*
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+.byebug_history
 
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
@@ -27,3 +30,10 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/database.production.yml
+/config/secrets.production.yml
+/config/database.yml
+/.env
+/config/application.yml
+/config/database.production.yml
+/config/secrets.production.yml
