@@ -21,7 +21,7 @@
 #  fk_rails_...  (doctor_id => doctors.id)
 #  fk_rails_...  (patient_id => patients.id)
 #
-class DoctorsFeedback < ApplicationRecord
+class Feedback < ApplicationRecord
   belongs_to :doctor
   belongs_to :patient, optional: true
 end

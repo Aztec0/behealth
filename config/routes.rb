@@ -8,6 +8,11 @@ Rails.application.routes.draw do
       post '/login', to: 'sessions#create'
       post '/forgot', to: 'passwords#forgot'
       post 'password/reset', to: 'password#reset'
+
+      get 'doctors', to: 'doctors#index'
+      get 'doctor/:id', to: 'doctors#show'
+      get 'doctor/:id/feedbacks', to: 'feedbacks#index'
+      post 'doctor/:id/create-feedback', to: 'feedbacks#create'
     end
   end
 

@@ -9,6 +9,7 @@
 #  password_digest        :string
 #  phone                  :bigint
 #  position               :string
+#  rating                 :integer          default(0)
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  surname                :string
@@ -29,6 +30,7 @@ class Doctor < ApplicationRecord
   require 'securerandom'
 
   belongs_to :hospital
+  has_many :feedbacks
 
   has_secure_password
 
