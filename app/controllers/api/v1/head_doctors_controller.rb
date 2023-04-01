@@ -4,12 +4,33 @@ class Api::V1::HeadDoctorsController < ApplicationController
   before_action :authenticate_request
   before_action :authorize_head_doctor
 
+  def index
+    doctors = head_doctor.doctors
+    # Sort by creation date
+    doctors = doctors.by_creation_date if params[:by_creation_date]
+    # Sort by alphabetical order
+    doctors = doctors.alphabetically if params[:alphabetically]
+    # Filter by specialization
+    doctors = doctors.by_specialization(params[:specialization]) if params[:specialization]
+
+    render json: doctors, status: :ok
+  end
+
   def create
     doctor = head_doctor.create_doctor(doctor_params)
     if doctor
       render json: doctor, status: :created
     else
       render json: { error: doctor.errors.full_message }, status: :unprocessable_entity
+    end
+  end
+
+  def create_hospital
+    hospital = Hospital.new(hospital_params)
+    if hospital.save
+      render json: hospital, status: :created
+    else
+      render json: { error: hospital.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -43,5 +64,9 @@ class Api::V1::HeadDoctorsController < ApplicationController
     return if user.is_a?(Doctor)
 
     render_error('Unauthorized', :unauthorized)
+  end
+
+  def hospital_params
+    params.require(:hospital).permit(:name, :address, :phone, :email)
   end
 end
