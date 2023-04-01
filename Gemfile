@@ -49,6 +49,7 @@ group :development, :test do
   gem 'annotate'
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem 'byebug'
+  gem 'figaro'
   gem 'rubocop', '~> 1.40', require: false
   gem 'rubocop-performance', '~> 1.15', require: false
   gem 'rubocop-rails', '~> 2.17', require: false
