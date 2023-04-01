@@ -8,7 +8,9 @@ Rails.application.routes.draw do
       post '/login', to: 'sessions#create'
       post '/forgot', to: 'passwords#forgot'
       post 'password/reset', to: 'password#reset'
+      resources :head_doctor, only: %i[create destroy] do
+        get 'canceled_appointments', on: :collection
+      end
     end
   end
-
 end
