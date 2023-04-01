@@ -1,5 +1,12 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::API
   # before_action :authenticate_request
+
+  def temporary_password
+    temporary_password = SecureRandom.alphanumeric(10)
+    render json: { temporary_password: temporary_password }
+  end
 
   private
 
