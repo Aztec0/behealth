@@ -17,11 +17,16 @@ class Api::V1::HeadDoctorsController < ApplicationController
   end
 
   def create
-    doctor = head_doctor.create_doctor(doctor_params)
-    if doctor
-      render json: doctor, status: :created
+    hospital = Hospital.find_by(id: doctor_params[:hospital_id])
+    if hospital.nil?
+      render json: { error: 'Hospital not found' }, status: :unprocessable_entity
     else
-      render json: { error: doctor.errors.full_message }, status: :unprocessable_entity
+      doctor = head_doctor.create_doctor(doctor_params)
+      if doctor
+        render json: doctor, status: :created
+      else
+        render json: { error: doctor.errors.full_message }, status: :unprocessable_entity
+      end
     end
   end
 
@@ -42,8 +47,7 @@ class Api::V1::HeadDoctorsController < ApplicationController
     end
   end
 
-  def canceled_apointments
-  end
+  def canceled_apointments; end
 
   private
 
