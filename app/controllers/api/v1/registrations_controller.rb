@@ -1,5 +1,5 @@
 class Api::V1::RegistrationsController < ApplicationController
-  # before_action :set_patient, only: %i[ confirmation ]
+  # after_action :activate_patient, only: %i[ confirmation ]
 
   def signup
     if (params[:email] && params[:password]).blank?
@@ -25,7 +25,7 @@ class Api::V1::RegistrationsController < ApplicationController
     token = params[:token].to_s
     @patient = Patient.find_by(confirm_token: token)
     if @patient.present? && @patient.token_valid?
-    @patient.update(patient_params)
+      @patient.update(patient_params)
       if @patient.save!
         @patient.email_activate
         render json: 'ok'
@@ -40,7 +40,10 @@ class Api::V1::RegistrationsController < ApplicationController
   private
 
   def patient_params
-    params.permit(:birthday, :name, :surname, :phone, email_confirmed: true)
+    params.permit(:birthday, :name, :surname, :phone)
   end
 
+  # def activate_patient
+  #   @patient.email_activate
+  # end
 end

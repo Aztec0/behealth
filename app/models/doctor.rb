@@ -26,12 +26,12 @@
 #
 
 class Doctor < ApplicationRecord
-  require 'securerandom'
 
   belongs_to :hospital
 
   has_secure_password
 
+  validates :email, uniqueness: true
   validates :name, presence: true
 
   def generate_password_token!
@@ -40,7 +40,7 @@ class Doctor < ApplicationRecord
     save!
   end
 
-  def password_token_valid?
+  def token_valid?
     (self.token_sent_at + 4.hours) > Time.now.utc
   end
 
