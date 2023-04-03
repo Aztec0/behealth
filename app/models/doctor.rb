@@ -11,6 +11,7 @@
 #  position               :string
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  role                   :integer          default("doctor")
 #  surname                :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -32,6 +33,8 @@ class Doctor < ApplicationRecord
   belongs_to :head_doctor, optional: true
 
   has_secure_password
+
+  enum :role, %i[admin doctor head_doctor]
 
   validates :name, presence: true
 
