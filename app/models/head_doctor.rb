@@ -45,7 +45,7 @@ class HeadDoctor < Doctor
     doctor.hospital = hospital # assign the hospital to the new doctor
     if doctor.save
       doctor.generate_password_token!
-      #DoctorMailer.with(doctor).temporary_password.deliver_later
+      DoctorMailer.with(doctor).temporary_password.deliver_later
       render json: doctor, status: :created
     else
       render json: { error: doctor.errors.full_messages }, status: :unprocessable_entity

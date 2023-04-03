@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>New Doctor Account</h1>
+    <p>Dear <%= @doctor.name %>,</p>
+    <p>Welcome to our platform! Your account has been created successfully.</p>
+    <p>Here are your login details:</p>
+      <ul>
+        <li>Email: <%= @doctor.email %></li>
+        <li>Password: <%= @doctor.password %></li>
+      </ul>
+    <p>Please login to your account and change your password.</p>
+    <p>Best regards,</p>
+    <p>The BeHealth Team</p>
+  </body>
+</html>
