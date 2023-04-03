@@ -2,7 +2,7 @@
 
 class Api::V1::HeadDoctorsController < ApplicationController
   before_action :authenticate_request
-  before_action :authorize_head_doctor
+  before_action :authorize_request
 
   def index
     doctors = head_doctor.doctors
@@ -16,7 +16,7 @@ class Api::V1::HeadDoctorsController < ApplicationController
     render json: doctors, status: :ok
   end
 
-  def create
+  def create_doctor
     hospital = Hospital.find_by(id: doctor_params[:hospital_id])
     if hospital.nil?
       render json: { error: 'Hospital not found' }, status: :unprocessable_entity
@@ -39,7 +39,7 @@ class Api::V1::HeadDoctorsController < ApplicationController
     end
   end
 
-  def delete
+  def delete_doctor
     if head_doctor.delete_doctor(params[:id])
       render json: { message: 'Doctor deleted' }, status: :ok
     else
@@ -64,13 +64,11 @@ class Api::V1::HeadDoctorsController < ApplicationController
     @head_doctor ||= HeadDoctor.find(user.id)
   end
 
-  def authorize_head_doctor
-    return if user.is_a?(Doctor)
-
-    render_error('Unauthorized', :unauthorized)
-  end
-
   def hospital_params
     params.require(:hospital).permit(:name, :address, :phone, :email)
+  end
+
+  def authorize_request
+    authorize HeadDoctor
   end
 end
