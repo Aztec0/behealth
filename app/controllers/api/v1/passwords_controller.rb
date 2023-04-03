@@ -9,7 +9,7 @@ class Api::V1::PasswordsController < ApplicationController
     if @user.present?
       @user.generate_password_token! #generate pass token
       PasswordMailer.test_mailer(@user, user_type).deliver_now
-      render json: @user
+      render json: 'We send mail to your email address'
     else
       render json: {error: ['Email address not found. Please check and try again.']}, status: :not_found
     end
@@ -22,7 +22,7 @@ class Api::V1::PasswordsController < ApplicationController
 
     if @user.present? && @user.token_valid?
       if @user.reset_password!(params[:password])
-        render json: {status: 'ok'}, status: :ok
+        render json: {status: 'Password successfully changed'}, status: :ok
       else
         render json: {error: user.errors.full_messages}, status: :unprocessable_entity
       end

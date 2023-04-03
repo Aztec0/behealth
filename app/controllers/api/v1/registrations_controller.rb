@@ -17,8 +17,6 @@ class Api::V1::RegistrationsController < ApplicationController
           PatientMailer.registration(@patient).deliver_now
           render json: "We send email to your email address"
       end
-    # else
-    #   render json: "something wrong"
     end
 
   def confirmation
@@ -28,12 +26,12 @@ class Api::V1::RegistrationsController < ApplicationController
       @patient.update(patient_params)
       if @patient.save!
         @patient.email_activate
-        render json: 'ok'
+        render json: 'Email activated, you successfully registered'
       else
-        render json: 'error1'
+        render json: 'Something went wrong'
       end
     else
-      render json: 'error2'
+      render json: 'Link not valid or expired. Try generating a new link.'
     end
   end
 
@@ -42,8 +40,4 @@ class Api::V1::RegistrationsController < ApplicationController
   def patient_params
     params.permit(:birthday, :name, :surname, :phone)
   end
-
-  # def activate_patient
-  #   @patient.email_activate
-  # end
 end

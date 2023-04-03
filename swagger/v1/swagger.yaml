@@ -4,22 +4,6 @@ info:
   title: API V1
   version: v1
 paths:
-  "/api/v1/index":
-    get:
-      summary: hospital index
-      tags:
-      - Admin
-      - Articles
-      security:
-      - ApiKeyAuth: []
-      parameters:
-      - name: search
-        in: query
-        schema:
-          type: string
-      responses:
-        '200':
-          description: successful
   "/api/v1/forgot":
     post:
       summary: Sends an email to reset the user's password
@@ -147,7 +131,7 @@ paths:
     post:
       summary: create session
       tags:
-      - Admin
+      - Login
       parameters: []
       responses:
         '200':
