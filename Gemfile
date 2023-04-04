@@ -6,8 +6,6 @@ ruby "3.1.3"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4", ">= 7.0.4.2"
 
-gem 'active_model_serializers'
-
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 
@@ -42,6 +40,8 @@ gem 'securerandom'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors', :require => 'rack/cors'
+
+# gem 'rswag'
 
 gem 'rswag-api'
 gem 'rswag-ui'
