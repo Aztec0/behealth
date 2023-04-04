@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-  include Pundit::Authorization
+  include Pundit
   # before_action :authenticate_request
 
   def temporary_password
