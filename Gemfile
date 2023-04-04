@@ -59,12 +59,13 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'annotate'
   gem 'capistrano'
-  gem 'capistrano-rvm'
-  gem 'capistrano-rails'
   gem 'capistrano3-puma'
   gem 'capistrano-nginx'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
   gem 'capistrano-upload-config'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'letter_opener'
   gem 'rspec-rails'
   gem 'rswag-specs'
   gem 'rubocop', '~> 1.40', require: false
@@ -76,5 +77,4 @@ end
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem 'letter_opener'
 end
