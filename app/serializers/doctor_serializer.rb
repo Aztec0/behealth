@@ -12,7 +12,6 @@
 #  rating                 :integer          default(0)
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
-#  role                   :integer          default("doctor")
 #  surname                :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -26,39 +25,26 @@
 #
 #  fk_rails_...  (hospital_id => hospitals.id)
 #
+class DoctorSerializer < ActiveModel::Serializer
+  attributes :full_name, :position, :hospital, :rating
 
-class Doctor < ApplicationRecord
-  require 'securerandom'
-
-  belongs_to :hospital
-  belongs_to :head_doctor, optional: true
-  has_many :feedbacks
-
-  has_secure_password
-
-  enum :role, %i[admin doctor head_doctor]
-
-  validates :name, presence: true
-
-  def generate_password_token!
-    self.reset_password_token = generate_token
-    self.reset_password_sent_at = Time.now.utc
-    save!
+  def full_name
+    "#{object.name} #{object.surname}"
   end
 
-  def password_token_valid?
-    (self.reset_password_sent_at + 4.hours) > Time.now.utc
+  def hospital
+    object.hospital.name
   end
 
-  def reset_password!(password)
-    self.reset_password_token = nil
-    self.password = password
-    save!
-  end
-
-  private
-
-  def generate_token
-    SecureRandom.hex(10)
+  def attributes(*args)
+    hash = super
+    if @instance_options[:action] == :index
+      hash[:id] = object.id
+    elsif @instance_options[:action] == :show
+      hash[:age] =  Date.today.year - object.birthday.year - ((Date.today.month > object.birthday.month ||
+        (Date.today.month == object.birthday.month && Date.today.day >= object.birthday.day)) ? 0 : 1)
+      hash[:feedbacks] = object.feedbacks
+    end
+    hash
   end
 end

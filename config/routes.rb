@@ -19,6 +19,12 @@ Rails.application.routes.draw do
           delete :delete_doctor
         end
       end
+
+      get 'doctors', to: 'doctors#index'
+      get 'doctor/:id', to: 'doctors#show'
+      get 'doctor/:id/feedbacks', to: 'feedbacks#index'
+      post 'doctor/:id/create-feedback', to: 'feedbacks#create'
     end
   end
+
 end
