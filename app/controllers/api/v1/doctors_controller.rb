@@ -15,5 +15,4 @@ class Api::V1::DoctorsController < ApplicationController
   def set_doctor
     @doctor = Doctor.find(params[:id])
   end
-
 end
