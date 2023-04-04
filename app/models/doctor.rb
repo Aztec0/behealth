@@ -16,7 +16,7 @@
 #  surname                :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  hospital_id            :bigint
+#  hospital_id            :bigint           not null
 #
 # Indexes
 #
@@ -28,7 +28,6 @@
 #
 
 class Doctor < ApplicationRecord
-  require 'securerandom'
 
   belongs_to :hospital, optional: true
   belongs_to :head_doctor, optional: true
@@ -38,16 +37,17 @@ class Doctor < ApplicationRecord
 
   enum :role, %i[admin doctor head_doctor]
 
+  validates :email, uniqueness: true
   validates :name, presence: true
 
   def generate_password_token!
     self.reset_password_token = generate_token
-    self.reset_password_sent_at = Time.now.utc
+    self.token_sent_at = Time.now.utc
     save!
   end
 
-  def password_token_valid?
-    (self.reset_password_sent_at + 4.hours) > Time.now.utc
+  def token_valid?
+    (self.token_sent_at + 4.hours) > Time.now.utc
   end
 
   def reset_password!(password)

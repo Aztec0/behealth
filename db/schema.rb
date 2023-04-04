@@ -26,7 +26,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_03_050823) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
+    t.datetime "token_sent_at"
     t.integer "rating", default: 0
     t.integer "role", default: 1
     t.index ["hospital_id"], name: "index_doctors_on_hospital_id"
@@ -62,6 +62,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_03_050823) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reset_password_token"
+    t.datetime "token_sent_at"
+    t.boolean "email_confirmed", default: false
+    t.string "confirm_token"
   end
 
   add_foreign_key "doctors", "hospitals"

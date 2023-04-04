@@ -24,16 +24,35 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'https://{defaultHost}',
+          url: 'http://{defaultHost}',
           variables: {
             defaultHost: {
-              default: 'www.example.com'
+              default: 'localhost:3000'
+            }
+          }
+        },
+        {
+          url: 'https://{staging_host}',
+          variables: {
+            staging_host: {
+              default: ''
             }
           }
         }
-      ]
+      ],
+      components: {
+        securitySchemes: {
+          ApiKeyAuth: {
+            type: :apiKey,
+            name: 'Authorization',
+            in: :header,
+            description: "{token}"
+          }
+        }
+      }
     }
   }
+
 
   # Specify the format of the output Swagger file when running 'rswag:specs:swaggerize'.
   # The swagger_docs configuration option has the filename including format in
