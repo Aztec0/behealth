@@ -9,6 +9,7 @@
 #  password_digest        :string
 #  phone                  :bigint
 #  position               :string
+#  rating                 :integer          default(0)
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  surname                :string
@@ -24,36 +25,26 @@
 #
 #  fk_rails_...  (hospital_id => hospitals.id)
 #
+class DoctorSerializer < ActiveModel::Serializer
+  attributes :full_name, :position, :hospital, :rating
 
-class Doctor < ApplicationRecord
-
-  belongs_to :hospital
-  has_many :feedbacks
-
-  has_secure_password
-
-  validates :email, uniqueness: true
-  validates :name, presence: true
-
-  def generate_password_token!
-    self.reset_password_token = generate_token
-    self.token_sent_at = Time.now.utc
-    save!
+  def full_name
+    "#{object.name} #{object.surname}"
   end
 
-  def token_valid?
-    (self.token_sent_at + 4.hours) > Time.now.utc
+  def hospital
+    object.hospital.name
   end
 
-  def reset_password!(password)
-    self.reset_password_token = nil
-    self.password = password
-    save!
-  end
-
-  private
-
-  def generate_token
-    SecureRandom.hex(10)
+  def attributes(*args)
+    hash = super
+    if @instance_options[:action] == :index
+      hash[:id] = object.id
+    elsif @instance_options[:action] == :show
+      hash[:age] =  Date.today.year - object.birthday.year - ((Date.today.month > object.birthday.month ||
+        (Date.today.month == object.birthday.month && Date.today.day >= object.birthday.day)) ? 0 : 1)
+      hash[:feedbacks] = object.feedbacks
+    end
+    hash
   end
 end

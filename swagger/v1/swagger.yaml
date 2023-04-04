@@ -152,6 +152,15 @@ paths:
               - email
               - password
               - user_type
+paths:
+  "/api/v1/doctors":
+    get:
+      summary: list doctors
+      tags:
+      - Doctors
+      responses:
+        '200':
+          description: successful
 servers:
 - url: http://{defaultHost}
   variables:

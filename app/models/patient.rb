@@ -20,6 +20,8 @@
 class Patient < ApplicationRecord
   has_secure_password
 
+  has_many :feedbacks
+
   validates :email, uniqueness: true
 
   def generate_confirm_token!
