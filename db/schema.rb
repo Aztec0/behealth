@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_23_192536) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_29_172514) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,7 +26,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_192536) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
+    t.datetime "token_sent_at"
     t.integer "rating", default: 0
     t.index ["hospital_id"], name: "index_doctors_on_hospital_id"
   end
@@ -61,6 +61,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_23_192536) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reset_password_token"
+    t.datetime "token_sent_at"
+    t.boolean "email_confirmed", default: false
+    t.string "confirm_token"
   end
 
   add_foreign_key "doctors", "hospitals"
