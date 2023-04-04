@@ -46,7 +46,7 @@ RSpec.configure do |config|
             type: :apiKey,
             name: 'Authorization',
             in: :header,
-            description: "{token}"
+            description: '{token}'
           }
         }
       }

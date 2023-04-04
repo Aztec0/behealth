@@ -76,6 +76,7 @@ GEM
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
+    ast (2.4.2)
     bcrypt (3.1.18)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
@@ -90,6 +91,8 @@ GEM
       reline (>= 0.3.1)
     diff-lcs (1.5.0)
     erubi (1.12.0)
+    figaro (1.2.0)
+      thor (>= 0.14.0, < 2)
     globalid (1.1.0)
       activesupport (>= 5.0)
     i18n (1.12.0)
@@ -97,6 +100,7 @@ GEM
     io-console (0.6.0)
     irb (1.6.3)
       reline (>= 0.3.0)
+    json (2.6.3)
     json-schema (3.0.0)
       addressable (>= 2.8)
     jsonapi-renderer (0.2.2)
@@ -134,6 +138,9 @@ GEM
       racc (~> 1.4)
     nokogiri (1.14.2-x86_64-linux)
       racc (~> 1.4)
+    parallel (1.22.1)
+    parser (3.2.2.0)
+      ast (~> 2.4.1)
     pg (1.4.6)
     public_suffix (5.0.1)
     puma (5.6.5)
@@ -170,9 +177,12 @@ GEM
       rake (>= 12.2)
       thor (~> 1.0)
       zeitwerk (~> 2.5)
+    rainbow (3.1.1)
     rake (13.0.6)
+    regexp_parser (2.7.0)
     reline (0.3.2)
       io-console (~> 0.5)
+    rexml (3.2.5)
     rspec-core (3.12.1)
       rspec-support (~> 3.12.0)
     rspec-expectations (3.12.2)
@@ -200,11 +210,32 @@ GEM
     rswag-ui (2.8.0)
       actionpack (>= 3.1, < 7.1)
       railties (>= 3.1, < 7.1)
+    rubocop (1.49.0)
+      json (~> 2.3)
+      parallel (~> 1.10)
+      parser (>= 3.2.0.0)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml (>= 3.2.5, < 4.0)
+      rubocop-ast (>= 1.28.0, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 2.4.0, < 3.0)
+    rubocop-ast (1.28.0)
+      parser (>= 3.2.1.0)
+    rubocop-performance (1.16.0)
+      rubocop (>= 1.7.0, < 2.0)
+      rubocop-ast (>= 0.4.0)
+    rubocop-rails (2.18.0)
+      activesupport (>= 4.2.0)
+      rack (>= 1.1)
+      rubocop (>= 1.33.0, < 2.0)
+    ruby-progressbar (1.13.0)
     securerandom (0.2.2)
     thor (1.2.1)
     timeout (0.3.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    unicode-display_width (2.4.2)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -221,6 +252,7 @@ DEPENDENCIES
   bcrypt
   bootsnap
   debug
+  figaro
   jwt
   letter_opener
   pg (~> 1.1)
@@ -231,6 +263,9 @@ DEPENDENCIES
   rswag-api
   rswag-specs
   rswag-ui
+  rubocop (~> 1.40)
+  rubocop-performance (~> 1.15)
+  rubocop-rails (~> 2.17)
   securerandom
   tzinfo-data
 

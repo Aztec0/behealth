@@ -1,23 +1,26 @@
+# frozen_string_literal: true
+
 class Api::V1::RegistrationsController < ApplicationController
   # after_action :activate_patient, only: %i[ confirmation ]
 
   def signup
     if (params[:email] && params[:password]).blank?
-      return render json: {error: 'Email or password not present' }
+      return render json: { error: 'Email or password not present' }
     end
 
     @patient = Patient.find_by(email: params[:email])
 
-      if @patient.present?
-        @patient.generate_confirm_token!
-        PatientMailer.registration(@patient).deliver_now
-        render json: 'Email already use, we resend mail'
-      else @patient = Patient.new(email: params[:email], password: params[:password])
-          @patient.generate_confirm_token!
-          PatientMailer.registration(@patient).deliver_now
-          render json: "We send email to your email address"
-      end
+    if @patient.present?
+      @patient.generate_confirm_token!
+      PatientMailer.registration(@patient).deliver_now
+      render json: 'Email already use, we resend mail'
+    else
+      @patient = Patient.new(email: params[:email], password: params[:password])
+      @patient.generate_confirm_token!
+      PatientMailer.registration(@patient).deliver_now
+      render json: 'We send email to your email address'
     end
+  end
 
   def confirmation
     token = params[:token].to_s

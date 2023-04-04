@@ -4,6 +4,14 @@ info:
   title: API V1
   version: v1
 paths:
+  "/api/v1/doctors":
+    get:
+      summary: list doctors
+      tags:
+      - Doctors
+      responses:
+        '200':
+          description: successful
   "/api/v1/forgot":
     post:
       summary: Sends an email to reset the user's password
@@ -152,15 +160,6 @@ paths:
               - email
               - password
               - user_type
-paths:
-  "/api/v1/doctors":
-    get:
-      summary: list doctors
-      tags:
-      - Doctors
-      responses:
-        '200':
-          description: successful
 servers:
 - url: http://{defaultHost}
   variables:

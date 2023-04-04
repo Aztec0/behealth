@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: doctors
@@ -41,7 +43,7 @@ class DoctorSerializer < ActiveModel::Serializer
     if @instance_options[:action] == :index
       hash[:id] = object.id
     elsif @instance_options[:action] == :show
-      hash[:age] =  Date.today.year - object.birthday.year - ((Date.today.month > object.birthday.month ||
+      hash[:age] = Date.today.year - object.birthday.year - ((Date.today.month > object.birthday.month ||
         (Date.today.month == object.birthday.month && Date.today.day >= object.birthday.day)) ? 0 : 1)
       hash[:feedbacks] = object.feedbacks
     end

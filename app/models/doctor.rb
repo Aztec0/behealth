@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: doctors
@@ -24,7 +26,6 @@
 #
 #  fk_rails_...  (hospital_id => hospitals.id)
 #
-
 class Doctor < ApplicationRecord
 
   belongs_to :hospital
@@ -32,7 +33,7 @@ class Doctor < ApplicationRecord
 
   has_secure_password
 
-  validates :email, uniqueness: true
+  validates :email, unique: true
   validates :name, presence: true
 
   def generate_password_token!
