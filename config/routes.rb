@@ -1,3 +1,5 @@
+# frozen_string_literaal: true
+
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
@@ -26,5 +28,4 @@ Rails.application.routes.draw do
       post 'doctor/:id/create-feedback', to: 'feedbacks#create'
     end
   end
-
 end
