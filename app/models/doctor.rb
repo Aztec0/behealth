@@ -16,7 +16,7 @@
 #  surname                :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  hospital_id            :bigint           not null
+#  hospital_id            :bigint
 #
 # Indexes
 #
@@ -30,7 +30,7 @@
 class Doctor < ApplicationRecord
   require 'securerandom'
 
-  belongs_to :hospital
+  belongs_to :hospital, optional: true
   belongs_to :head_doctor, optional: true
   has_many :feedbacks
 
