@@ -35,7 +35,7 @@ RSpec.configure do |config|
           url: 'https://{behealth_host}',
           variables: {
             behealth_host: {
-              default: '161.35.210.52'
+              default: '164.90.212.183'
             }
           }
         },
