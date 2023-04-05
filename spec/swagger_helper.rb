@@ -24,10 +24,10 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'http://{defaultHost}',
+          url: "http://#{ENV['SWAGGER_DEFAULT_HOST']}",
           variables: {
             defaultHost: {
-              default: 'localhost:3000'
+              default: ENV['SWAGGER_DEFAULT_HOST']
             }
           }
         },
