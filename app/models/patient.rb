@@ -24,7 +24,7 @@ class Patient < ApplicationRecord
 
   has_many :feedbacks
 
-  validates :email, unique: true
+  validates :email, uniqueness: true
 
   def generate_confirm_token!
     self.confirm_token = generate_token

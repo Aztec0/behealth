@@ -34,7 +34,7 @@ class Doctor < ApplicationRecord
 
   has_secure_password
 
-  validates :email, unique: true
+  validates :email, uniqueness: true
   validates :name, presence: true
 
   def generate_password_token!
