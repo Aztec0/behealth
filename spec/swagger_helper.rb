@@ -32,7 +32,7 @@ RSpec.configure do |config|
           }
         },
         {
-          url: 'https://{staging_host}',
+          url: 'http://{staging_host}',
           variables: {
             staging_host: {
               default: ''
@@ -46,7 +46,7 @@ RSpec.configure do |config|
             type: :apiKey,
             name: 'Authorization',
             in: :header,
-            description: "{token}"
+            description: '{token}'
           }
         }
       }
