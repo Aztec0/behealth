@@ -2,7 +2,7 @@
 
 server '161.35.210.52', user: "#{fetch(:user)}", roles: %w{app db web}, primary: true
 
-set :application, 'deploy'
+set :application, 'behealth'
 set :deploy_to, "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
 
 set :environment, 'production'
