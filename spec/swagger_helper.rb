@@ -24,15 +24,23 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: "http://#{ENV['SWAGGER_DEFAULT_HOST']}",
+          url: 'http://{defaultHost}',
           variables: {
             defaultHost: {
-              default: ENV['SWAGGER_DEFAULT_HOST']
+              default: 'localhost:3000'
             }
           }
         },
         {
-          url: 'http://{staging_host}',
+          url: 'http://{behealth_host}',
+          variables: {
+            behealth_host: {
+              default: '161.35.210.52'
+            }
+          }
+        },
+        {
+          url: 'https://{staging_host}',
           variables: {
             staging_host: {
               default: ''
@@ -46,7 +54,7 @@ RSpec.configure do |config|
             type: :apiKey,
             name: 'Authorization',
             in: :header,
-            description: '{token}'
+            description: "{token}"
           }
         }
       }
