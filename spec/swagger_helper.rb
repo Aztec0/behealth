@@ -24,10 +24,10 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: "https://#{ENV.fetch('SWAGGER_DEFAULT_HOST', nil)}",
+          url: 'http://{defaultHost}',
           variables: {
             defaultHost: {
-              default: ENV.fetch('SWAGGER_DEFAULT_HOST', nil)
+              default: 'localhost:3000'
             }
           }
         },
@@ -46,7 +46,7 @@ RSpec.configure do |config|
             type: :apiKey,
             name: 'Authorization',
             in: :header,
-            description: '{token}'
+            description: "{token}"
           }
         }
       }
