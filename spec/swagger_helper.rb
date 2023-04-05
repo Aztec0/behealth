@@ -24,7 +24,7 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'http://{defaultHost}',
+          url: 'https://{defaultHost}',
           variables: {
             defaultHost: {
               default: 'localhost:3000'
@@ -32,7 +32,7 @@ RSpec.configure do |config|
           }
         },
         {
-          url: 'http://{behealth_host}',
+          url: 'https://{behealth_host}',
           variables: {
             behealth_host: {
               default: '161.35.210.52'
