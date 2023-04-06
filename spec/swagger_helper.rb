@@ -30,7 +30,14 @@ RSpec.configure do |config|
               default: 'localhost:3000'
             }
           }
-        },
+        },        {
+        url: 'http://{behealthtHost}',
+        variables: {
+          behealthHost: {
+            default: '64.226.64.5'
+          }
+        }
+      },
         {
           url: 'https://{staging_host}',
           variables: {

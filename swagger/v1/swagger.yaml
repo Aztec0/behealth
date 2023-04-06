@@ -4,6 +4,14 @@ info:
   title: API V1
   version: v1
 paths:
+  "/api/v1/doctors":
+    get:
+      summary: list doctors
+      tags:
+      - Doctors
+      responses:
+        '200':
+          description: successful
   "/api/v1/forgot":
     post:
       summary: Sends an email to reset the user's password
@@ -152,20 +160,15 @@ paths:
               - email
               - password
               - user_type
-paths:
-  "/api/v1/doctors":
-    get:
-      summary: list doctors
-      tags:
-      - Doctors
-      responses:
-        '200':
-          description: successful
 servers:
 - url: http://{defaultHost}
   variables:
     defaultHost:
       default: localhost:3000
+- url: http://{behealthtHost}
+  variables:
+    behealthHost:
+      default: 64.226.64.5
 - url: https://{staging_host}
   variables:
     staging_host:
