@@ -4,11 +4,6 @@ class ApplicationController < ActionController::API
   include Pundit
   # before_action :authenticate_request
 
-  def temporary_password
-    temporary_password = SecureRandom.alphanumeric(10)
-    render json: { temporary_password: temporary_password }
-  end
-
   private
 
   def authenticate_request
