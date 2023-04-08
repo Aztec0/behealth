@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_03_050823) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_08_061529) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,6 +29,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_03_050823) do
     t.datetime "token_sent_at"
     t.integer "rating", default: 0
     t.integer "role", default: 1
+    t.boolean "email_confirmed", default: false
+    t.string "confirm_token"
     t.index ["hospital_id"], name: "index_doctors_on_hospital_id"
   end
 
