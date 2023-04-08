@@ -6,9 +6,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  birthday             :date
-#  confirm_token        :string
 #  email                :string
-#  email_confirmed      :boolean          default(FALSE)
 #  name                 :string
 #  password_digest      :string
 #  phone                :bigint
@@ -43,18 +41,7 @@ class Doctor < ApplicationRecord
 
   validates :email, uniqueness: true
   validates :name, presence: true
-
-  def generate_confirm_token!
-    self.confirm_token = generate_token
-    self.token_sent_at = Time.now.utc
-    save!
-  end
-
-  def email_activate
-    self.email_confirmed = true
-    self.confirm_token = nil
-    save!(:validate => false)
-  end
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
   def generate_password_token!
     self.reset_password_token = generate_token

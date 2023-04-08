@@ -7,6 +7,5 @@ class Api::V1::HospitalsController < ApplicationController
     render json: hospitals
   end
 
-  def create
-  end
+  def create; end
 end

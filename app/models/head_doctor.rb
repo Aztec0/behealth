@@ -6,9 +6,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  birthday             :date
-#  confirm_token        :string
 #  email                :string
-#  email_confirmed      :boolean          default(FALSE)
 #  name                 :string
 #  password_digest      :string
 #  phone                :bigint
@@ -41,6 +39,8 @@ class HeadDoctor < Doctor
   has_secure_password
 
   validates :name, presence: true
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+
 
   # this part is for create doctor
   def create_doctor(params)

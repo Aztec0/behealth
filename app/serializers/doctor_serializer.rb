@@ -2,21 +2,21 @@
 #
 # Table name: doctors
 #
-#  id                     :bigint           not null, primary key
-#  birthday               :date
-#  email                  :string
-#  name                   :string
-#  password_digest        :string
-#  phone                  :bigint
-#  position               :string
-#  rating                 :integer          default(0)
-#  reset_password_sent_at :datetime
-#  reset_password_token   :string
-#  role                   :integer          default("doctor")
-#  surname                :string
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  hospital_id            :bigint
+#  id                   :bigint           not null, primary key
+#  birthday             :date
+#  email                :string
+#  name                 :string
+#  password_digest      :string
+#  phone                :bigint
+#  position             :string
+#  rating               :integer          default(0)
+#  reset_password_token :string
+#  role                 :integer          default("doctor")
+#  surname              :string
+#  token_sent_at        :datetime
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  hospital_id          :bigint
 #
 # Indexes
 #
