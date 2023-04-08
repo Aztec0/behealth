@@ -1,22 +1,26 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: doctors
 #
-#  id                     :bigint           not null, primary key
-#  birthday               :date
-#  email                  :string
-#  name                   :string
-#  password_digest        :string
-#  phone                  :bigint
-#  position               :string
-#  rating                 :integer          default(0)
-#  reset_password_sent_at :datetime
-#  reset_password_token   :string
-#  role                   :integer          default("doctor")
-#  surname                :string
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  hospital_id            :bigint           not null
+#  id                   :bigint           not null, primary key
+#  birthday             :date
+#  confirm_token        :string
+#  email                :string
+#  email_confirmed      :boolean          default(FALSE)
+#  name                 :string
+#  password_digest      :string
+#  phone                :bigint
+#  position             :string
+#  rating               :integer          default(0)
+#  reset_password_token :string
+#  role                 :integer          default("doctor")
+#  surname              :string
+#  token_sent_at        :datetime
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  hospital_id          :bigint
 #
 # Indexes
 #
@@ -35,10 +39,22 @@ class Doctor < ApplicationRecord
 
   has_secure_password
 
-  enum :role, %i[admin doctor head_doctor]
+  enum :role, %i[admin doctor head_doctor], _prefix: true, _suffix: true
 
   validates :email, uniqueness: true
   validates :name, presence: true
+
+  def generate_confirm_token!
+    self.confirm_token = generate_token
+    self.token_sent_at = Time.now.utc
+    save!
+  end
+
+  def email_activate
+    self.email_confirmed = true
+    self.confirm_token = nil
+    save!(:validate => false)
+  end
 
   def generate_password_token!
     self.reset_password_token = generate_token
@@ -54,6 +70,11 @@ class Doctor < ApplicationRecord
     self.reset_password_token = nil
     self.password = password
     save!
+  end
+
+  def temporary_password
+    temporary_password = SecureRandom.alphanumeric(10)
+    render json: { temporary_password: temporary_password }
   end
 
   private
