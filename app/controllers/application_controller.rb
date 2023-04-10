@@ -1,10 +1,20 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-  include Pundit
+  include Pundit::Authorization
   # before_action :authenticate_request
 
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   private
+
+  def current_user
+    @current_patient || @current_doctor
+  end
+
+  def user_not_authorized
+    render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
+  end
 
   def authenticate_request
     token = extract_token_from_header

@@ -1,23 +1,32 @@
 # frozen_string_literal: true
 
-class HeadDoctorPolicy < DoctorPolicy
+class HeadDoctorPolicy < ApplicationPolicy
+
   def index?
-    user.head_doctor?
+    user.role == 'head_doctor'
   end
 
   def create_doctor?
-    user.head_doctor?
+    user.role == 'head_doctor'
   end
 
   def create_hospital?
-    user.head_doctor?
+    user.role == 'head_doctor'
   end
 
   def delete_doctor?
-    user.head_doctor?
+    user.role == 'head_doctor'
   end
 
   def canceled_appointments?
-    user.head_doctor?
+    user.role == 'head_doctor'
+  end
+
+  class Scope < Scope
+    # NOTE: Be explicit about which records you allow access to!
+    def resolve
+      scope.all
+    end
   end
 end
+
