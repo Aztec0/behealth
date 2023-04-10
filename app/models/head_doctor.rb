@@ -18,19 +18,22 @@
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  head_doctor_id       :bigint
 #  hospital_id          :bigint
 #
 # Indexes
 #
-#  index_doctors_on_hospital_id  (hospital_id)
+#  index_doctors_on_head_doctor_id  (head_doctor_id)
+#  index_doctors_on_hospital_id     (hospital_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (head_doctor_id => doctors.id)
 #  fk_rails_...  (hospital_id => hospitals.id)
 #
 class HeadDoctor < Doctor
-  has_many :doctors, dependent: :destroy
-  belongs_to :hospital, optional: true
+  belongs_to :doctor, dependent: :destroy
+  belongs_to :hospital
 
   scope :by_creation_date, -> { order(created_at: :desc) }
   scope :alphabetically, -> { order(:surname, :name) }
@@ -41,27 +44,22 @@ class HeadDoctor < Doctor
   validates :name, presence: true
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
-
-  # this part is for create doctor
   def create_doctor(params)
     doctor = Doctor.new(params)
-    doctor.hospital = hospital # assign the hospital to the new doctor
-    if doctor.save
-      doctor.generate_password_token!
-      DoctorMailer.with(doctor).temporary_password.deliver_later
-      render json: doctor, status: :created
-    else
-      render json: { error: doctor.errors.full_messages }, status: :unprocessable_entity
-    end
+    doctor.generate_password_token!
+    temp_password = doctor.generate_temporary_password!
+    return unless doctor.save
+
+    DoctorMailer.send_temporary_password(doctor, temp_password).deliver_later
+    doctor
   end
 
-  # this method is used to delete doctor
   def delete_doctor(doctor_id)
     doctor = Doctor.find(doctor_id)
     if doctor.destroy
-      head :no_content
+      "Doctor with ID #{doctor_id} has been deleted successfully."
     else
-      render json: { error: doctor.errors.full_messages }, status: :unprocessable_entity
+      "Unable to delete doctor with ID #{doctor_id}."
     end
   end
 

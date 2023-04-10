@@ -18,26 +18,29 @@
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  head_doctor_id       :bigint
 #  hospital_id          :bigint
 #
 # Indexes
 #
-#  index_doctors_on_hospital_id  (hospital_id)
+#  index_doctors_on_head_doctor_id  (head_doctor_id)
+#  index_doctors_on_hospital_id     (hospital_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (head_doctor_id => doctors.id)
 #  fk_rails_...  (hospital_id => hospitals.id)
 #
 
 class Doctor < ApplicationRecord
 
-  belongs_to :hospital, optional: true
-  belongs_to :head_doctor, optional: true
+  belongs_to :hospital, optional: true, dependent: :delete
+  belongs_to :head_doctor, optional: true, dependent: :delete
   has_many :feedbacks
 
   has_secure_password
 
-  enum :role, %i[admin doctor head_doctor], _prefix: true, _suffix: true
+  enum :role, %i[doctor head_doctor], _prefix: true, _suffix: true
 
   validates :email, uniqueness: true
   validates :name, presence: true
@@ -59,9 +62,11 @@ class Doctor < ApplicationRecord
     save!
   end
 
-  def temporary_password
-    temporary_password = SecureRandom.alphanumeric(10)
-    render json: { temporary_password: temporary_password }
+  def generate_temporary_password!
+    temp_password = SecureRandom.alphanumeric(10)
+    self.password = temp_password
+    save!
+    temp_password
   end
 
   private
