@@ -32,7 +32,7 @@
 #  fk_rails_...  (hospital_id => hospitals.id)
 #
 class HeadDoctor < Doctor
-  belongs_to :doctor, dependent: :destroy
+  has_many :doctors, dependent: :destroy
   belongs_to :hospital
 
   scope :by_creation_date, -> { order(created_at: :desc) }

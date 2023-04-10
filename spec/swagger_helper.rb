@@ -27,12 +27,12 @@ RSpec.configure do |config|
           url: 'http://{defaultHost}',
           variables: {
             defaultHost: {
-              default: 'localhost:3000'
+              default: '127.0.0.1:3000'
             }
           }
         },
         {
-          url: 'https://{staging_host}',
+          url: 'http://{staging_host}',
           variables: {
             staging_host: {
               default: ''
