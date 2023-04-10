@@ -41,6 +41,7 @@ gem 'securerandom'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors', :require => 'rack/cors'
 
+gem 'figaro'
 gem 'pundit', '~> 2.3'
 gem 'rswag-api'
 gem 'rswag-ui'
@@ -48,9 +49,10 @@ gem 'rswag-ui'
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'annotate'
+  gem 'factory_bot'
+  gem 'faker'
   gem 'byebug'
   gem 'debug', platforms: %i[ mri mingw x64_mingw ]
-  gem 'figaro'
   gem 'rspec-rails'
   gem 'rswag-specs'
   gem 'rubocop', '~> 1.40', require: false
