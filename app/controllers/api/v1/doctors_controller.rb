@@ -6,17 +6,6 @@ class Api::V1::DoctorsController < ApplicationController
     render json: doctors, each_serializer: DoctorSerializer, action: :index
   end
 
-  def create
-    @doctor = Doctor.new(doctor_params)
-    @doctor.hospital = set_current_user.hospital
-
-    if @doctor.save
-      render json: @doctor, status: :created, location: @doctor
-    else
-      render json: @doctor.errors, status: :unprocessable_entity
-    end
-  end
-
   def show
     render json: @doctor, serializer: DoctorSerializer, action: :show
   end
