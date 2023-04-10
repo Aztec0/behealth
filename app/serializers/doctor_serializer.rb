@@ -16,25 +16,28 @@
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  head_doctor_id       :bigint
 #  hospital_id          :bigint
 #
 # Indexes
 #
-#  index_doctors_on_hospital_id  (hospital_id)
+#  index_doctors_on_head_doctor_id  (head_doctor_id)
+#  index_doctors_on_hospital_id     (hospital_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (head_doctor_id => doctors.id)
 #  fk_rails_...  (hospital_id => hospitals.id)
 #
 class DoctorSerializer < ActiveModel::Serializer
-  attributes :full_name, :position, :hospital, :rating
+  attributes :full_name, :position, :hospital_name, :rating
 
   def full_name
     "#{object.name} #{object.surname}"
   end
 
-  def hospital
-    object.hospital.name
+  def hospital_name
+    object.hospital.name if object.hospital.present?
   end
 
   def attributes(*args)

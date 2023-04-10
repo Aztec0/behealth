@@ -5,6 +5,7 @@ class Api::V1::HeadDoctorsController < ApplicationController
   before_action :authorize_request
 
   def index
+    # head_doctor = HeadDoctor.find(params[:head_doctor_id])
     doctors = head_doctor.doctors
     # Sort by creation date
     doctors = doctors.by_creation_date if params[:by_creation_date]
@@ -25,7 +26,7 @@ class Api::V1::HeadDoctorsController < ApplicationController
       if doctor
         render json: doctor, status: :created
       else
-        render json: { error: doctor.errors.full_message }, status: :unprocessable_entity
+        render json: { error: 'Unable to create doctor' }, status: :unprocessable_entity
       end
     end
   end
@@ -40,20 +41,17 @@ class Api::V1::HeadDoctorsController < ApplicationController
   end
 
   def delete_doctor
-    if head_doctor.delete_doctor(params[:id])
-      render json: { message: 'Doctor deleted' }, status: :ok
-    else
-      render json: { massage: 'Doctor not found' }, status: :not_found
-    end
+    return unless (message = head_doctor.delete_doctor(params[:id]))
+
+    render json: { message: message }
   end
 
   def canceled_apointments; end
 
   private
 
-  # this part is for authenticate_request
   def doctor_params
-    params.require(:doctor).permit(
+    params.permit(
       :name, :surname, :email, :phone, :birthday, :position,
       :hospital_id, :password, :password_confirmation
     )
@@ -61,11 +59,11 @@ class Api::V1::HeadDoctorsController < ApplicationController
 
   # this part is for create doctor
   def head_doctor
-    @head_doctor ||= HeadDoctor.find(user.id)
+    @head_doctor ||= HeadDoctor.find(current_user.id)
   end
 
   def hospital_params
-    params.require(:hospital).permit(:name, :address, :phone, :email)
+    params.permit(:address, :city, :name, :region)
   end
 
   def authorize_request

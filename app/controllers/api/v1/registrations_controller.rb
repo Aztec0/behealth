@@ -23,7 +23,6 @@ class Api::V1::RegistrationsController < ApplicationController
   def confirmation
     token = params[:token].to_s
     @patient = Patient.find_by(confirm_token: token)
-    @doctor = Doctor.find_by(confirm_token: token)
     if @patient.present? && @patient.token_valid?
       @patient.update(patient_params)
       if @patient.save!

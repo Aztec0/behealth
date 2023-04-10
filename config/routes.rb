@@ -18,7 +18,6 @@ Rails.application.routes.draw do
           post :create_doctor
           post :create_hospital
         end
-
         member do
           delete :delete_doctor
         end
