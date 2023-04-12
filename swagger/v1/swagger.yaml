@@ -4,9 +4,23 @@ info:
   title: API V1
   version: v1
 paths:
+<<<<<<< HEAD
+  "/api/v1/doctors":
+    get:
+      summary: list doctors
+      tags:
+      - Doctors
+      responses:
+        '200':
+          description: successful
+  "/api/v1/forgot":
+    post:
+      summary: Sends an email to reset the user's password
+=======
   "/api/v1/patient-account/additional-data":
     get:
       summary: list additional_infos
+>>>>>>> origin/development
       tags:
       - Additional Information
       responses:
@@ -35,6 +49,12 @@ paths:
                   default: Основна
                 settlement:
                   type: string
+<<<<<<< HEAD
+              required:
+              - email
+              - password
+              - user_type
+=======
                   default: Черкаси
                 house:
                   type: string
@@ -216,8 +236,27 @@ paths:
       responses:
         '200':
           description: successful
+>>>>>>> origin/development
 servers:
 - url: http://{defaultHost}
   variables:
     defaultHost:
+<<<<<<< HEAD
+- url: http://{behealthtHost}
+  variables:
+    behealthHost:
+      default: 64.226.64.5
+- url: https://{staging_host}
+  variables:
+    staging_host:
+      default: ''
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: "{token}"
+=======
       default: www.example.com
+>>>>>>> origin/development
