@@ -29,6 +29,6 @@ class Api::V1::FeedbacksController < ApplicationController
   end
 
   def set_doctor
-    @doctor = Doctor.find(params[:id])
+    @doctor = Doctor.find(params[:doctor_id])
   end
 end
