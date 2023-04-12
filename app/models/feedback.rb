@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: doctors_feedbacks
+# Table name: feedbacks
 #
 #  id         :bigint           not null, primary key
 #  body       :text
@@ -13,8 +13,8 @@
 #
 # Indexes
 #
-#  index_doctors_feedbacks_on_doctor_id   (doctor_id)
-#  index_doctors_feedbacks_on_patient_id  (patient_id)
+#  index_feedbacks_on_doctor_id   (doctor_id)
+#  index_feedbacks_on_patient_id  (patient_id)
 #
 # Foreign Keys
 #
