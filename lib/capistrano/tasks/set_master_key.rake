@@ -1,3 +1,6 @@
+
+# frozen_string_literal: true
+
 namespace :set do
   task :master_key do
     on roles(:app), in: :sequence, wait: 10 do

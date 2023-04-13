@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :puma do
   bundle_wrapper_path = '/home/deployer/.rvm/gems/ruby-3.1.3/wrappers/bundle'
 

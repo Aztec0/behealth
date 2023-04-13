@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: patients
@@ -18,6 +20,7 @@
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  chat_id              :bigint
 #
 
 class Patient < ApplicationRecord
@@ -51,8 +54,9 @@ class Patient < ApplicationRecord
   def email_activate
     self.email_confirmed = true
     self.confirm_token = nil
-    save!(:validate => false)
+    save!(validate: false)
   end
+
   def generate_password_token!
     self.reset_password_token = generate_token
     self.token_sent_at = Time.now.utc

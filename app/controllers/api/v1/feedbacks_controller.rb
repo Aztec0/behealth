@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::FeedbacksController < ApplicationController
   before_action :authenticate_request, only: :create
   before_action :set_doctor
@@ -22,7 +24,7 @@ class Api::V1::FeedbacksController < ApplicationController
     end
   end
 
-   private
+  private
 
   def feedback_params
     params.permit(:rating, :title, :body).merge(doctor: @doctor)

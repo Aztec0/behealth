@@ -1,4 +1,4 @@
-
+# frozen_string_literal: true
 server '64.226.64.5', user: "#{fetch(:user)}", roles: %w{app db web}, primary: true
 
 set :application, 'behealth'
@@ -9,6 +9,7 @@ set :rails_env,   'production'
 
 set :nginx_server_name, '64.226.64.5'
 set :puma_conf, "#{shared_path}/config/puma.rb"
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.

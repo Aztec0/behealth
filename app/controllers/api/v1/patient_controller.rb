@@ -1,7 +1,14 @@
+# frozen_string_literal: true
+
 class Api::V1::PatientController < ApplicationController
 
   def new
     @patient = Patient.new
+  end
+
+  def edit
+    @patient.find_by(params[:email])
+    render json: @patient
   end
 
   def create
@@ -11,11 +18,6 @@ class Api::V1::PatientController < ApplicationController
     else
       render :new
     end
-  end
-
-  def edit
-    @patient.find_by(params[:email])
-    render json: @patient
   end
 
   def update

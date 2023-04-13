@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
@@ -28,5 +30,4 @@ Rails.application.routes.draw do
       delete 'patient-account/personal-information/destroy', to: 'personal_info#destroy'
     end
   end
-
 end

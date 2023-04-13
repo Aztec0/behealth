@@ -15,6 +15,7 @@
 !/log/.keep
 !/tmp/.keep
 .byebug_history
+
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
 !/tmp/pids/
@@ -29,8 +30,13 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-/config/database.yml
 /config/database.production.yml
 /config/secrets.production.yml
-/config/application.yml
+/config/database.yml
 /.env
+/config/application.yml
+/config/database.production.yml
+/config/secrets.production.yml
+
+# Ignore application configuration
+/config/application.yml
