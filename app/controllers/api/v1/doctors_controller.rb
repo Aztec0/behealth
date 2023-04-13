@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::DoctorsController < ApplicationController
   before_action :set_doctor, only: :show
 
@@ -15,5 +17,4 @@ class Api::V1::DoctorsController < ApplicationController
   def set_doctor
     @doctor = Doctor.find(params[:id])
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::HospitalsController < ApplicationController
   before_action :authenticate_request
 
@@ -7,6 +9,5 @@ class Api::V1::HospitalsController < ApplicationController
     render json: hospitals
   end
 
-  def create
-  end
+  def create; end
 end

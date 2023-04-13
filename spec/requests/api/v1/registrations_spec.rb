@@ -55,6 +55,6 @@ RSpec.describe "api/registrations", type: :request do
     response '400', 'Bad Request' do
       run_test!
     end
+    end
   end
-  end
-  end
+end

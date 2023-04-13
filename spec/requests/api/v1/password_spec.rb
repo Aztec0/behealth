@@ -86,5 +86,4 @@ RSpec.describe 'api/password', type: :request do
         end
       end
     end
-
 end

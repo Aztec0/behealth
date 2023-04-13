@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: doctors
@@ -25,7 +27,6 @@
 #
 #  fk_rails_...  (hospital_id => hospitals.id)
 #
-
 class Doctor < ApplicationRecord
 
   belongs_to :hospital
