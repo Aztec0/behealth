@@ -29,16 +29,18 @@
 # Foreign Keys
 #
 #  fk_rails_...  (head_doctor_id => doctors.id)
-#  fk_rails_...  (hospital_id => hospitals.id)
+#  fk_rails_...  (hospital_id => hospitals.id) ON DELETE => nullify
 #
 
 class Doctor < ApplicationRecord
 
-  belongs_to :hospital, optional: true, dependent: :delete
-  belongs_to :head_doctor, optional: true, dependent: :delete
+  belongs_to :hospital, optional: true
+  belongs_to :head_doctor, optional: true
   has_many :feedbacks
 
   has_secure_password
+
+  scope :by_head_doctor, ->(head_doctor) { where(doctors: { head_doctor_id: head_doctor }) }
 
   enum :role, %i[doctor head_doctor], _prefix: true, _suffix: true
 
@@ -62,14 +64,12 @@ class Doctor < ApplicationRecord
     save!
   end
 
-  def generate_temporary_password!
-    temp_password = SecureRandom.alphanumeric(10)
-    self.password = temp_password
-    save!
-    temp_password
-  end
 
   private
+
+  def generate_temporary_password
+    SecureRandom.alphanumeric(10)
+  end
 
   def generate_token
     SecureRandom.hex(10)
