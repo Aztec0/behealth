@@ -27,7 +27,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (head_doctor_id => doctors.id)
-#  fk_rails_...  (hospital_id => hospitals.id)
+#  fk_rails_...  (hospital_id => hospitals.id) ON DELETE => nullify
 #
 class DoctorSerializer < ActiveModel::Serializer
   attributes :full_name, :position, :hospital_name, :rating

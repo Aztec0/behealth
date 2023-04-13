@@ -18,23 +18,7 @@ paths:
       tags:
       - Head Doctors
       security:
-      - bearerAuth: []
-      parameters:
-      - name: by_creation_date
-        in: query
-        description: Sort by creation date
-        schema:
-          type: boolean
-      - name: alphabetically
-        in: query
-        description: Sort alphabetically
-        schema:
-          type: boolean
-      - name: specialization
-        in: query
-        description: Filter by specialization
-        schema:
-          type: string
+      - ApiKeyAuth: []
       responses:
         '200':
           description: returns a list of doctors
@@ -99,7 +83,7 @@ paths:
       tags:
       - Head Doctors
       security:
-      - bearerAuth: []
+      - ApiKeyAuth: []
       parameters: []
       responses:
         '201':
@@ -128,10 +112,6 @@ paths:
                   type: string
                 hospital_id:
                   type: integer
-                password:
-                  type: string
-                password_confirmation:
-                  type: string
               required:
               - name
               - surname
@@ -148,7 +128,7 @@ paths:
       tags:
       - Head Doctors
       security:
-      - bearerAuth: []
+      - ApiKeyAuth: []
       parameters: []
       responses:
         '201':
@@ -174,13 +154,13 @@ paths:
               - address
               - city
               - region
-  "/api/v1/head_doctors/:id/delete_doctor":
+  "/api/v1/head_doctors/{id}/delete_doctor":
     delete:
       summary: Deletes a doctor by id
       tags:
       - Head Doctors
       security:
-      - bearerAuth: []
+      - ApiKeyAuth: []
       parameters:
       - name: id
         in: path

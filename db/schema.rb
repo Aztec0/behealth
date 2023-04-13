@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_10_092732) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_12_143808) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,7 +19,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_10_092732) do
     t.string "surname"
     t.date "birthday"
     t.string "position"
-    t.bigint "hospital_id"
     t.string "email"
     t.bigint "phone"
     t.string "password_digest"
@@ -30,6 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_10_092732) do
     t.integer "rating", default: 0
     t.integer "role", default: 0
     t.bigint "head_doctor_id"
+    t.bigint "hospital_id"
     t.index ["head_doctor_id"], name: "index_doctors_on_head_doctor_id"
     t.index ["hospital_id"], name: "index_doctors_on_hospital_id"
   end
@@ -53,6 +53,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_10_092732) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "doctor_id"
+    t.index ["doctor_id"], name: "index_hospitals_on_doctor_id"
   end
 
   create_table "patients", force: :cascade do |t|
@@ -71,7 +73,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_10_092732) do
   end
 
   add_foreign_key "doctors", "doctors", column: "head_doctor_id"
-  add_foreign_key "doctors", "hospitals"
+  add_foreign_key "doctors", "hospitals", on_delete: :nullify
   add_foreign_key "feedbacks", "doctors"
   add_foreign_key "feedbacks", "patients"
+  add_foreign_key "hospitals", "doctors", on_delete: :nullify
 end

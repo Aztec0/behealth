@@ -6,12 +6,8 @@ RSpec.describe 'Head Doctors API', type: :request do
   path '/api/v1/head_doctors' do
     get 'Retrieves a list of doctors associated with the head doctor' do
       tags 'Head Doctors'
-      security [{ bearerAuth: [] }]
+      security [{ ApiKeyAuth: [] }]
       produces 'application/json'
-      parameter name: :by_creation_date, in: :query, type: :boolean, description: 'Sort by creation date'
-      parameter name: :alphabetically, in: :query, type: :boolean, description: 'Sort alphabetically'
-      parameter name: :specialization, in: :query, type: :string, description: 'Filter by specialization'
-
       response '200', 'returns a list of doctors' do
         schema type: :array,
                items: {
@@ -52,7 +48,7 @@ RSpec.describe 'Head Doctors API', type: :request do
   path '/api/v1/head_doctors/create_doctor' do
     post 'Creates a doctor' do
       tags 'Head Doctors'
-      security [{ bearerAuth: [] }]
+      security [{ ApiKeyAuth: [] }]
       consumes 'application/json'
       parameter name: :doctor_params, in: :body, schema: {
         type: :object,
@@ -64,8 +60,6 @@ RSpec.describe 'Head Doctors API', type: :request do
           birthday: { type: :string },
           position: { type: :string },
           hospital_id: { type: :integer },
-          password: { type: :string },
-          password_confirmation: { type: :string }
         },
         required: %w[name surname email phone birthday position hospital_id password password_confirmation]
       }
@@ -131,7 +125,7 @@ RSpec.describe 'Head Doctors API', type: :request do
   path '/api/v1/head_doctors/create_hospital' do
     post 'Creates a hospital' do
       tags 'Head Doctors'
-      security [{ bearerAuth: [] }]
+      security [{ ApiKeyAuth: [] }]
       consumes 'application/json'
       parameter name: :hospital, in: :body, schema: {
         type: :object,
@@ -172,10 +166,10 @@ RSpec.describe 'Head Doctors API', type: :request do
     end
   end
 
-  path '/api/v1/head_doctors/:id/delete_doctor' do
+  path '/api/v1/head_doctors/{id}/delete_doctor' do
     delete 'Deletes a doctor by id' do
       tags 'Head Doctors'
-      security [{ bearerAuth: [] }]
+      security [{ ApiKeyAuth: [] }]
       produces 'application/json'
       parameter name: :id, in: :path, type: :integer, description: 'Doctor ID'
 
@@ -188,5 +182,4 @@ RSpec.describe 'Head Doctors API', type: :request do
       end
     end
   end
-
 end
