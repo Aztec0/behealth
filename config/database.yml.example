@@ -1,0 +1,24 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: deployer
+  password: <%= ENV["BEHEALTH_DATABASE_PASSWORD"] %>
+  host: localhost
+  port: 5432
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: db_name_development
+
+test:
+  <<: *default
+  database: db_name_test
+
+production:
+  <<: *default
+  database: db_name
+  username: deployer
+  password: <%= ENV["BEHEALTH_DATABASE_PASSWORD"] %>
+  host: localhost
+  port: 5432

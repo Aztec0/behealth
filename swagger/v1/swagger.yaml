@@ -4,155 +4,7 @@ info:
   title: API V1
   version: v1
 paths:
-  "/api/v1/forgot":
-    post:
-      summary: Sends an email to reset the user's password
-      tags:
-      - Passwords
-      parameters: []
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Bad Request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                user_type:
-                  type: string
-              required:
-              - email
-              - user_type
-        description: The user's email address
-  "/api/v1/reset":
-    post:
-      summary: Resets the user's password
-      tags:
-      - Passwords
-      parameters:
-      - name: token
-        in: query
-        description: The password reset token generated for the user
-        required: true
-        schema:
-          type: string
-      - name: user_type
-        in: query
-        description: The user's type
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Bad Request
-        '404':
-          description: Not Found
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                password:
-                  type: string
-              required:
-              - password
-        description: The new password for the user
-  "/api/v1/signup":
-    post:
-      summary: Sends an email to register user
-      tags:
-      - Signup
-      parameters: []
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Bad Request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                password:
-                  type: string
-              required:
-              - email
-              - password
-        description: The user's email and password
-  "/api/v1/confirmation":
-    post:
-      summary: Confirmation user's email and input other data
-      tags:
-      - Signup
-      parameters:
-      - name: token
-        in: query
-        description: The confirm reset token generated for the patient
-        required: true
-        schema:
-          type: string
-      responses:
-        '400':
-          description: Bad Request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                birthday:
-                  type: string
-                  format: datetime
-                name:
-                  type: string
-                surname:
-                  type: string
-                phone:
-                  type: string
-                  format: bigint
-              required:
-              - birthday
-              - name
-              - surname
-              - phone
-        description: Patient data
-  "/api/v1/login":
-    post:
-      summary: create session
-      tags:
-      - Login
-      parameters: []
-      responses:
-        '200':
-          description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                password:
-                  type: string
-                user_type:
-                  type: string
-              required:
-              - email
-              - password
-              - user_type
-paths:
+<<<<<<< HEAD
   "/api/v1/doctors":
     get:
       summary: list doctors
@@ -161,11 +13,239 @@ paths:
       responses:
         '200':
           description: successful
+  "/api/v1/forgot":
+    post:
+      summary: Sends an email to reset the user's password
+=======
+  "/api/v1/patient-account/additional-data":
+    get:
+      summary: list additional_infos
+>>>>>>> origin/development
+      tags:
+      - Additional Information
+      responses:
+        '200':
+          description: successful
+  "/api/v1/patient-account/additional-data/create":
+    post:
+      summary: create additional_info
+      tags:
+      - Additional Information
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  default: Must be 'address' or 'work'
+                address_type:
+                  type: string
+                  default: Основна
+                settlement:
+                  type: string
+<<<<<<< HEAD
+              required:
+              - email
+              - password
+              - user_type
+=======
+                  default: Черкаси
+                house:
+                  type: string
+                  default: '1'
+                apartments:
+                  type: string
+                  default: '1'
+                work_type:
+                  type: string
+                  default: Основна
+                place:
+                  type: string
+                  default: GeekHub
+                position:
+                  type: string
+                  default: Студент
+  "/api/v1/patient-account/additional-data/update":
+    put:
+      summary: update additional_info
+      tags:
+      - Additional Information
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  default: Must be 'address' or 'work'
+                address_type:
+                  type: string
+                  default: Основна
+                settlement:
+                  type: string
+                  default: Черкаси
+                house:
+                  type: string
+                  default: '1'
+                apartments:
+                  type: string
+                  default: '1'
+                work_type:
+                  type: string
+                  default: Основна
+                place:
+                  type: string
+                  default: GeekHub
+                position:
+                  type: string
+                  default: Студент
+  "/api/v1/patient-account/additional-data/destroy":
+    delete:
+      summary: delete additional_info
+      tags:
+      - Additional Information
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  default: Must be 'address' or 'work'
+  "/api/v1/doctors":
+    get:
+      summary: list doctors
+      tags:
+      - Doctors
+      responses:
+        '200':
+          description: successful
+  "/api/v1/patient-account/personal-information":
+    get:
+      summary: list personal_infos
+      tags:
+      - Personal Information
+      responses:
+        '200':
+          description: successful
+  "/api/v1/patient-account/personal-information/create":
+    post:
+      summary: create personal_info
+      tags:
+      - Personal Information
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                document_type:
+                  type: string
+                  default: Must be 'Passport' or 'IdCard'
+                series:
+                  type: string
+                  default: Dont use for IdCard
+                number:
+                  type: string
+                  default: '1111'
+                issued_by:
+                  type: string
+                  default: '1111'
+                date:
+                  type: string
+                  default: 12.04.2023
+  "/api/v1/patient-account/personal-information/update":
+    put:
+      summary: update personal_info
+      tags:
+      - Personal Information
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  default: Must be 'patient_info' or 'document'
+                name:
+                  type: string
+                  default: Юзер
+                surname:
+                  type: string
+                  default: Юзеренко
+                fathername:
+                  type: string
+                  default: Юзеренкович
+                email:
+                  type: string
+                  default: user@test.rb
+                phone:
+                  type: string
+                  default: "+380000000000"
+                birthday:
+                  type: string
+                  default: 05.11.2003
+                itn:
+                  type: string
+                  default: '1111111111'
+                sex:
+                  type: string
+                  default: "'nothing', 'male' or 'female'"
+                series:
+                  type: string
+                  default: Use for Passport
+                number:
+                  type: string
+                  default: '1111'
+                issued_by:
+                  type: string
+                  default: '1111'
+                date:
+                  type: string
+                  default: 12.04.2023
+  "/api/v1/patient-account/personal-information/destroy":
+    delete:
+      summary: delete personal_info
+      tags:
+      - Personal Information
+      responses:
+        '200':
+          description: successful
+>>>>>>> origin/development
 servers:
 - url: http://{defaultHost}
   variables:
     defaultHost:
-      default: localhost:3000
+<<<<<<< HEAD
+- url: http://{behealthtHost}
+  variables:
+    behealthHost:
+      default: 64.226.64.5
 - url: https://{staging_host}
   variables:
     staging_host:
@@ -177,3 +257,6 @@ components:
       name: Authorization
       in: header
       description: "{token}"
+=======
+      default: www.example.com
+>>>>>>> origin/development

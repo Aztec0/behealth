@@ -2,6 +2,22 @@
 #
 # Table name: doctors
 #
+<<<<<<< HEAD
+#  id                   :bigint           not null, primary key
+#  birthday             :date
+#  email                :string
+#  name                 :string
+#  password_digest      :string
+#  phone                :bigint
+#  position             :string
+#  rating               :integer          default(0)
+#  reset_password_token :string
+#  surname              :string
+#  token_sent_at        :datetime
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  hospital_id          :bigint           not null
+=======
 #  id                     :bigint           not null, primary key
 #  birthday               :date
 #  email                  :string
@@ -9,12 +25,13 @@
 #  password_digest        :string
 #  phone                  :bigint
 #  position               :string
-#  reset_password_sent_at :datetime
+#  rating                 :integer          default(0)
 #  reset_password_token   :string
 #  surname                :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  hospital_id            :bigint           not null
+>>>>>>> origin/development
 #
 # Indexes
 #
@@ -26,23 +43,23 @@
 #
 
 class Doctor < ApplicationRecord
+  require 'securerandom'
 
   belongs_to :hospital
   has_many :feedbacks
 
   has_secure_password
 
-  validates :email, uniqueness: true
   validates :name, presence: true
 
   def generate_password_token!
     self.reset_password_token = generate_token
-    self.token_sent_at = Time.now.utc
+    self.reset_password_sent_at = Time.now.utc
     save!
   end
 
-  def token_valid?
-    (self.token_sent_at + 4.hours) > Time.now.utc
+  def password_token_valid?
+    (self.reset_password_sent_at + 4.hours) > Time.now.utc
   end
 
   def reset_password!(password)
