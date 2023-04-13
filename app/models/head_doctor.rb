@@ -29,11 +29,11 @@
 # Foreign Keys
 #
 #  fk_rails_...  (head_doctor_id => doctors.id)
-#  fk_rails_...  (hospital_id => hospitals.id)
+#  fk_rails_...  (hospital_id => hospitals.id) ON DELETE => nullify
 #
 class HeadDoctor < Doctor
-  has_many :doctors, dependent: :destroy
-  belongs_to :hospital
+  has_many :doctors, dependent: :nullify
+  belongs_to :hospital, optional: true
 
   scope :by_creation_date, -> { order(created_at: :desc) }
   scope :alphabetically, -> { order(:surname, :name) }
@@ -45,18 +45,21 @@ class HeadDoctor < Doctor
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
   def create_doctor(params)
+    temp_password = generate_temporary_password
     doctor = Doctor.new(params)
+    doctor.password = temp_password
     doctor.generate_password_token!
-    temp_password = doctor.generate_temporary_password!
-    return unless doctor.save
+    doctor.save!
 
     DoctorMailer.send_temporary_password(doctor, temp_password).deliver_later
     doctor
   end
 
-  def delete_doctor(doctor_id)
-    doctor = Doctor.find(doctor_id)
-    if doctor.destroy
+  def delete_doctor(doctor_id, head_doctor_id)
+    doctor = Doctor.find_by(id: doctor_id, head_doctor_id: head_doctor_id)
+    byebug
+    if doctor.present? && doctor.head_doctor.present?
+      doctor.destroy
       "Doctor with ID #{doctor_id} has been deleted successfully."
     else
       "Unable to delete doctor with ID #{doctor_id}."
