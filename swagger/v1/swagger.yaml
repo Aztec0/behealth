@@ -165,10 +165,10 @@ servers:
   variables:
     defaultHost:
       default: localhost:3000
-- url: http://{behealth_host}
+- url: http://{behealthtHost}
   variables:
-    behealth_host:
-      default: 161.35.210.52
+    behealthHost:
+      default: 64.226.64.5
 - url: https://{staging_host}
   variables:
     staging_host:

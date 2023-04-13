@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 require 'swagger_helper'
 
-RSpec.describe 'api/registrations', type: :request do
+RSpec.describe "api/registrations", type: :request do
   path '/api/v1/signup' do
     post 'Sends an email to register user' do
     tags 'Signup'
@@ -51,7 +49,7 @@ RSpec.describe 'api/registrations', type: :request do
           type: :string, format: :bigint
         }
       },
-      required: %w[birthday name surname phone]
+      required: %w[ birthday name surname phone ]
     }
 
     response '400', 'Bad Request' do

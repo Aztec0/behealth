@@ -1,6 +1,5 @@
 # frozen_string_literal: true
-
-server '161.35.210.52', user: "#{fetch(:user)}", roles: %w{app db web}, primary: true
+server '64.226.64.5', user: "#{fetch(:user)}", roles: %w{app db web}, primary: true
 
 set :application, 'behealth'
 set :deploy_to, "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
@@ -8,7 +7,7 @@ set :deploy_to, "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
 set :environment, 'production'
 set :rails_env,   'production'
 
-set :nginx_server_name, '161.35.210.52'
+set :nginx_server_name, '64.226.64.5'
 set :puma_conf, "#{shared_path}/config/puma.rb"
 
 # server-based syntax
