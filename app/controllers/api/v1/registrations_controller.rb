@@ -13,7 +13,7 @@ class Api::V1::RegistrationsController < ApplicationController
     if @patient.present?
       @patient.generate_confirm_token!
       PatientMailer.registration(@patient).deliver_now
-      render json: 'Email already use, we resend mail'
+      render json: { error: "Email address already exists in the system." }, status: :conflict
     else
       @patient = Patient.new(email: params[:email], password: params[:password])
       @patient.generate_confirm_token!
