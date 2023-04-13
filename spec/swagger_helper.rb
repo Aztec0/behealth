@@ -24,10 +24,28 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'https://{defaultHost}',
+          url: 'http://{defaultHost}',
           variables: {
             defaultHost: {
+<<<<<<< HEAD
+            }
+          }
+        },        {
+        url: 'http://{behealthtHost}',
+        variables: {
+          behealthHost: {
+            default: '64.226.64.5'
+          }
+        }
+      },
+        {
+          url: 'https://{staging_host}',
+          variables: {
+            staging_host: {
+              default: ''
+=======
               default: 'www.example.com'
+>>>>>>> origin/development
             }
           }
         }
