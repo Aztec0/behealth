@@ -52,6 +52,53 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_11_114718) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "id_cards", force: :cascade do |t|
+    t.string "number"
+    t.string "issued_by"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "passports", force: :cascade do |t|
+    t.string "series"
+    t.string "number"
+    t.string "issued_by"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "patient_addresses", force: :cascade do |t|
+    t.bigint "patient_id", null: false
+    t.string "settlement", null: false
+    t.string "house", null: false
+    t.string "apartments"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "address_type", null: false
+    t.index ["patient_id"], name: "index_patient_addresses_on_patient_id"
+  end
+
+  create_table "patient_documents", force: :cascade do |t|
+    t.bigint "patient_id", null: false
+    t.string "document_type"
+    t.bigint "document_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["document_type", "document_id"], name: "index_patient_documents_on_document"
+    t.index ["patient_id"], name: "index_patient_documents_on_patient_id"
+  end
+
+  create_table "patient_works", force: :cascade do |t|
+    t.string "work_type", null: false
+    t.string "place", null: false
+    t.string "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "patient_id", null: false
+  end
+
   create_table "patients", force: :cascade do |t|
     t.string "name"
     t.string "surname"
@@ -65,10 +112,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_11_114718) do
     t.datetime "token_sent_at"
     t.boolean "email_confirmed", default: false
     t.string "confirm_token"
+    t.integer "sex", default: 0
+    t.string "fathername"
+    t.integer "itn"
     t.bigint "chat_id"
   end
 
   add_foreign_key "doctors", "hospitals"
   add_foreign_key "feedbacks", "doctors"
   add_foreign_key "feedbacks", "patients"
+  add_foreign_key "patient_addresses", "patients"
 end
