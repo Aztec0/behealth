@@ -55,10 +55,10 @@ gem 'rswag-api'
 gem 'rswag-ui'
 
 # deploy config
-gem 'net-smtp', require: false
-gem 'net-imap', require: false
-gem 'net-pop', require: false
-gem "figaro"
+# gem 'net-smtp', require: false
+# gem 'net-imap', require: false
+# gem 'net-pop', require: false
+# gem "figaro"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

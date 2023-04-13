@@ -373,6 +373,10 @@ servers:
   variables:
     behealthHost:
       default: 64.226.64.5
+- url: http://{behealth_host}
+  variables:
+    behealth_host:
+      default: 161.35.210.52
 - url: https://{staging_host}
   variables:
     staging_host:

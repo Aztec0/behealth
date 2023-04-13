@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_11_114718) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_13_151616) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -112,10 +112,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_11_114718) do
     t.datetime "token_sent_at"
     t.boolean "email_confirmed", default: false
     t.string "confirm_token"
+    t.bigint "chat_id"
     t.integer "sex", default: 0
     t.string "fathername"
     t.integer "itn"
-    t.bigint "chat_id"
   end
 
   add_foreign_key "doctors", "hospitals"

@@ -6,7 +6,7 @@
 <body>
 <p>Hi <%= @user.email %>,</p>
 <p>Thanks for registering with My App! To complete your registration, please click the link below to enter your additional information:</p>
-<%= link_to 'Edit Your Profile', "https://behealth-git-develop-hromadskyimykola.vercel.app/confirmation?token=#{@user.reset_password_token}&user_type=#{@user_type.to_s.downcase}", method: :post %>
+<%= link_to 'Edit Your Profile', "https://behealth-git-develop-hromadskyimykola.vercel.app/confirmation?token=#{@user.reset_password_token}&user_type=#{@user_type.to_s.downcase}" %>
 <p>If you did not register for My App, please ignore this email.</p>
 <p>Thanks,</p>
 <p>The My App Team</p>
