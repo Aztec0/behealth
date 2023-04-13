@@ -110,8 +110,6 @@ paths:
                   type: string
                 position:
                   type: string
-                hospital_id:
-                  type: integer
               required:
               - name
               - surname

@@ -58,8 +58,7 @@ RSpec.describe 'Head Doctors API', type: :request do
           email: { type: :string },
           phone: { type: :integer },
           birthday: { type: :string },
-          position: { type: :string },
-          hospital_id: { type: :integer },
+          position: { type: :string }
         },
         required: %w[name surname email phone birthday position hospital_id password password_confirmation]
       }

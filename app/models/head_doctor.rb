@@ -57,7 +57,6 @@ class HeadDoctor < Doctor
 
   def delete_doctor(doctor_id, head_doctor_id)
     doctor = Doctor.find_by(id: doctor_id, head_doctor_id: head_doctor_id)
-    byebug
     if doctor.present? && doctor.head_doctor.present?
       doctor.destroy
       "Doctor with ID #{doctor_id} has been deleted successfully."
