@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::DoctorsController < ApplicationController
   before_action :set_doctor, only: :show
 
@@ -14,12 +16,5 @@ class Api::V1::DoctorsController < ApplicationController
 
   def set_doctor
     @doctor = Doctor.find(params[:id])
-  end
-
-  def doctor_params
-    params.require(:doctor).permit(
-      :name, :surname, :email, :phone, :birthday, :position,
-      :hospital_id, :password, :password_confirmation
-    )
   end
 end

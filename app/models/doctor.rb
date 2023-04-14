@@ -64,7 +64,6 @@ class Doctor < ApplicationRecord
     save!
   end
 
-
   private
 
   def generate_temporary_password

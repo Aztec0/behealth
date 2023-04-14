@@ -30,6 +30,21 @@ RSpec.configure do |config|
               default: '127.0.0.1:3000'
             }
           }
+        },        {
+        url: 'http://{behealthtHost}',
+        variables: {
+          behealthHost: {
+            default: '64.226.64.5'
+          }
+        }
+      },
+        {
+          url: 'http://{behealth_host}',
+          variables: {
+            behealth_host: {
+              default: '161.35.210.52'
+            }
+          }
         },
         {
           url: 'http://{staging_host}',

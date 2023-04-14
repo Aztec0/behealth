@@ -4,6 +4,110 @@ info:
   title: API V1
   version: v1
 paths:
+  "/api/v1/patient-account/additional-data":
+    get:
+      summary: list additional_infos
+      tags:
+      - Additional Information
+      responses:
+        '200':
+          description: successful
+  "/api/v1/patient-account/additional-data/create":
+    post:
+      summary: create additional_info
+      tags:
+      - Additional Information
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  default: Must be 'address' or 'work'
+                address_type:
+                  type: string
+                  default: Основна
+                settlement:
+                  type: string
+                  default: Черкаси
+                house:
+                  type: string
+                  default: '1'
+                apartments:
+                  type: string
+                  default: '1'
+                work_type:
+                  type: string
+                  default: Основна
+                place:
+                  type: string
+                  default: GeekHub
+                position:
+                  type: string
+                  default: Студент
+  "/api/v1/patient-account/additional-data/update":
+    put:
+      summary: update additional_info
+      tags:
+      - Additional Information
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  default: Must be 'address' or 'work'
+                address_type:
+                  type: string
+                  default: Основна
+                settlement:
+                  type: string
+                  default: Черкаси
+                house:
+                  type: string
+                  default: '1'
+                apartments:
+                  type: string
+                  default: '1'
+                work_type:
+                  type: string
+                  default: Основна
+                place:
+                  type: string
+                  default: GeekHub
+                position:
+                  type: string
+                  default: Студент
+  "/api/v1/patient-account/additional-data/destroy":
+    delete:
+      summary: delete additional_info
+      tags:
+      - Additional Information
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  default: Must be 'address' or 'work'
   "/api/v1/doctors":
     get:
       summary: list doctors
@@ -232,6 +336,106 @@ paths:
               required:
               - password
         description: The new password for the user
+  "/api/v1/patient-account/personal-information":
+    get:
+      summary: list personal_infos
+      tags:
+      - Personal Information
+      responses:
+        '200':
+          description: successful
+  "/api/v1/patient-account/personal-information/create":
+    post:
+      summary: create personal_info
+      tags:
+      - Personal Information
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                document_type:
+                  type: string
+                  default: Must be 'Passport' or 'IdCard'
+                series:
+                  type: string
+                  default: Dont use for IdCard
+                number:
+                  type: string
+                  default: '1111'
+                issued_by:
+                  type: string
+                  default: '1111'
+                date:
+                  type: string
+                  default: 12.04.2023
+  "/api/v1/patient-account/personal-information/update":
+    put:
+      summary: update personal_info
+      tags:
+      - Personal Information
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  default: Must be 'patient_info' or 'document'
+                name:
+                  type: string
+                  default: Юзер
+                surname:
+                  type: string
+                  default: Юзеренко
+                fathername:
+                  type: string
+                  default: Юзеренкович
+                email:
+                  type: string
+                  default: user@test.rb
+                phone:
+                  type: string
+                  default: "+380000000000"
+                birthday:
+                  type: string
+                  default: 05.11.2003
+                itn:
+                  type: string
+                  default: '1111111111'
+                sex:
+                  type: string
+                  default: "'nothing', 'male' or 'female'"
+                series:
+                  type: string
+                  default: Use for Passport
+                number:
+                  type: string
+                  default: '1111'
+                issued_by:
+                  type: string
+                  default: '1111'
+                date:
+                  type: string
+                  default: 12.04.2023
+  "/api/v1/patient-account/personal-information/destroy":
+    delete:
+      summary: delete personal_info
+      tags:
+      - Personal Information
+      responses:
+        '200':
+          description: successful
   "/api/v1/signup":
     post:
       summary: Sends an email to register user
@@ -323,8 +527,16 @@ servers:
 - url: http://{defaultHost}
   variables:
     defaultHost:
-      default: 127.0.0.1:3000
-- url: http://{staging_host}
+      default: localhost:3000
+- url: http://{behealthtHost}
+  variables:
+    behealthHost:
+      default: 64.226.64.5
+- url: http://{behealth_host}
+  variables:
+    behealth_host:
+      default: 161.35.210.52
+- url: https://{staging_host}
   variables:
     staging_host:
       default: ''

@@ -15,3 +15,6 @@ HeadDoctor.create(name: 'Андрей', surname: 'Сергеев',
                   email: 'test1@test.com', password: '123456789',
                   phone: '79999999989', rating: 5,
                   role: 1, hospital_id: nil)
+
+PatientAddress.create(patient_id: 1, settlement: 'Черкаси', house: '1', apartments: '1', address_type: 'Основний')
+PatientWork.create(patient_id: 1, work_type: 'Основна', place: 'Аском', position: 'Монтажник')

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: doctors
@@ -13,6 +15,7 @@
 #  reset_password_token :string
 #  role                 :integer          default("doctor")
 #  surname              :string
+#  token_sent_at        :datetime
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
@@ -44,9 +47,14 @@ class DoctorSerializer < ActiveModel::Serializer
     hash = super
     if @instance_options[:action] == :index
       hash[:id] = object.id
+      hash[:hospital_city] = object.hospital.city
+      hash[:hospital_adress] = object.hospital.address
     elsif @instance_options[:action] == :show
-      hash[:age] =  Date.today.year - object.birthday.year - ((Date.today.month > object.birthday.month ||
-        (Date.today.month == object.birthday.month && Date.today.day >= object.birthday.day)) ? 0 : 1)
+      hash[:hospital_city] = object.hospital.city
+      hash[:hospital_region] = object.hospital.region
+      hash[:hospital_adress] = object.hospital.address
+      hash[:phone] = object.phone
+      hash[:age] = ((Time.zone.now - object.birthday.to_time) / 1.year.seconds).floor
       hash[:feedbacks] = object.feedbacks
     end
     hash
