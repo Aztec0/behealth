@@ -127,6 +127,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_151616) do
   add_foreign_key "doctors", "hospitals", on_delete: :nullify
   add_foreign_key "feedbacks", "doctors"
   add_foreign_key "feedbacks", "patients"
-  add_foreign_key "patient_addresses", "patients"
   add_foreign_key "hospitals", "doctors", on_delete: :nullify
+  add_foreign_key "patient_addresses", "patients"
 end

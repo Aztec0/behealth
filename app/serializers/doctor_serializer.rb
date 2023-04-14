@@ -16,7 +16,6 @@
 #  role                 :integer          default("doctor")
 #  surname              :string
 #  token_sent_at        :datetime
-#  token_sent_at        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  head_doctor_id       :bigint
