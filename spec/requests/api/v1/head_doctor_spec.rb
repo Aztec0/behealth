@@ -165,7 +165,7 @@ RSpec.describe 'Head Doctors API', type: :request do
     end
   end
 
-  path '/api/v1/head_doctors/{id}/delete_doctor' do
+  path '/api/v1/head_doctors/{id}/delete' do
     delete 'Deletes a doctor by id' do
       tags 'Head Doctors'
       security [{ ApiKeyAuth: [] }]

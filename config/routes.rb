@@ -19,7 +19,7 @@ Rails.application.routes.draw do
           post :create_hospital
         end
         member do
-          delete :delete_doctor
+          delete :delete
         end
       end
 

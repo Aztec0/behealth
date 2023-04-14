@@ -152,7 +152,7 @@ paths:
               - address
               - city
               - region
-  "/api/v1/head_doctors/{id}/delete_doctor":
+  "/api/v1/head_doctors/{id}/delete":
     delete:
       summary: Deletes a doctor by id
       tags:

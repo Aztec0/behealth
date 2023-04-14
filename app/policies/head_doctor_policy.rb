@@ -14,7 +14,7 @@ class HeadDoctorPolicy < ApplicationPolicy
     user.role == 'head_doctor'
   end
 
-  def delete_doctor?
+  def delete?
     user.role == 'head_doctor'
   end
 

@@ -3,15 +3,20 @@
 class Api::V1::HeadDoctorsController < ApplicationController
   before_action :authenticate_request
   before_action :authorize_request
-  before_action :head_doctor, only: %i[index create_doctor create_hospital delete_doctor]
+  before_action :head_doctor, only: %i[index create_doctor create_hospital delete]
   def index
     @doctors = Doctor.by_head_doctor(@head_doctor.id)
-
-    render json: @doctors, status: :ok
+    if @doctors
+      render json: @doctors, status: :ok
+    else
+      render json: { error: "Unable to fetch doctors for head doctor with ID #{@head_doctor.id}." },
+             status: :unauthorized
+    end
   end
 
   def create_doctor
-    doctor = @head_doctor.create_doctor(doctor_params.merge(hospital_id: @head_doctor.hospital_id, head_doctor_id: @head_doctor.id))
+    doctor = @head_doctor.create_doctor(doctor_params.merge(hospital_id: @head_doctor.hospital_id,
+                                                            head_doctor_id: @head_doctor.id))
     if doctor.save!
       render json: doctor, status: :created
     else
@@ -37,10 +42,15 @@ class Api::V1::HeadDoctorsController < ApplicationController
     end
   end
 
-  def delete_doctor
-    head_doctor = @head_doctor
-    message = head_doctor.delete_doctor(params[:id], head_doctor.id)
-    render json: { message: message }
+  def delete
+    doctor = Doctor.find_by(id: params[:id], head_doctor_id: @head_doctor.id)
+    if doctor.present?
+      doctor.destroy
+      render json: { message: "Doctor with ID #{params[:id]} has been deleted successfully." }, status: :no_content
+    else
+      render json: { error: "Unable to delete doctor with ID #{params[:id]}. Doctor does not exist or does not belong to #{@head_doctor.name} #{@head_doctor.surname}" },
+             status: :not_found
+    end
   end
 
   def canceled_apointments; end
@@ -53,7 +63,6 @@ class Api::V1::HeadDoctorsController < ApplicationController
       :hospital_id, :head_doctor_id, :password, :password_confirmation
     )
   end
-
 
   def head_doctor
     @head_doctor ||= HeadDoctor.find(current_user.id)
