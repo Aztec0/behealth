@@ -5,7 +5,6 @@ module Api
     class SearchSerializer < ActiveModel::Serializer
       attributes :hospitals, :doctors
 
-
       def hospitals
         object.hospitals.map do |hospital|
           {

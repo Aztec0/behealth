@@ -8,7 +8,7 @@ json.hospitals do
     json.region hospital.region
 
     json.doctors hospital.doctors do |doctor|
-      json.extract! doctor, :id, :name, :surname, :position, :rating
+      json.extract! doctor, :name, :surname, :position, :rating
     end
   end
 end
@@ -17,8 +17,8 @@ json.doctors do
   json.array! @doctors do |doctor|
     json.name doctor.name
     json.address doctor.surname
-    json.city doctor.position
-
+    json.position doctor.position
+    json.rating doctor.rating
     json.hospitals doctor.hospital.name
   end
 end

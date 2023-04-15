@@ -7,7 +7,7 @@ class Api::V1::SearchController < ApplicationController
                                                   region_cont: params[:region]).result(distinct: true).limit(5)
     @doctors = Doctor.joins(:hospital).ransack(name_or_surname_or_position_cont: params[:query],
                                                region_cont: params[:region]).result(distinct: true).limit(5)
-    render json: { hospitals: @hospitals, doctors: @doctors }, each_serializer: Api::V1::SearchSerializer, status: :ok
+    # render json: { hospitals: hospitals, doctors: doctors }, status: :ok, each_serializer: Api::V1::SearchSerializer
   end
 
   private
