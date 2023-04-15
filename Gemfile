@@ -21,7 +21,7 @@ gem 'net-pop', require: false
 gem 'jwt'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
-# gem "jbuilder"
+# gem 'jbuilder'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
@@ -45,7 +45,7 @@ gem 'securerandom'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors', require: 'rack/cors'
-
+gem 'ransack'
 gem 'figaro'
 gem 'pundit', '~> 2.3'
 gem 'rswag-api'
@@ -69,7 +69,8 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
   gem 'active_model_serializers'
-  gem 'pagy'
+  gem 'bullet'
+  # gem 'pagy'
   gem 'capistrano'
   gem 'capistrano-rvm'
   gem 'capistrano-rails'
