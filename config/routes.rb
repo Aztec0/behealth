@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   mount Rswag::Api::Engine => '/api-docs'
   namespace :api do
     namespace :v1 do
+      get '/search', to: 'search#search'
       get '/index', to: 'hospitals#index'
       post '/login', to: 'sessions#create'
       post '/forgot', to: 'passwords#forgot'
@@ -12,6 +13,8 @@ Rails.application.routes.draw do
       post '/signup', to: 'registrations#signup'
       post '/confirmation', to: 'registrations#confirmation'
       post 'password/reset', to: 'password#reset'
+
+      # head_doctors routes
       resources :head_doctors, only: [:index] do
         collection do
           get :canceled_appointments
