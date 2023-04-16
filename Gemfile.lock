@@ -46,9 +46,11 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    active_model_serializers (0.9.8)
-      activemodel (>= 3.2)
-      concurrent-ruby (~> 1.0)
+    active_model_serializers (0.10.13)
+      actionpack (>= 4.1, < 7.1)
+      activemodel (>= 4.1, < 7.1)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (7.0.4.3)
       activesupport (= 7.0.4.3)
       globalid (>= 0.3.6)
@@ -81,9 +83,6 @@ GEM
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     builder (3.2.4)
-    bullet (7.0.7)
-      activesupport (>= 3.0.0)
-      uniform_notifier (~> 1.11)
     byebug (11.1.3)
     capistrano (3.17.2)
       airbrussh (>= 1.0.0)
@@ -106,6 +105,8 @@ GEM
       capistrano (~> 3.7)
       capistrano-bundler
       puma (>= 4.0, < 6.0)
+    case_transform (0.2)
+      activesupport
     concurrent-ruby (1.2.2)
     crass (1.0.6)
     date (3.3.3)
@@ -157,6 +158,7 @@ GEM
     json (2.6.3)
     json-schema (3.0.0)
       addressable (>= 2.8)
+    jsonapi-renderer (0.2.2)
     jwt (2.7.0)
     launchy (2.5.2)
       addressable (~> 2.8)
@@ -310,7 +312,6 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
-    uniform_notifier (1.16.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -322,11 +323,10 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  active_model_serializers (~> 0.9.0)
+  active_model_serializers
   annotate
   bcrypt
   bootsnap
-  bullet
   byebug
   capistrano
   capistrano-nginx
