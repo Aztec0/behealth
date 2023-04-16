@@ -7,8 +7,10 @@ RSpec.describe 'Api::V1::SearchController', type: :request do
     get 'Search for hospitals or doctors' do
       tags 'Search'
       produces 'application/json'
-      parameter name: :query, in: :query, type: :string, description: 'Search query for hospital or doctor', required: false
-      parameter name: :region, in: :query, type: :string, description: 'Region filter', required: false
+      parameter name: :query, in: :query, type: :string,
+                description: 'Search query for hospital or doctor', required: true
+      parameter name: :region, in: :query, type: :string,
+                description: 'Region filter', required: false
 
       response '200', 'Hospitals and doctors found' do
         schema type: :object,
