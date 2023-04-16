@@ -7,7 +7,6 @@ if @hospitals.present?
       json.address hospital.address
       json.city hospital.city
       json.region hospital.region
-
       json.doctors hospital.doctors do |doctor|
         json.extract! doctor, :name, :surname, :position, :rating
       end

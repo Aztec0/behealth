@@ -507,7 +507,7 @@ paths:
       - name: query
         in: query
         description: Search query for hospital or doctor
-        required: false
+        required: true
         schema:
           type: string
       - name: region
