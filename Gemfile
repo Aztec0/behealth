@@ -8,6 +8,7 @@ ruby '3.1.3'
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.4', '>= 7.0.4.2'
 
+gem 'active_model_serializers'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 
@@ -50,6 +51,7 @@ gem 'figaro'
 gem 'pundit', '~> 2.3'
 gem 'rswag-api'
 gem 'rswag-ui'
+gem 'telegram-bot-ruby'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -68,7 +70,6 @@ end
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem 'active_model_serializers'
   # gem 'pagy'
   gem 'capistrano'
   gem 'capistrano-rvm'
@@ -77,6 +78,5 @@ group :development do
   gem 'capistrano-nginx'
   gem 'capistrano-upload-config'
   gem 'sshkit-sudo'
-  gem 'telegram-bot-ruby'
 end
 
