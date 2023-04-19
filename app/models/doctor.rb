@@ -13,29 +13,40 @@
 #  position             :string
 #  rating               :integer          default(0)
 #  reset_password_token :string
+#  role                 :integer          default("doctor")
 #  surname              :string
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  hospital_id          :bigint           not null
+#  head_doctor_id       :bigint
+#  hospital_id          :bigint
 #
 # Indexes
 #
-#  index_doctors_on_hospital_id  (hospital_id)
+#  index_doctors_on_head_doctor_id  (head_doctor_id)
+#  index_doctors_on_hospital_id     (hospital_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (hospital_id => hospitals.id)
+#  fk_rails_...  (head_doctor_id => doctors.id)
+#  fk_rails_...  (hospital_id => hospitals.id) ON DELETE => nullify
 #
+
 class Doctor < ApplicationRecord
 
-  belongs_to :hospital
+  belongs_to :hospital, optional: true
+  belongs_to :head_doctor, optional: true
   has_many :feedbacks
 
   has_secure_password
 
+  scope :by_head_doctor, ->(head_doctor) { where(doctors: { head_doctor_id: head_doctor }) }
+
+  enum :role, %i[doctor head_doctor], _prefix: true, _suffix: true
+
   validates :email, uniqueness: true
   validates :name, presence: true
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
   def generate_password_token!
     self.reset_password_token = generate_token
@@ -54,6 +65,10 @@ class Doctor < ApplicationRecord
   end
 
   private
+
+  def generate_temporary_password
+    SecureRandom.alphanumeric(10)
+  end
 
   def generate_token
     SecureRandom.hex(10)

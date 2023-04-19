@@ -31,31 +31,32 @@
 #  fk_rails_...  (head_doctor_id => doctors.id)
 #  fk_rails_...  (hospital_id => hospitals.id) ON DELETE => nullify
 #
-class DoctorSerializer < ActiveModel::Serializer
-  attributes :full_name, :position, :hospital_name, :rating
+class HeadDoctor < Doctor
+  has_many :doctors, dependent: :nullify
+  belongs_to :hospital, optional: true
 
-  def full_name
-    "#{object.name} #{object.surname}"
+  scope :by_creation_date, -> { order(created_at: :desc) }
+  scope :alphabetically, -> { order(:surname, :name) }
+  scope :by_specialization, ->(specialization) { where(position: specialization) }
+
+  has_secure_password
+
+  validates :name, presence: true
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+
+  def create_doctor(params)
+    temp_password = generate_temporary_password
+    doctor = Doctor.new(params)
+    doctor.password = temp_password
+    doctor.generate_password_token!
+    doctor.save!
+
+    DoctorMailer.send_temporary_password(doctor, temp_password).deliver_later
+    doctor
   end
 
-  def hospital_name
-    object.hospital.name if object.hospital.present?
-  end
-
-  def attributes(*args)
-    hash = super
-    if @instance_options[:action] == :index
-      hash[:id] = object.id
-      hash[:hospital_city] = object.hospital.city
-      hash[:hospital_adress] = object.hospital.address
-    elsif @instance_options[:action] == :show
-      hash[:hospital_city] = object.hospital.city
-      hash[:hospital_region] = object.hospital.region
-      hash[:hospital_adress] = object.hospital.address
-      hash[:phone] = object.phone
-      hash[:age] = ((Time.zone.now - object.birthday.to_time) / 1.year.seconds).floor
-      hash[:feedbacks] = object.feedbacks
-    end
-    hash
+  # this part is for cancel appointment
+  def canceled_appointments
+    Appointment.cancled
   end
 end

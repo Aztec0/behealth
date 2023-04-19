@@ -19,7 +19,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_151616) do
     t.string "surname"
     t.date "birthday"
     t.string "position"
-    t.bigint "hospital_id", null: false
     t.string "email"
     t.bigint "phone"
     t.string "password_digest"
@@ -28,6 +27,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_151616) do
     t.string "reset_password_token"
     t.datetime "token_sent_at"
     t.integer "rating", default: 0
+    t.integer "role", default: 0
+    t.bigint "head_doctor_id"
+    t.bigint "hospital_id"
+    t.index ["head_doctor_id"], name: "index_doctors_on_head_doctor_id"
     t.index ["hospital_id"], name: "index_doctors_on_hospital_id"
   end
 
@@ -50,6 +53,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_151616) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "doctor_id"
+    t.index ["doctor_id"], name: "index_hospitals_on_doctor_id"
   end
 
   create_table "id_cards", force: :cascade do |t|
@@ -118,8 +123,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_151616) do
     t.integer "itn"
   end
 
-  add_foreign_key "doctors", "hospitals"
+  add_foreign_key "doctors", "doctors", column: "head_doctor_id"
+  add_foreign_key "doctors", "hospitals", on_delete: :nullify
   add_foreign_key "feedbacks", "doctors"
   add_foreign_key "feedbacks", "patients"
+  add_foreign_key "hospitals", "doctors", on_delete: :nullify
   add_foreign_key "patient_addresses", "patients"
 end

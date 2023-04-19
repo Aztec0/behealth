@@ -116,6 +116,165 @@ paths:
       responses:
         '200':
           description: successful
+  "/api/v1/head_doctors":
+    get:
+      summary: Retrieves a list of doctors associated with the head doctor
+      tags:
+      - Head Doctors
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: returns a list of doctors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    surname:
+                      type: string
+                    email:
+                      type: string
+                    phone:
+                      type: integer
+                    birthday:
+                      type: string
+                    position:
+                      type: string
+                    rating:
+                      type: integer
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+                    head_doctor_id:
+                      type: integer
+                    hospital_id:
+                      type: integer
+                  required:
+                  - id
+                  - name
+                  - surname
+                  - email
+                  - phone
+                  - birthday
+                  - position
+                  - rating
+                  - created_at
+                  - updated_at
+                  - head_doctor_id
+                  - hospital_id
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/v1/head_doctors/create_doctor":
+    post:
+      summary: Creates a doctor
+      tags:
+      - Head Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '201':
+          description: returns the newly created doctor
+        '422':
+          description: invalid request
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                surname:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: integer
+                birthday:
+                  type: string
+                position:
+                  type: string
+              required:
+              - name
+              - surname
+              - email
+              - phone
+              - birthday
+              - position
+              - hospital_id
+              - password
+              - password_confirmation
+  "/api/v1/head_doctors/create_hospital":
+    post:
+      summary: Creates a hospital
+      tags:
+      - Head Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '201':
+          description: returns the newly created hospital
+        '422':
+          description: returns an error message if hospital cannot be created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                address:
+                  type: string
+                city:
+                  type: string
+                region:
+                  type: string
+              required:
+              - name
+              - address
+              - city
+              - region
+  "/api/v1/head_doctors/{id}/delete":
+    delete:
+      summary: Deletes a doctor by id
+      tags:
+      - Head Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: id
+        in: path
+        description: Doctor ID
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: doctor deleted
+        '404':
+          description: doctor not found
   "/api/v1/forgot":
     post:
       summary: Sends an email to reset the user's password

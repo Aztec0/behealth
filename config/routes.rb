@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literaal: true
 
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
@@ -12,6 +12,16 @@ Rails.application.routes.draw do
       post '/signup', to: 'registrations#signup'
       post '/confirmation', to: 'registrations#confirmation'
       post 'password/reset', to: 'password#reset'
+      resources :head_doctors, only: [:index] do
+        collection do
+          get :canceled_appointments
+          post :create_doctor
+          post :create_hospital
+        end
+        member do
+          delete :delete
+        end
+      end
 
       #Feedbacks for doctors
       get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
