@@ -15,9 +15,9 @@ gem 'pg', '~> 1.1'
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '~> 5.0'
 
-gem 'net-smtp', require: false
 gem 'net-imap', require: false
 gem 'net-pop', require: false
+gem 'net-smtp', require: false
 # Jwt for token auth
 gem 'jwt'
 
@@ -45,10 +45,10 @@ gem 'securerandom'
 # gem "image_processing", "~> 1.2"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
+# gem 'figaro'
+gem 'pundit', '~> 2.3'
 gem 'rack-cors', require: 'rack/cors'
 gem 'ransack'
-gem 'figaro'
-gem 'pundit', '~> 2.3'
 gem 'rswag-api'
 gem 'rswag-ui'
 gem 'telegram-bot-ruby'
@@ -56,9 +56,9 @@ gem 'telegram-bot-ruby'
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'annotate'
-  gem 'faker'
   gem 'byebug'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'faker'
   gem 'letter_opener'
   gem 'rspec-rails'
   gem 'rswag-specs'
@@ -72,10 +72,10 @@ group :development do
   # gem "spring"
   # gem 'pagy'
   gem 'capistrano'
-  gem 'capistrano-rvm'
-  gem 'capistrano-rails'
   gem 'capistrano3-puma'
   gem 'capistrano-nginx'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
   gem 'capistrano-upload-config'
   gem 'sshkit-sudo'
 end
