@@ -32,7 +32,8 @@ class Patient < ApplicationRecord
   has_one :patient_document
 
   enum sex: %i[nothing male female]
-  
+
+  validates :name, :surname, :fathername, format: { with: /\A\p{Cyrillic}+\z/ }, allow_blank: true
   validates :itn, length: { is: 10 }, numericality: { only_integer: true }, allow_blank: true
   validates :email, uniqueness: true
 
