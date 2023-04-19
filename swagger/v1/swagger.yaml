@@ -498,6 +498,38 @@ paths:
               - surname
               - phone
         description: Patient data
+  "/api/v1/search":
+    get:
+      summary: Search for hospitals or doctors
+      tags:
+      - Search
+      parameters:
+      - name: query
+        in: query
+        description: Search query for hospital or doctor
+        required: true
+        schema:
+          type: string
+      - name: region
+        in: query
+        description: Region filter
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Hospitals and doctors found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hospitals:
+                    type: array
+                  doctors:
+                    type: array
+        '422':
+          description: Invalid search query
   "/api/v1/login":
     post:
       summary: create session
@@ -527,7 +559,7 @@ servers:
 - url: http://{defaultHost}
   variables:
     defaultHost:
-      default: localhost:3000
+      default: 127.0.0.1:3000
 - url: http://{behealthtHost}
   variables:
     behealthHost:
@@ -536,7 +568,7 @@ servers:
   variables:
     behealth_host:
       default: 161.35.210.52
-- url: https://{staging_host}
+- url: http://{staging_host}
   variables:
     staging_host:
       default: ''

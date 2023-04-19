@@ -30,14 +30,15 @@ RSpec.configure do |config|
               default: '127.0.0.1:3000'
             }
           }
-        },        {
-        url: 'http://{behealthtHost}',
-        variables: {
-          behealthHost: {
-            default: '64.226.64.5'
+        },
+        {
+          url: 'http://{behealthtHost}',
+          variables: {
+            behealthHost: {
+              default: '64.226.64.5'
+            }
           }
-        }
-      },
+        },
         {
           url: 'http://{behealth_host}',
           variables: {
@@ -61,7 +62,7 @@ RSpec.configure do |config|
             type: :apiKey,
             name: 'Authorization',
             in: :header,
-            description: "{token}"
+            description: '{token}'
           }
         }
       }

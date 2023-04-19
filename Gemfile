@@ -8,20 +8,21 @@ ruby '3.1.3'
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.4', '>= 7.0.4.2'
 
+gem 'active_model_serializers'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '~> 5.0'
 
-gem 'net-smtp', require: false
 gem 'net-imap', require: false
 gem 'net-pop', require: false
+gem 'net-smtp', require: false
 # Jwt for token auth
 gem 'jwt'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
-# gem "jbuilder"
+gem 'jbuilder'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
@@ -44,19 +45,20 @@ gem 'securerandom'
 # gem "image_processing", "~> 1.2"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-gem 'rack-cors', require: 'rack/cors'
-
-gem 'figaro'
+# gem 'figaro'
 gem 'pundit', '~> 2.3'
+gem 'rack-cors', require: 'rack/cors'
+gem 'ransack'
 gem 'rswag-api'
 gem 'rswag-ui'
+gem 'telegram-bot-ruby'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'annotate'
-  gem 'faker'
   gem 'byebug'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'faker'
   gem 'letter_opener'
   gem 'rspec-rails'
   gem 'rswag-specs'
@@ -68,15 +70,13 @@ end
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem 'active_model_serializers'
-  gem 'pagy'
+  # gem 'pagy'
   gem 'capistrano'
-  gem 'capistrano-rvm'
-  gem 'capistrano-rails'
   gem 'capistrano3-puma'
   gem 'capistrano-nginx'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
   gem 'capistrano-upload-config'
   gem 'sshkit-sudo'
-  gem 'telegram-bot-ruby'
 end
 
