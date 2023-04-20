@@ -12,9 +12,12 @@ Rails.application.routes.draw do
       post '/reset', to: 'passwords#reset'
       post '/signup', to: 'registrations#signup'
       post '/confirmation', to: 'registrations#confirmation'
-      post 'password/reset', to: 'password#reset'
 
-      # head_doctors routes
+      post '/password_reset', to: 'password#reset'
+      get '/personal_info', to: 'doctors_cabinet#personal_info'
+      get '/professional_info', to: 'doctors_cabinet#professional_info'
+      patch '/edit_doctor', to: 'doctors_cabinet#update'
+
       resources :head_doctors, only: [:index] do
         collection do
           get :canceled_appointments

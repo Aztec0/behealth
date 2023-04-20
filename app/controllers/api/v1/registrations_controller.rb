@@ -5,7 +5,7 @@ class Api::V1::RegistrationsController < ApplicationController
 
   def signup
     if (params[:email] && params[:password]).blank?
-      return render json: { error: 'Email or password not present' }
+      return render json: { error: 'Email or password not present' }, status: :unprocessable_entity
     end
 
     @patient = Patient.find_by(email: params[:email])
@@ -13,12 +13,12 @@ class Api::V1::RegistrationsController < ApplicationController
     if @patient.present?
       @patient.generate_confirm_token!
       PatientMailer.registration(@patient).deliver_now
-      render json: { error: "Email address already exists in the system." }, status: :conflict
+      render json: { error: 'Email address already exists in the system. We resend email' }, status: :conflict
     else
       @patient = Patient.new(email: params[:email], password: params[:password])
       @patient.generate_confirm_token!
       PatientMailer.registration(@patient).deliver_now
-      render json: 'We send email to your email address'
+      render json: { status: 'We send email to your email address' }, status: :ok
     end
   end
 
@@ -29,18 +29,18 @@ class Api::V1::RegistrationsController < ApplicationController
       @patient.update(patient_params)
       if @patient.save!
         @patient.email_activate
-        render json: 'Email activated, you successfully registered'
+        render json: {status: 'Email activated, you successfully registered' }, status: :ok
       else
-        render json: 'Something went wrong'
+        render json: { error: 'Something went wrong'}, status: :unprocessable_entity
       end
     else
-      render json: 'Link not valid or expired. Try generating a new link.'
+      render json: { error: 'Link not valid or expired. Try generating a new link.' }, status: :unprocessable_entity
     end
   end
 
   private
 
   def patient_params
-    params.permit(:birthday, :name, :surname, :phone)
+    params.permit(:birthday, :name, :second_name, :surname, :phone)
   end
 end

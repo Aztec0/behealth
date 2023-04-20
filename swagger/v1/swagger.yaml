@@ -105,6 +105,121 @@ paths:
                 type:
                   type: string
                   default: Must be 'address' or 'work'
+  "/api/v1/edit_doctor":
+    patch:
+      summary: Update doctors params
+      tags:
+      - Doctors cabinet
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                second_email:
+                  type: string
+                second_phone:
+                  type: integer
+                description:
+                  type: string
+                price:
+                  type: integer
+              required:
+              - second_email
+              - second_phone
+              - description
+              - price
+        description: Doctors params to update
+  "/api/v1/personal_info":
+    get:
+      summary: Returns personal information about the doctor
+      tags:
+      - Doctors cabinet
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: returns personal information
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    full_name:
+                      type: string
+                    email:
+                      type: string
+                    second_email:
+                      type: string
+                    phone:
+                      type: integer
+                    second_phone:
+                      type: integer
+                    description:
+                      type: string
+                  required:
+                  - full_name
+                  - email
+                  - second_email
+                  - second_phone
+                  - description
+        '422':
+          description: Unprocessable_entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/v1/professional_info":
+    get:
+      summary: Returns professional information about the doctor
+      tags:
+      - Doctors cabinet
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: returns professional information
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    price:
+                      type: integer
+                    position:
+                      type: string
+                    hospital_city:
+                      type: string
+                    hospital_region:
+                      type: string
+                    hospital_address:
+                      type: string
+                    hospital_name:
+                      type: string
+                  required:
+                  - price
+                  - position
+                  - hospital_city
+                  - hospital_region
+                  - hospital_address
+                  - hospital_name
   "/api/v1/doctors":
     get:
       summary: list doctors
@@ -480,6 +595,8 @@ paths:
                   type: string
                   format: datetime
                 name:
+                  type: string
+                second_name:
                   type: string
                 surname:
                   type: string

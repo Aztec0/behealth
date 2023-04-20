@@ -8,12 +8,8 @@ RSpec.describe "api/registrations", type: :request do
     parameter name: :patient, in: :body, type: :string, description: 'The user\'s email and password', schema: {
       type: :object,
       properties: {
-        email: {
-          type: :string
-        },
-        password: {
-          type: :string
-        }
+        email: { type: :string },
+        password: { type: :string }
       },
       required: %w[email password]
     }
@@ -40,6 +36,9 @@ RSpec.describe "api/registrations", type: :request do
           type: :string, format: :datetime
         },
         name: {
+          type: :string
+        },
+        second_name: {
           type: :string
         },
         surname: {

@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_04_20_193316) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +31,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_20_193316) do
     t.integer "role", default: 0
     t.bigint "head_doctor_id"
     t.bigint "hospital_id"
+    t.boolean "email_confirmed", default: true
+    t.string "second_name"
+    t.text "description"
+    t.decimal "price"
+    t.string "second_email"
+    t.bigint "second_phone"
     t.index ["head_doctor_id"], name: "index_doctors_on_head_doctor_id"
     t.index ["hospital_id"], name: "index_doctors_on_hospital_id"
   end

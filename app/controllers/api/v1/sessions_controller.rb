@@ -7,9 +7,9 @@ class Api::V1::SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password])
       if @user.email_confirmed?
       token = JWT.encode({ user_id: @user.id, type: params[:user_type] }, Rails.application.secret_key_base)
-      render json: { token: token }
+      render json: { token: token }, status: :ok
       else
-        render json: "Need to activate your account"
+        render json: {error: 'Need to activate your account. Try to re-register again on tha ' }, status: :unauthorized
       end
     else
       render json: { error: 'Invalid credentials' }, status: :unauthorized
