@@ -21,7 +21,7 @@ RSpec.describe 'api/v1/additional_info', type: :request do
     end
   end
 
-  path '/api/v1/patient-account/additional-data/create' do
+  path '/api/v1/patient-account/additional-data' do
 
     post('create additional_info') do
       tags 'Additional Information'
@@ -55,7 +55,7 @@ RSpec.describe 'api/v1/additional_info', type: :request do
     end
   end
 
-  path '/api/v1/patient-account/additional-data/update' do
+  path '/api/v1/patient-account/additional-data' do
 
     put('update additional_info') do
       tags 'Additional Information'
@@ -89,7 +89,7 @@ RSpec.describe 'api/v1/additional_info', type: :request do
     end
   end
 
-  path '/api/v1/patient-account/additional-data/destroy' do
+  path '/api/v1/patient-account/additional-data' do
 
     delete('delete additional_info') do
       tags 'Additional Information'

@@ -21,7 +21,7 @@ RSpec.describe 'api/v1/personal_info', type: :request do
     end
   end
 
-  path '/api/v1/patient-account/personal-information/create' do
+  path '/api/v1/patient-account/personal-information' do
 
     post('create personal_info') do
       tags 'Personal Information'
@@ -52,7 +52,7 @@ RSpec.describe 'api/v1/personal_info', type: :request do
     end
   end
 
-  path '/api/v1/patient-account/personal-information/update' do
+  path '/api/v1/patient-account/personal-information' do
 
     put('update personal_info') do
       tags 'Personal Information'
@@ -68,7 +68,7 @@ RSpec.describe 'api/v1/personal_info', type: :request do
           email: { type: :string, default: 'user@test.rb' },
           phone: { type: :string, default: '+380000000000' },
           birthday: { type: :string, default: '05.11.2003' },
-          itn: { type: :string, default: '1111111111' },
+          tin: { type: :string, default: '1111111111' },
           sex: { type: :string, default: "'nothing', 'male' or 'female'" },
           series: { type: :string, default: 'Use for Passport' },
           number: { type: :string, default: '1111' },
@@ -90,7 +90,7 @@ RSpec.describe 'api/v1/personal_info', type: :request do
     end
   end
 
-  path '/api/v1/patient-account/personal-information/destroy' do
+  path '/api/v1/patient-account/personal-information' do
 
     delete('delete personal_info') do
       tags 'Personal Information'

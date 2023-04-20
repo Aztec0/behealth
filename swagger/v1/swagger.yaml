@@ -12,7 +12,6 @@ paths:
       responses:
         '200':
           description: successful
-  "/api/v1/patient-account/additional-data/create":
     post:
       summary: create additional_info
       tags:
@@ -51,7 +50,6 @@ paths:
                 position:
                   type: string
                   default: Студент
-  "/api/v1/patient-account/additional-data/update":
     put:
       summary: update additional_info
       tags:
@@ -90,7 +88,6 @@ paths:
                 position:
                   type: string
                   default: Студент
-  "/api/v1/patient-account/additional-data/destroy":
     delete:
       summary: delete additional_info
       tags:
@@ -344,7 +341,6 @@ paths:
       responses:
         '200':
           description: successful
-  "/api/v1/patient-account/personal-information/create":
     post:
       summary: create personal_info
       tags:
@@ -374,7 +370,6 @@ paths:
                 date:
                   type: string
                   default: 12.04.2023
-  "/api/v1/patient-account/personal-information/update":
     put:
       summary: update personal_info
       tags:
@@ -410,7 +405,7 @@ paths:
                 birthday:
                   type: string
                   default: 05.11.2003
-                itn:
+                tin:
                   type: string
                   default: '1111111111'
                 sex:
@@ -428,7 +423,6 @@ paths:
                 date:
                   type: string
                   default: 12.04.2023
-  "/api/v1/patient-account/personal-information/destroy":
     delete:
       summary: delete personal_info
       tags:

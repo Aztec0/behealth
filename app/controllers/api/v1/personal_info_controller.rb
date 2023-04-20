@@ -90,6 +90,6 @@ class Api::V1::PersonalInfoController < ApplicationController
   end
 
   def patient_params
-    params.permit(:email, :phone, :name, :surname, :fathername, :birthday, :itn, :sex)
+    params.permit(:email, :phone, :name, :surname, :fathername, :birthday, :tin, :sex)
   end
 end
