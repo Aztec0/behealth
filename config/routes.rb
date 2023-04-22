@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   mount Rswag::Api::Engine => '/api-docs'
   namespace :api do
     namespace :v1 do
+      # Search
       get '/search', to: 'search#search'
+      get '/search_by_doctor', to: 'search#search_by_doctor'
+      get '/search_by_hospital', to: 'search#search_by_hospital'
+
       get '/index', to: 'hospitals#index'
       post '/login', to: 'sessions#create'
       post '/forgot', to: 'passwords#forgot'

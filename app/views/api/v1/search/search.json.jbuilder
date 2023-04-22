@@ -16,12 +16,15 @@ end
 
 if @doctors.present?
   json.doctors do
-    json.array! @doctors do |doctor|
+    json.extract! @doctors do |doctor|
       json.name doctor.name
-      json.address doctor.surname
+      json.surname doctor.surname
+      json.second_name doctor.second_name
       json.position doctor.position
       json.rating doctor.rating
       json.hospitals doctor.hospital.name
     end
   end
 end
+
+
