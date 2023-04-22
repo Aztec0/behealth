@@ -16,6 +16,10 @@ class ApplicationController < ActionController::API
     set_current_user(user)
   end
 
+  def current_doctor_or_patient
+    @current_doctor_or_patient ||= @current_doctor || @current_patient
+  end
+
   def extract_token_from_header
     auth_header = request.headers['Authorization']
     auth_header&.split(' ')&.last

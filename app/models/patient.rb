@@ -23,6 +23,8 @@ class Patient < ApplicationRecord
   has_one :patient_address
   has_one :patient_work
   has_one :patient_document
+  has_many :appointments, dependent: :destroy
+  has_many :doctors, through: :appointments
 
   enum sex: %i[nothing male female]
 

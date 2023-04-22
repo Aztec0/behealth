@@ -5,8 +5,18 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-Patient.create(name: 'Юзер', surname: 'Тестовий', birthday: '05.11.2003', email: 'testuser@test.rb',
+patient1 = Patient.create(name: 'Human', surname: 'Тестовий', birthday: '05.11.2003', email: 'testuser@test.rb',
               phone: '+380000000000', password: '11111111')
-PatientAddress.create(patient_id: 1, settlement: 'Черкаси', house: '1', apartments: '1', address_type: 'Основний')
-PatientAddress.create(patient_id: 1, settlement: 'Червона слобода', house: '1', address_type: 'Додатковий')
-PatientWork.create(patient_id: 1, work_type: 'Основна', place: 'Аском', position: 'Монтажник')
+doctor1 = Doctor.create(name: 'John Smith', email: 'example@example.com', password: 'password')
+appointment1 = Appointment.create(
+  appointment_datetime: DateTime.now + 1.day,
+  doctor: doctor1,
+  patient: patient1,
+  status: "planned"
+)
+Calendar.create(
+  title: "John Smith - Human",
+  start: DateTime.now + 1.day,
+  end: DateTime.now + 1.day + 1.hour,
+  appointment: Appointment.first
+)
