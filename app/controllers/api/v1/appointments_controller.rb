@@ -38,7 +38,7 @@ class AppointmentsController < ApplicationController
     else
       render json: @appointment.errors.full_messages, status: :unprocessable_entity
     end
-  ends
+  end
 
   # POST /appointments/1/cancel
   def cancel
