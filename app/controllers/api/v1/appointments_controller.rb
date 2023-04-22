@@ -5,11 +5,11 @@ class AppointmentsController < ApplicationController
   # GET /appointments
   def index
     if params[:upcoming]
-      @appointments = current_doctor_or_patient or patient.appointments.upcoming.where.not(status: "cancelled").order(appointment_datetime: :asc)
+      @appointments = current_doctor_or_patient.appointments.upcoming.where.not(status: "cancelled").order(appointment_datetime: :asc)
     elsif params[:past]
-      @appointments = current_doctor_or_patient or patient.appointments.past.where.not(status: "cancelled").order(appointment_datetime: :asc)
+      @appointments = current_doctor_or_patient.appointments.past.where.not(status: "cancelled").order(appointment_datetime: :asc)
     else
-      @appointments = current_doctor_or_patient or patient.appointments.all.where.not(status: "cancelled").order(appointment_datetime: :asc)
+      @appointments = current_doctor_or_patient.appointments.all.where.not(status: "cancelled").order(appointment_datetime: :asc)
     end
 
     render json: @appointments
