@@ -641,6 +641,66 @@ paths:
                     type: array
         '422':
           description: Invalid search query
+  "/api/v1/search_by_doctor":
+    get:
+      summary: Searching doctors in the hospital
+      tags:
+      - Search
+      parameters:
+      - name: query
+        in: query
+        description: 'Searching doctor by name, surname, second name, position '
+        required: true
+        schema:
+          type: string
+      - hospital_id: hospital_id
+        in: query
+        description: Hospital id for filtering
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Doctors found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  doctors:
+                    type: array
+        '422':
+          description: Invalid search query
+  "/api/v1/search_by_hospital":
+    get:
+      summary: Searching hospitals in region
+      tags:
+      - Search
+      parameters:
+      - name: query
+        in: query
+        description: Searching hospital by name, address, city
+        required: true
+        schema:
+          type: string
+      - name: region
+        in: query
+        description: Region filter, enter region name
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Hospitals found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hospitals:
+                    type: array
+        '422':
+          description: Invalid search query
   "/api/v1/login":
     post:
       summary: create session
@@ -675,10 +735,10 @@ servers:
   variables:
     behealthHost:
       default: 64.226.64.5
-- url: http://{behealth_host}
+- url: https://{be_health_host}
   variables:
-    behealth_host:
-      default: 161.35.210.52
+    be_health_host:
+      default: 164.90.237.228
 - url: http://{staging_host}
   variables:
     staging_host:
