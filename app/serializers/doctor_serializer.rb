@@ -40,10 +40,6 @@
 class DoctorSerializer < ActiveModel::Serializer
   attributes :full_name, :position, :hospital_name, :rating
 
-  def full_name
-    "#{object.surname} #{object.name} #{object.second_name}"
-  end
-
   def hospital_name
     object.hospital.name if object.hospital.present?
   end

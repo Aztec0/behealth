@@ -2,6 +2,7 @@
 
 class Api::V1::RegistrationsController < ApplicationController
   # after_action :activate_patient, only: %i[ confirmation ]
+  skip_before_action :authenticate_request
 
   def signup
     if (params[:email] && params[:password]).blank?

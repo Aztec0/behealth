@@ -3,14 +3,10 @@ class Api::V1::PersonalInfoController < ApplicationController
 
   def index
     unless @current_patient.nil?
-      patient_document = @current_patient.patient_document.nil? ? 'undefined' : @current_patient.patient_document
-      unless patient_document == 'undefined'
+      patient_document = @current_patient.patient_document
         document = patient_document.document_type.constantize.find(patient_document.document_id)
         record = patient_document.document_type == 'Passport' ? PassportSerializer.new(document) : IdCardSerializer.
           new(document)
-      else
-        record = 'undefined'
-      end
 
       render json: { contact_info: @current_patient.contact_info, main_info: @current_patient.main_info,
                      document: record }

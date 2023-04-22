@@ -1,9 +1,12 @@
-class Api::V1::AdditionalInfoController < ApplicationController
-  def index
-    address = PatientAddressSerializer.new(@current_patient.patient_address)
-    work = PatientWorkSerializer.new(@current_patient.patient_work)
+class Api::V2::AdditionalInfoController < ApplicationController
+  before_action :authenticate_request
 
-    render json: { address: address, workPlace: work, preferenceCategories: nil }
+  def index
+    address = @current_patient.patient_address.nil? ? 'undefined' : PatientAddressSerializer.
+      new(@current_patient.patient_address)
+    work = @current_patient.patient_work.nil? ? 'undefined' : PatientWorkSerializer.new(@current_patient.patient_work)
+
+    render json: { address: address, workPlace: work, preferenceCategories: 'undefined' }
   end
 
   def create

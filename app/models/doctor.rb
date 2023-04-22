@@ -81,6 +81,10 @@ class Doctor < ApplicationRecord
 
   private
 
+  def full_name
+    "#{surname} #{name} #{second_name}"
+  end
+
   def generate_temporary_password
     SecureRandom.alphanumeric(10)
   end
