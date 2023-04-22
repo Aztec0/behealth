@@ -13,16 +13,16 @@ Rails.application.routes.draw do
       post '/signup', to: 'registrations#signup'
       post '/confirmation', to: 'registrations#confirmation'
 
-      post '/password_reset', to: 'password#reset'
-      get '/personal_info', to: 'doctors_cabinet#personal_info'
-      get '/professional_info', to: 'doctors_cabinet#professional_info'
-      patch '/edit_doctor', to: 'doctors_cabinet#update'
+      post '/password-reset', to: 'password#reset'
+      get '/personal-info', to: 'doctors_cabinet#personal_info'
+      get '/professional-info', to: 'doctors_cabinet#professional_info'
+      patch '/edit-doctor', to: 'doctors_cabinet#update'
 
-      resources :head_doctors, only: [:index] do
+      resources :head_doctors, path: 'head-doctors', only: [:index] do
         collection do
-          get :canceled_appointments
-          post :create_doctor
-          post :create_hospital
+          get 'canceled-appointments', action: :canceled_appointments, as: :canceled_appointments
+          post 'create-doctor', action: :create_doctor, as: :create_doctor
+          post 'create-hospital', action: :create_hospital, as: :create_hospital
         end
         member do
           delete :delete
@@ -30,8 +30,8 @@ Rails.application.routes.draw do
       end
 
       #Feedbacks for doctors
-      get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
-      post   'doctor/:doctor_id/feedback/create',            to: 'feedbacks#create'
+      get    'doctor/:doctor-id/feedbacks',                  to: 'feedbacks#index'
+      post   'doctor/:doctor-id/feedback-create',            to: 'feedbacks#create'
 
       #Additional information of patient
       get    'patient-account/additional-data',              to: 'additional_info#index'

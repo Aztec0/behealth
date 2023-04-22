@@ -3,7 +3,7 @@
 require 'swagger_helper'
 
 RSpec.describe 'Head Doctors API', type: :request do
-  path '/api/v1/head_doctors' do
+  path '/api/v1/head-doctors' do
     get 'Retrieves a list of doctors associated with the head doctor' do
       tags 'Head Doctors'
       security [{ ApiKeyAuth: [] }]
@@ -45,7 +45,7 @@ RSpec.describe 'Head Doctors API', type: :request do
     end
   end
 
-  path '/api/v1/head_doctors/create_doctor' do
+  path '/api/v1/head-doctors/create-doctor' do
     post 'Creates a doctor' do
       tags 'Head Doctors'
       security [{ ApiKeyAuth: [] }]
@@ -121,7 +121,7 @@ RSpec.describe 'Head Doctors API', type: :request do
     end
   end
 
-  path '/api/v1/head_doctors/create_hospital' do
+  path '/api/v1/head-doctors/create-hospital' do
     post 'Creates a hospital' do
       tags 'Head Doctors'
       security [{ ApiKeyAuth: [] }]
@@ -165,7 +165,7 @@ RSpec.describe 'Head Doctors API', type: :request do
     end
   end
 
-  path '/api/v1/head_doctors/{id}/delete' do
+  path '/api/v1/head-doctors/{id}/delete' do
     delete 'Deletes a doctor by id' do
       tags 'Head Doctors'
       security [{ ApiKeyAuth: [] }]
