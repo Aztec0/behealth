@@ -13,9 +13,11 @@ class ApplicationController < ActionController::API
   end
 
   def user_not_authorized
-    render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
+    render_error('You are not authorized to perform this action', :forbidden)
+    #render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
   end
 
+  #Створити метод render_success
   def authenticate_request
     token = extract_token_from_header
     return render_error('Missing token', :unauthorized) unless token
@@ -40,10 +42,10 @@ class ApplicationController < ActionController::API
     nil
   end
 
-  def fetch_user_from_database(decoded_token)
-    type = decoded_token['type']
-    user_id = decoded_token['user_id']
-    return nil unless %w[patient doctor].include?(type)
+  def fetch_user_from_database(decoded_token) #Перейменувати на set_user або find_user
+    type = decoded_token['type'] #Можна юзати напряму
+    user_id = decoded_token['user_id'] #Можна юзати напряму
+    return nil unless %w[patient doctor].include?(type) #поміняти на if exclude? ; Писати return без nil
 
     type.capitalize.constantize.find_by(id: user_id)
   end
@@ -56,7 +58,10 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def render_error(message, status)
+  def render_error(message, status = :not_found)
     render json: { error: message }, status: status
+  end
+  def render_success(message, status: :ok)
+    render json: { data: message }, status: status
   end
 end

@@ -13,7 +13,7 @@
 class PatientWork < ApplicationRecord
   belongs_to :patient
 
-  VALID_PLACE = /\A[\p{Cyrillic} ,.–();]+\z/
+  VALID_PLACE = /\A[\p{Cyrillic} ,.–();]+\z/  #Подумати над можливістю переюзування(повтори)
   VALID_POSITION = /\A\p{Cyrillic}+\z/
 
   validates :place, presence: true, length: { maximum: 100 }, format: { with: VALID_PLACE }

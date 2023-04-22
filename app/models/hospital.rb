@@ -25,11 +25,12 @@ class Hospital < ApplicationRecord
   has_many :doctors
 
   # for ransack searching
+  # In concern
   def self.ransackable_attributes(auth_object = nil)
-    %w[address city name region doctor_id].freeze
+    %w[address city name region doctor_id].freeze #Make constant
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ['doctors']
+    ['doctors'] #Make constant
   end
 end

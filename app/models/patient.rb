@@ -24,14 +24,14 @@
 #
 
 class Patient < ApplicationRecord
-  has_secure_password
+  include Passwordable::Shareable
 
   has_many :feedbacks
   has_one :patient_address
   has_one :patient_work
   has_one :patient_document
 
-  enum sex: %i[nothing male female]
+  enum sex: %i[nothing male female] #Перейменувати nothing
 
   validates :name, :surname, :fathername, format: { with: /\A\p{Cyrillic}+\z/ }, allow_blank: true
   validates :tin, length: { is: 10 }, numericality: { only_integer: true }, allow_blank: true
@@ -42,10 +42,12 @@ class Patient < ApplicationRecord
   end
 
   def main_info
-    fullname = "#{surname} #{name} #{fathername unless fathername.nil?}".strip
-    {fullname: fullname, birthday: birthday.strftime("%d.%m.%Y"), tin: tin, sex: sex}
+    fullname = [surname, name]
+    fullname << fathername if fathername.present?
+    { fullname: fullname.join(' '), birthday: birthday.strftime("%d.%m.%Y"), tin: tin, sex: sex }
   end
 
+  #concern Confirmable - перенести токен + email_activate
   def generate_confirm_token!
     self.confirm_token = generate_token
     self.token_sent_at = Time.now.utc
@@ -56,27 +58,5 @@ class Patient < ApplicationRecord
     self.email_confirmed = true
     self.confirm_token = nil
     save!(validate: false)
-  end
-
-  def generate_password_token!
-    self.reset_password_token = generate_token
-    self.token_sent_at = Time.now.utc
-    save!
-  end
-
-  def token_valid?
-    (self.token_sent_at + 4.hours) > Time.now.utc
-  end
-
-  def reset_password!(password)
-    self.reset_password_token = nil
-    self.password = password
-    save!
-  end
-
-  private
-
-  def generate_token
-    SecureRandom.hex(10)
   end
 end

@@ -39,53 +39,28 @@
 #
 
 class Doctor < ApplicationRecord
+  include Passwordable::Shareable
+  include Passwordable::Doctorable
 
-  belongs_to :hospital, optional: true
-  belongs_to :head_doctor, optional: true
+  belongs_to :hospital, optional: true #minus optional
+  belongs_to :head_doctor, optional: true #треба випиляти
   has_many :feedbacks
 
-  has_secure_password
+  scope :by_head_doctor, ->(head_doctor) { where(doctors: { head_doctor_id: head_doctor }) } #має бути всередині лікарні
 
-  scope :by_head_doctor, ->(head_doctor) { where(doctors: { head_doctor_id: head_doctor }) }
-
-  enum :role, %i[doctor head_doctor], _prefix: true, _suffix: true
+  enum :role, %i[doctor head_doctor], _prefix: true, _suffix: true #Краще перейменувати роль doctor
+  #Переглянути необхідність моделі head_doctor
 
   validates :email, uniqueness: true
   validates :name, presence: true
-  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
   # for ransack searching
-  def self.ransackable_attributes(auth_object = nil)
-    %w[name surname position hospital_name].freeze
+  # #Рекомендовано винести ransack в concern Searchable
+  def self.ransackable_attributes(auth_object = nil) #Непотрібний аргумент(maybe)
+    %w[name surname position hospital_name].freeze #Потрібно винести в константу
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ['hospitals']
-  end
-
-  def generate_password_token!
-    self.reset_password_token = generate_token
-    self.token_sent_at = Time.now.utc
-    save!
-  end
-
-  def token_valid?
-    (self.token_sent_at + 4.hours) > Time.now.utc
-  end
-
-  def reset_password!(password)
-    self.reset_password_token = nil
-    self.password = password
-    save!
-  end
-
-  private
-
-  def generate_temporary_password
-    SecureRandom.alphanumeric(10)
-  end
-
-  def generate_token
-    SecureRandom.hex(10)
+    ['hospitals'] #Потрібно винести в константу
   end
 end

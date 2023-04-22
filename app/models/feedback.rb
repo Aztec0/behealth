@@ -25,5 +25,6 @@
 #
 class Feedback < ApplicationRecord
   belongs_to :doctor
+  #https://github.com/rubysherpas/paranoia
   belongs_to :patient, optional: true
 end

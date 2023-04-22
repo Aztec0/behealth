@@ -26,5 +26,5 @@ class PatientAddress < ApplicationRecord
 
   validates :settlement, presence: true, length: { maximum: 100 }, format: { with: VALID_SETTLEMENT }
   validates :house, presence: true, format: { with: /\A[0-9\/]{1,5}\z/ }
-  validates :house, format: { with: /\A[1-9]{1,5}\z/ }
+  validates :apartments, format: { with: /\A[1-9]{1,5}\z/ }
 end
