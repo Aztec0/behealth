@@ -1,4 +1,4 @@
-class Api::V1::AdditionalInfoController < ApplicationController
+class Api::V2::AdditionalInfoController < ApplicationController
   before_action :authenticate_request
 
   def index

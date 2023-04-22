@@ -18,13 +18,13 @@ class ApplicationController < ActionController::API
 
   def authenticate_request
     token = extract_token_from_header
-    return render_error('Missing token', :unauthorized) unless token
+    return render_error('Missing token', status: :unauthorized) unless token
 
     decoded_token = decode_token(token)
-    return render_error('Invalid token', :unauthorized) unless decoded_token
+    return render_error('Invalid token', status: :unauthorized) unless decoded_token
 
     user = fetch_user_from_database(decoded_token)
-    return render_error('Invalid token', :unauthorized) unless user
+    return render_error('Invalid token', status: :unauthorized) unless user
 
     set_current_user(user)
   end
@@ -56,7 +56,11 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def render_error(message, status)
+  def render_error(message, status: :not_found)
     render json: { error: message }, status: status
+  end
+
+  def render_success(message, status: :ok)
+    render json: { data: message }, status: status
   end
 end

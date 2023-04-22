@@ -21,12 +21,4 @@
 #
 class PatientAddressSerializer < ActiveModel::Serializer
   attributes :id, :address_type, :settlement, :house, :apartments
-
-  def apartments
-    if object.apartments.nil?
-      'undefined'
-    else
-      object.apartments
-    end
-  end
 end

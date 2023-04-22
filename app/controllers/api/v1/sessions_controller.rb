@@ -2,6 +2,7 @@
 
 class Api::V1::SessionsController < ApplicationController
   before_action :user
+  skip_before_action :authenticate_request
   def create
     @user = user.find_by(email: params[:email])
     if @user && @user.authenticate(params[:password])
