@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Api::V1::PasswordsController < ApplicationController
+  skip_before_action :authenticate_request
+
   def forgot
     if params[:email].blank?
       return render json: { error: 'Email not present' }, status: :unprocessable_entity

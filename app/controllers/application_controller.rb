@@ -2,14 +2,14 @@
 
 class ApplicationController < ActionController::API
   include Pundit::Authorization
-  # before_action :authenticate_request
-
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
+  before_action :authenticate_request
   private
-
   def current_user
     @current_patient || @current_doctor
+  end
+
+  def authenticate_patient_user
+    return user_not_authorized unless current_user.is_a?(Patient)
   end
 
   def user_not_authorized
