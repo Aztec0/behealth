@@ -39,7 +39,6 @@
 #
 
 class Doctor < ApplicationRecord
-
   belongs_to :hospital, optional: true
   belongs_to :head_doctor, optional: true
   has_many :feedbacks
@@ -53,15 +52,6 @@ class Doctor < ApplicationRecord
   validates :email, uniqueness: true
   validates :name, presence: true
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
-
-  # for ransack searching
-  def self.ransackable_attributes(auth_object = nil)
-    %w[name surname position hospital_name].freeze
-  end
-
-  def self.ransackable_associations(auth_object = nil)
-    ['hospitals']
-  end
 
   def generate_password_token!
     self.reset_password_token = generate_token

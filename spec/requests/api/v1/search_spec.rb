@@ -4,13 +4,15 @@ require 'swagger_helper'
 
 RSpec.describe 'Api::V1::SearchController', type: :request do
   path '/api/v1/search' do
-    get 'Search for hospitals or doctors' do
+    get 'Search for a hospital or doctor in the region' do
       tags 'Search'
       produces 'application/json'
       parameter name: :query, in: :query, type: :string,
-                description: 'Search query for hospital or doctor', required: true
+                description: 'Searching query for hospital or doctor. Input address, name, city for hospital or
+                              name, surname, specialty for doctor', required: false
       parameter name: :region, in: :query, type: :string,
-                description: 'Region filter', required: false
+                description: 'Region filter. Enter the name of the region to search for a hospital or doctor in that
+                              location. If field leave empty, request was for all areas', required: false
 
       response '200', 'Hospitals and doctors found' do
         schema type: :object,
@@ -36,14 +38,14 @@ RSpec.describe 'Api::V1::SearchController', type: :request do
     end
   end
 
-  path '/api/v1/search_by_doctor' do
-    get 'Searching doctors in the hospital' do
+  path '/api/v1/search_doctors_by_specialty' do
+    get 'Searching doctors by specialty' do
       tags 'Search'
       produces 'application/json'
       parameter name: :query, in: :query, type: :string,
-                description: 'Searching doctor by name, surname, second name, position ', required: true
-      parameter hospital_id: :hospital_id, in: :query, type: :string,
-                description: 'Hospital id for filtering', required: true
+                description: 'Searching doctor by name, surname, second name, position ', required: false
+      parameter position: :query, in: :query, type: :string,
+                description: 'Doctor speciality', required: false
 
       response '200', 'Doctors found' do
         schema type: :object,
@@ -65,14 +67,12 @@ RSpec.describe 'Api::V1::SearchController', type: :request do
     end
   end
 
-  path '/api/v1/search_by_hospital' do
-    get 'Searching hospitals in region' do
+  path '/api/v1/search_hospitals' do
+    get 'Searching hospitals' do
       tags 'Search'
       produces 'application/json'
       parameter name: :query, in: :query, type: :string,
-                description: 'Searching hospital by name, address, city', required: true
-      parameter name: :region, in: :query, type: :string,
-                description: 'Region filter, enter region name', required: true
+                description: 'Searching hospital by name. If field leave empty request was for all hospitals', required: true
 
       response '200', 'Hospitals found' do
         schema type: :object,

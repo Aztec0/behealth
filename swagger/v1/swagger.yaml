@@ -611,19 +611,23 @@ paths:
         description: Patient data
   "/api/v1/search":
     get:
-      summary: Search for hospitals or doctors
+      summary: Search for a hospital or doctor in the region
       tags:
       - Search
       parameters:
       - name: query
         in: query
-        description: Search query for hospital or doctor
-        required: true
+        description: |-
+          Searching query for hospital or doctor. Input address, name, city for hospital or
+                                        name, surname, specialty for doctor
+        required: false
         schema:
           type: string
       - name: region
         in: query
-        description: Region filter
+        description: |-
+          Region filter. Enter the name of the region to search for a hospital or doctor in that
+                                        location. If field leave empty, request was for all areas
         required: false
         schema:
           type: string
@@ -641,22 +645,22 @@ paths:
                     type: array
         '422':
           description: Invalid search query
-  "/api/v1/search_by_doctor":
+  "/api/v1/search_doctors_by_specialty":
     get:
-      summary: Searching doctors in the hospital
+      summary: Searching doctors by specialty
       tags:
       - Search
       parameters:
       - name: query
         in: query
         description: 'Searching doctor by name, surname, second name, position '
-        required: true
+        required: false
         schema:
           type: string
-      - hospital_id: hospital_id
+      - position: query
         in: query
-        description: Hospital id for filtering
-        required: true
+        description: Doctor speciality
+        required: false
         schema:
           type: string
       responses:
@@ -671,21 +675,16 @@ paths:
                     type: array
         '422':
           description: Invalid search query
-  "/api/v1/search_by_hospital":
+  "/api/v1/search_hospitals":
     get:
-      summary: Searching hospitals in region
+      summary: Searching hospitals
       tags:
       - Search
       parameters:
       - name: query
         in: query
-        description: Searching hospital by name, address, city
-        required: true
-        schema:
-          type: string
-      - name: region
-        in: query
-        description: Region filter, enter region name
+        description: Searching hospital by name. If field leave empty request was
+          for all hospitals
         required: true
         schema:
           type: string
