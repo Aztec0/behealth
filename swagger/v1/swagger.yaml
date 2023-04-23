@@ -685,7 +685,7 @@ paths:
         in: query
         description: Searching hospital by name. If field leave empty request was
           for all hospitals
-        required: true
+        required: false
         schema:
           type: string
       responses:

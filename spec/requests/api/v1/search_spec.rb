@@ -72,7 +72,8 @@ RSpec.describe 'Api::V1::SearchController', type: :request do
       tags 'Search'
       produces 'application/json'
       parameter name: :query, in: :query, type: :string,
-                description: 'Searching hospital by name. If field leave empty request was for all hospitals', required: true
+                description: 'Searching hospital by name. If field leave empty request was for all hospitals',
+                required: false
 
       response '200', 'Hospitals found' do
         schema type: :object,

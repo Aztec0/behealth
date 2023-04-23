@@ -33,11 +33,11 @@ class Api::V1::SearchController < ApplicationController
   def search_doctors_by_specialty
     position = params[:position]
 
-    @pagy, doctors = pagy(if position.present?
-                            Doctor.where('position ILIKE ?', "%#{position}%")
-                          else
-                            Doctor.all
-                          end)
+    @pagy, doctors = if position.present?
+                       pagy(Doctor.where('position ILIKE ?', "%#{position}%"))
+                     else
+                       pagy(Doctor.all)
+                     end
 
     if params[:query].present?
       @pagy, doctors = pagy(doctors.where('name ILIKE ? OR surname ILIKE ? OR position ILIKE ?',
