@@ -3,8 +3,10 @@
 class ApplicationController < ActionController::API
   include Pundit::Authorization
   include Pagy::Backend
-  before_action :authenticate_request
+  # before_action :authenticate_request
+
   private
+
   def current_user
     @current_patient || @current_doctor
   end

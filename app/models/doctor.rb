@@ -36,13 +36,10 @@
 #
 
 class Doctor < ApplicationRecord
-  belongs_to :hospital, optional: true
-  belongs_to :head_doctor, optional: true
+  belongs_to :hospital
   has_many :feedbacks
 
   has_secure_password
-
-  scope :by_head_doctor, ->(head_doctor) { where(doctors: { head_doctor_id: head_doctor }) }
 
   enum :role, %i[doctor head_doctor], _prefix: true, _suffix: true
 

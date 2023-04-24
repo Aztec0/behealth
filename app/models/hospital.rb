@@ -23,4 +23,6 @@
 #
 class Hospital < ApplicationRecord
   has_many :doctors
+
+  scope :list_doctor_by_hospital, ->(current_user) { where(doctors: { hospital_id: current_user }) }
 end
