@@ -1,14 +1,13 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe 'api/v1/additional_info', type: :request do
-
   path '/api/v1/patient-account/additional-data' do
-
     get('list additional_infos') do
       tags 'Additional Information'
 
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -22,11 +21,10 @@ RSpec.describe 'api/v1/additional_info', type: :request do
   end
 
   path '/api/v1/patient-account/additional-data/create' do
-
     post('create additional_info') do
       tags 'Additional Information'
 
-      consumes "application/json"
+      consumes 'application/json'
       parameter name: :post, in: :body, schema: {
         type: :object,
         properties: {
@@ -42,7 +40,6 @@ RSpec.describe 'api/v1/additional_info', type: :request do
       }
 
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -56,11 +53,10 @@ RSpec.describe 'api/v1/additional_info', type: :request do
   end
 
   path '/api/v1/patient-account/additional-data/update' do
-
     put('update additional_info') do
       tags 'Additional Information'
 
-      consumes "application/json"
+      consumes 'application/json'
       parameter name: :post, in: :body, schema: {
         type: :object,
         properties: {
@@ -76,7 +72,6 @@ RSpec.describe 'api/v1/additional_info', type: :request do
       }
 
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -90,11 +85,10 @@ RSpec.describe 'api/v1/additional_info', type: :request do
   end
 
   path '/api/v1/patient-account/additional-data/destroy' do
-
     delete('delete additional_info') do
       tags 'Additional Information'
 
-      consumes "application/json"
+      consumes 'application/json'
       parameter name: :post, in: :body, schema: {
         type: :object,
         properties: {
@@ -103,7 +97,6 @@ RSpec.describe 'api/v1/additional_info', type: :request do
       }
 
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {

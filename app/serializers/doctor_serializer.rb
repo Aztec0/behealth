@@ -5,16 +5,22 @@
 # Table name: doctors
 #
 #  id                   :bigint           not null, primary key
+#  about                :text
+#  admission_price      :decimal(, )
 #  birthday             :date
 #  email                :string
-#  name                 :string
+#  email_confirmed      :boolean          default(TRUE)
+#  first_name           :string
+#  last_name            :string
 #  password_digest      :string
 #  phone                :bigint
 #  position             :string
 #  rating               :integer          default(0)
 #  reset_password_token :string
 #  role                 :integer          default("doctor")
-#  surname              :string
+#  second_email         :string
+#  second_name          :string
+#  second_phone         :bigint
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
@@ -35,7 +41,7 @@ class DoctorSerializer < ActiveModel::Serializer
   attributes :full_name, :position, :hospital_name, :rating
 
   def full_name
-    "#{object.name} #{object.surname}"
+    "#{object.first_name} #{object.second_name} #{object.last_name}"
   end
 
   def hospital_name

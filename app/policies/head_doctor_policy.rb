@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class HeadDoctorPolicy < ApplicationPolicy
-
   def index?
     user.role == 'head_doctor'
   end
@@ -29,4 +28,3 @@ class HeadDoctorPolicy < ApplicationPolicy
     end
   end
 end
-

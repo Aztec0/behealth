@@ -12,6 +12,14 @@ class ApplicationController < ActionController::API
     @current_patient || @current_doctor
   end
 
+  def authenticate_patient_user
+    return user_not_authorized unless current_user.is_a?(Patient)
+  end
+
+  def authenticate_doctor_user
+    return user_not_authorized unless current_user.is_a?(Doctor)
+  end
+
   def user_not_authorized
     render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
   end

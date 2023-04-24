@@ -1,13 +1,17 @@
 # frozen_string_literal: true
 
-class Api::V1::HospitalsController < ApplicationController
-  before_action :authenticate_request
+module Api
+  module V1
+    class HospitalsController < ApplicationController
+      before_action :authenticate_request
 
-  def index
-    hospitals = Hospital.all
+      def index
+        hospitals = Hospital.all
 
-    render json: hospitals
+        render json: hospitals
+      end
+
+      def create; end
+    end
   end
-
-  def create; end
 end

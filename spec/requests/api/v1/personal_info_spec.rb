@@ -1,14 +1,13 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe 'api/v1/personal_info', type: :request do
-
   path '/api/v1/patient-account/personal-information' do
-
     get('list personal_infos') do
       tags 'Personal Information'
 
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -22,11 +21,10 @@ RSpec.describe 'api/v1/personal_info', type: :request do
   end
 
   path '/api/v1/patient-account/personal-information/create' do
-
     post('create personal_info') do
       tags 'Personal Information'
 
-      consumes "application/json"
+      consumes 'application/json'
       parameter name: :post, in: :body, schema: {
         type: :object,
         properties: {
@@ -39,7 +37,6 @@ RSpec.describe 'api/v1/personal_info', type: :request do
       }
 
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -53,11 +50,10 @@ RSpec.describe 'api/v1/personal_info', type: :request do
   end
 
   path '/api/v1/patient-account/personal-information/update' do
-
     put('update personal_info') do
       tags 'Personal Information'
 
-      consumes "application/json"
+      consumes 'application/json'
       parameter name: :post, in: :body, schema: {
         type: :object,
         properties: {
@@ -77,7 +73,6 @@ RSpec.describe 'api/v1/personal_info', type: :request do
         }
       }
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -91,11 +86,9 @@ RSpec.describe 'api/v1/personal_info', type: :request do
   end
 
   path '/api/v1/patient-account/personal-information/destroy' do
-
     delete('delete personal_info') do
       tags 'Personal Information'
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {

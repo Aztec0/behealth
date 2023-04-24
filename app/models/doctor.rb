@@ -5,16 +5,22 @@
 # Table name: doctors
 #
 #  id                   :bigint           not null, primary key
+#  about                :text
+#  admission_price      :decimal(, )
 #  birthday             :date
 #  email                :string
-#  name                 :string
+#  email_confirmed      :boolean          default(TRUE)
+#  first_name           :string
+#  last_name            :string
 #  password_digest      :string
 #  phone                :bigint
 #  position             :string
 #  rating               :integer          default(0)
 #  reset_password_token :string
 #  role                 :integer          default("doctor")
-#  surname              :string
+#  second_email         :string
+#  second_name          :string
+#  second_phone         :bigint
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
@@ -33,6 +39,7 @@
 #
 
 class Doctor < ApplicationRecord
+  require 'securerandom'
 
   belongs_to :hospital, optional: true
   belongs_to :head_doctor, optional: true
@@ -49,11 +56,11 @@ class Doctor < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
   # for ransack searching
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object = nil)
     %w[name surname position hospital_name].freeze
   end
 
-  def self.ransackable_associations(auth_object = nil)
+  def self.ransackable_associations(_auth_object = nil)
     ['hospitals']
   end
 
@@ -64,7 +71,7 @@ class Doctor < ApplicationRecord
   end
 
   def token_valid?
-    (self.token_sent_at + 4.hours) > Time.now.utc
+    (token_sent_at + 4.hours) > Time.now.utc
   end
 
   def reset_password!(password)
