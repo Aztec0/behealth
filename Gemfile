@@ -62,7 +62,7 @@ group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   # for faker data generator
   gem 'faker'
-  # for testing seed emails
+  # for testing send emails
   gem 'letter_opener'
   gem 'rspec-rails'
   gem 'rswag-specs'
