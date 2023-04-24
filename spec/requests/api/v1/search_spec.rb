@@ -44,7 +44,7 @@ RSpec.describe 'Api::V1::SearchController', type: :request do
       produces 'application/json'
       parameter name: :query, in: :query, type: :string,
                 description: 'Searching doctor by name, surname, second name, position ', required: false
-      parameter position: :query, in: :query, type: :string,
+      parameter name: :position, in: :query, type: :string,
                 description: 'Doctor speciality', required: false
 
       response '200', 'Doctors found' do

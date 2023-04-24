@@ -657,7 +657,7 @@ paths:
         required: false
         schema:
           type: string
-      - position: query
+      - name: position
         in: query
         description: Doctor speciality
         required: false
