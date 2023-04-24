@@ -18,6 +18,7 @@ gem 'puma', '~> 5.0'
 gem 'net-imap', require: false
 gem 'net-pop', require: false
 gem 'net-smtp', require: false
+
 # Jwt for token auth
 gem 'jwt'
 
@@ -39,23 +40,24 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
-gem 'securerandom'
+# gem 'securerandom'  Delete
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'figaro'
-gem 'pundit', '~> 2.3'
 gem 'rack-cors', require: 'rack/cors'
+
+gem 'pundit', '~> 2.3'
 gem 'ransack'
 gem 'rswag-api'
 gem 'rswag-ui'
 gem 'telegram-bot-ruby'
 
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'annotate'
+
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'byebug'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'faker'
@@ -68,9 +70,6 @@ group :development, :test do
 end
 
 group :development do
-  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
-  # gem 'pagy'
   gem 'capistrano'
   gem 'capistrano3-puma'
   gem 'capistrano-nginx'

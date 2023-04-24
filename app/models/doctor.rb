@@ -6,14 +6,20 @@
 #
 #  id                   :bigint           not null, primary key
 #  birthday             :date
+#  description          :text
 #  email                :string
+#  email_confirmed      :boolean          default(TRUE)
 #  name                 :string
 #  password_digest      :string
 #  phone                :bigint
 #  position             :string
+#  price                :decimal(, )
 #  rating               :integer          default(0)
 #  reset_password_token :string
 #  role                 :integer          default("doctor")
+#  second_email         :string
+#  second_name          :string
+#  second_phone         :bigint
 #  surname              :string
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
@@ -74,6 +80,11 @@ class Doctor < ApplicationRecord
   end
 
   private
+
+  def full_name
+    "#{name} #{second_name} #{surname}"
+  end
+
 
   def generate_temporary_password
     SecureRandom.alphanumeric(10)

@@ -6,14 +6,20 @@
 #
 #  id                   :bigint           not null, primary key
 #  birthday             :date
+#  description          :text
 #  email                :string
+#  email_confirmed      :boolean          default(TRUE)
 #  name                 :string
 #  password_digest      :string
 #  phone                :bigint
 #  position             :string
+#  price                :decimal(, )
 #  rating               :integer          default(0)
 #  reset_password_token :string
 #  role                 :integer          default("doctor")
+#  second_email         :string
+#  second_name          :string
+#  second_phone         :bigint
 #  surname              :string
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
@@ -32,11 +38,7 @@
 #  fk_rails_...  (hospital_id => hospitals.id) ON DELETE => nullify
 #
 class DoctorSerializer < ActiveModel::Serializer
-  attributes :full_name, :position, :hospital_name, :rating
-
-  def full_name
-    "#{object.name} #{object.surname}"
-  end
+  attributes :name, :surname, :position, :hospital_name, :rating
 
   def hospital_name
     object.hospital.name if object.hospital.present?

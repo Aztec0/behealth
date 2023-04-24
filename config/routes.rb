@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   mount Rswag::Api::Engine => '/api-docs'
   namespace :api do
     namespace :v1 do
+      resources :tags
+      resources :hospitals
       get '/search', to: 'search#search'
       get '/index', to: 'hospitals#index'
       post '/login', to: 'sessions#create'
