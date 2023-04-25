@@ -7,7 +7,7 @@ class Api::V1::DoctorsController < ApplicationController
 
   def index
     @pagy, doctors = pagy(Doctor.all)
-    render json: doctors
+    render json: doctors, each_serializer: DoctorSerializer, action: :show
   end
 
   def canceled_apointments; end

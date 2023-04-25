@@ -45,14 +45,14 @@ class DoctorSerializer < ActiveModel::Serializer
     hash = super
     if @instance_options[:action] == :index
       hash[:id] = object.id
-      hash[:hospital_city] = object.hospital.city
-      hash[:hospital_adress] = object.hospital.address
+      hash[:hospital_city] = object.hospital&.city
+      hash[:hospital_address] = object.hospital&.address
     elsif @instance_options[:action] == :show
-      hash[:hospital_city] = object.hospital.city
-      hash[:hospital_region] = object.hospital.region
-      hash[:hospital_adress] = object.hospital.address
+      hash[:hospital_city] = object.hospital&.city
+      hash[:hospital_region] = object.hospital&.region
+      hash[:hospital_address] = object.hospital&.address
       hash[:phone] = object.phone
-      hash[:age] = ((Time.zone.now - object.birthday.to_time) / 1.year.seconds).floor
+      hash[:age] = object.birthday ? ((Time.zone.now - object.birthday.to_time) / 1.year.seconds).floor : nil
       hash[:feedbacks] = object.feedbacks
     end
     hash
