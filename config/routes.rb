@@ -22,16 +22,11 @@ Rails.application.routes.draw do
       get '/professional_info', to: 'doctors_cabinet#professional_info'
       patch '/edit_doctor', to: 'doctors_cabinet#update'
 
-      resources :head_doctors, only: [:index] do
-        collection do
-          get :canceled_appointments
-          post :create_doctor
-          post :create_hospital
-        end
-        member do
-          delete :delete
-        end
-      end
+      get '/list_doctor_by_hospital',                        to: 'doctors#list_doctor_by_hospital'
+      get '/canceled_appointments',                          to: 'doctors#canceled_appointments'
+      post '/create_doctor',                                 to: 'doctors#create_doctor'
+      post '/create_hospital',                               to: 'doctors#create_hospital'
+      delete '/doctors/:id',                                 to: 'doctors#delete'
 
       #Feedbacks for doctors
       get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
