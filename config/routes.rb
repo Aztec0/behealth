@@ -14,7 +14,6 @@ Rails.application.routes.draw do
       post '/reset', to: 'passwords#reset'
       post '/signup', to: 'registrations#signup'
       post '/confirmation', to: 'registrations#confirmation'
-      post 'password/reset', to: 'password#reset'
 
       resources :doctors
       # head_doctors routes
