@@ -39,21 +39,19 @@
 #
 
 class Doctor < ApplicationRecord
-  require 'securerandom'
+  include Passwordable::Shareable
+  include Passwordable::Doctorable
 
   belongs_to :hospital, optional: true
   belongs_to :head_doctor, optional: true
   has_many :feedbacks
-
-  has_secure_password
 
   scope :by_head_doctor, ->(head_doctor) { where(doctors: { head_doctor_id: head_doctor }) }
 
   enum :role, %i[doctor head_doctor], _prefix: true, _suffix: true
 
   validates :email, uniqueness: true
-  validates :name, presence: true
-  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :first_name, presence: true
 
   # for ransack searching
   def self.ransackable_attributes(_auth_object = nil)
@@ -62,31 +60,5 @@ class Doctor < ApplicationRecord
 
   def self.ransackable_associations(_auth_object = nil)
     ['hospitals']
-  end
-
-  def generate_password_token!
-    self.reset_password_token = generate_token
-    self.token_sent_at = Time.now.utc
-    save!
-  end
-
-  def token_valid?
-    (token_sent_at + 4.hours) > Time.now.utc
-  end
-
-  def reset_password!(password)
-    self.reset_password_token = nil
-    self.password = password
-    save!
-  end
-
-  private
-
-  def generate_temporary_password
-    SecureRandom.alphanumeric(10)
-  end
-
-  def generate_token
-    SecureRandom.hex(10)
   end
 end
