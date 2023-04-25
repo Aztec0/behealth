@@ -18,7 +18,7 @@ RSpec.describe 'api/v1/doctors', type: :request do
     end
   end
 
-  path '/api/v1/ist_doctor_by_hospital' do
+  path '/api/v1/list_doctor_by_hospital' do
     get 'Retrieves a list of doctors associated with the hospital' do
       tags 'Doctors'
       security [{ ApiKeyAuth: [] }]

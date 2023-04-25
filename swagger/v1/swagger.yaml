@@ -228,7 +228,7 @@ paths:
       responses:
         '200':
           description: successful
-  "/api/v1/ist_doctor_by_hospital":
+  "/api/v1/list_doctor_by_hospital":
     get:
       summary: Retrieves a list of doctors associated with the hospital
       tags:
