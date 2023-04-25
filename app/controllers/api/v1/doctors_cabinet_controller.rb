@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::DoctorsCabinetController < ApplicationController
   before_action :authenticate_curent_doctor
 
@@ -20,6 +22,6 @@ class Api::V1::DoctorsCabinetController < ApplicationController
   private
 
   def doctor_params
-    params.permit(:second_email, :second_phone, :description, :price )
+    params.permit(:second_email, :second_phone, :description, :price)
   end
 end

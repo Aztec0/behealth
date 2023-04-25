@@ -76,7 +76,7 @@ class Api::V1::DoctorsController < ApplicationController
   end
 
   def hospital_params
-    params.permit(:address, :city, :name, :region, :doctor_id)
+    params.permit(:address, :city, :name, :region)
   end
 
   def authorize_request

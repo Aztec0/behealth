@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::AdditionalWorkController < ApplicationController
   before_action :authenticate_patient_user
   # позбутись тернарні оператори(6-8)
@@ -16,17 +18,17 @@ class Api::V1::AdditionalWorkController < ApplicationController
       if current_user.patient_address.nil?
         record = current_user.build_patient_address(patient_address_params)
       else
-        render json: {message: 'Address already present'}, status: :unprocessable_entity and return
+        render json: { message: 'Address already present' }, status: :unprocessable_entity and return
       end
     when 'work'
       if current_user.patient_work.nil?
         record = current_user.build_patient_work(patient_work_params)
       else
-        render json: {message: 'Work already present'}, status: :unprocessable_entity and return
+        render json: { message: 'Work already present' }, status: :unprocessable_entity and return
       end
     else
       # return ... if nil, можна писати вище
-      render json: {message: 'Type is invalid'}, status: :unprocessable_entity and return
+      render json: { message: 'Type is invalid' }, status: :unprocessable_entity and return
     end
 
     if record.save
@@ -49,7 +51,7 @@ class Api::V1::AdditionalWorkController < ApplicationController
             render json: { message: 'Address cannot be updated' }, status: :unprocessable_entity
           end
         else
-          render json: {message: 'There are no addresses here!'}, status: :not_found
+          render json: { message: 'There are no addresses here!' }, status: :not_found
         end
       when 'work'
         work = current_user.patient_work
@@ -60,10 +62,10 @@ class Api::V1::AdditionalWorkController < ApplicationController
             render json: { message: 'Work cannot be updated' }, status: :unprocessable_entity
           end
         else
-          render json: {message: 'There are no works here!'}, status: :not_found
+          render json: { message: 'There are no works here!' }, status: :not_found
         end
       else
-        render json: {message: 'Type is invalid'}, status: :unprocessable_entity
+        render json: { message: 'Type is invalid' }, status: :unprocessable_entity
       end
     end
   end
@@ -76,7 +78,7 @@ class Api::V1::AdditionalWorkController < ApplicationController
       when 'work'
         record = current_user.patient_work
       else
-        render json: {message: 'Type is invalid'}, status: :unprocessable_entity and return
+        render json: { message: 'Type is invalid' }, status: :unprocessable_entity and return
       end
 
       unless record.nil?
