@@ -222,9 +222,9 @@ paths:
                   - hospital_name
   "/api/v1/doctors":
     get:
-      summary: list doctors
+      summary: List all doctors
       tags:
-      - Doctors
+      - Doctors and Hospitals
       responses:
         '200':
           description: successful
@@ -384,6 +384,14 @@ paths:
           description: doctor deleted
         '404':
           description: doctor not found
+  "/api/v1/hospitals":
+    get:
+      summary: List all hospitals
+      tags:
+      - Doctors and Hospitals
+      responses:
+        '200':
+          description: successful
   "/api/v1/forgot":
     post:
       summary: Sends an email to reset the user's password

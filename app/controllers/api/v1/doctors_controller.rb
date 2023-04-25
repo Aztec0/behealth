@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class Api::V1::DoctorsController < ApplicationController
-  before_action :authenticate_request
+  before_action :authenticate_request, except: %i[index]
   before_action :authorize_request, only: %i[create_doctor create_hospital delete list_doctor_by_hospital]
   before_action :set_doctor, only: :show
 
   def index
     @pagy, doctors = pagy(Doctor.all)
-    render json: doctors, each_serializer: DoctorSerializer, action: :index
+    render json: doctors
   end
 
   def canceled_apointments; end

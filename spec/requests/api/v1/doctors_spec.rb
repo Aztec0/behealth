@@ -3,8 +3,8 @@
 require 'swagger_helper'
 RSpec.describe 'api/v1/doctors', type: :request do
   path '/api/v1/doctors' do
-    get('list doctors') do
-      tags 'Doctors'
+    get('List all doctors') do
+      tags 'Doctors and Hospitals'
       response(200, 'successful') do
         after do |example|
           example.metadata[:response][:content] = {
