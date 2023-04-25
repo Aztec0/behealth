@@ -7,11 +7,11 @@ module Api
 
       def index
         doctors = Doctor.all
-        render json: doctors, each_serializer: DoctorSerializer, action: :index
+        render json: doctors, each_serializer: DoctorIndexSerializer
       end
 
       def show
-        render json: @doctor, serializer: DoctorSerializer, action: :show
+        render json: @doctor, serializer: DoctorShowSerializer
       end
 
       private
