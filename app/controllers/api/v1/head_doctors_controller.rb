@@ -22,6 +22,7 @@ class Api::V1::HeadDoctorsController < ApplicationController
   end
 
   def create_hospital
+    byebug
     if current_user.hospital.present?
       if current_user.hospital.update(hospital_params)
         render json: { message: 'Hospital update successful', hospital: hospital_params }, status: :ok
@@ -57,12 +58,12 @@ class Api::V1::HeadDoctorsController < ApplicationController
   def doctor_params
     params.permit(
       :name, :surname, :second_name, :email, :phone, :birthday, :position,
-      :hospital_id, :head_doctor
+      :hospital_id
     )
   end
 
   def hospital_params
-    params.permit(:address, :city, :name, :region, :doctor_id, :head_doctor)
+    params.permit(:address, :city, :name, :region, :doctor_id)
   end
 
   def authorize_request

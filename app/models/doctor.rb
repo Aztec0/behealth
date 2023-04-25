@@ -36,7 +36,7 @@
 #
 
 class Doctor < ApplicationRecord
-  belongs_to :hospital
+  belongs_to :hospital, optional: true # потрібно для того , щоб гол.лікар міг створити лікарню, вона потім додається лікарю який її створив
   has_many :feedbacks
 
   has_secure_password
