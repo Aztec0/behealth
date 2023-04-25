@@ -37,31 +37,7 @@
 #  fk_rails_...  (head_doctor_id => doctors.id)
 #  fk_rails_...  (hospital_id => hospitals.id) ON DELETE => nullify
 #
-class DoctorSerializer < ActiveModel::Serializer
-  attributes :full_name, :position, :hospital_name, :rating
-
-  def full_name
-    "#{object.first_name} #{object.second_name} #{object.last_name}"
-  end
-
-  def hospital_name
-    object.hospital.name if object.hospital.present?
-  end
-
-  def attributes(*args)
-    hash = super
-    if @instance_options[:action] == :index
-      hash[:id] = object.id
-      hash[:hospital_city] = object.hospital.city
-      hash[:hospital_adress] = object.hospital.address
-    elsif @instance_options[:action] == :show
-      hash[:hospital_city] = object.hospital.city
-      hash[:hospital_region] = object.hospital.region
-      hash[:hospital_adress] = object.hospital.address
-      hash[:phone] = object.phone
-      hash[:age] = ((Time.zone.now - object.birthday.to_time) / 1.year.seconds).floor
-      hash[:feedbacks] = object.feedbacks
-    end
-    hash
-  end
+class DoctorIndexSerializer < ActiveModel::Serializer
+  attributes :first_name, :second_name, :last_name, :position, :hospital, :rating
+  has_one :hospital
 end
