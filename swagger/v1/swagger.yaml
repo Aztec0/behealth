@@ -228,11 +228,11 @@ paths:
       responses:
         '200':
           description: successful
-  "/api/v1/head_doctors":
+  "/api/v1/ist_doctor_by_hospital":
     get:
-      summary: Retrieves a list of doctors associated with the head doctor
+      summary: Retrieves a list of doctors associated with the hospital
       tags:
-      - Head Doctors
+      - Doctors
       security:
       - ApiKeyAuth: []
       responses:
@@ -265,8 +265,6 @@ paths:
                       type: string
                     updated_at:
                       type: string
-                    head_doctor_id:
-                      type: integer
                     hospital_id:
                       type: integer
                   required:
@@ -280,7 +278,6 @@ paths:
                   - rating
                   - created_at
                   - updated_at
-                  - head_doctor_id
                   - hospital_id
         '401':
           description: Unauthorized
@@ -293,11 +290,11 @@ paths:
                     type: string
                 required:
                 - error
-  "/api/v1/head_doctors/create_doctor":
+  "/api/create_doctor":
     post:
       summary: Creates a doctor
       tags:
-      - Head Doctors
+      - Doctors
       security:
       - ApiKeyAuth: []
       parameters: []
@@ -318,6 +315,8 @@ paths:
                   type: string
                 surname:
                   type: string
+                second_name:
+                  type: string
                 email:
                   type: string
                 phone:
@@ -329,18 +328,16 @@ paths:
               required:
               - name
               - surname
+              - second_name
               - email
               - phone
               - birthday
               - position
-              - hospital_id
-              - password
-              - password_confirmation
-  "/api/v1/head_doctors/create_hospital":
+  "/api/v1/create_hospital":
     post:
       summary: Creates a hospital
       tags:
-      - Head Doctors
+      - Doctors
       security:
       - ApiKeyAuth: []
       parameters: []
@@ -368,11 +365,11 @@ paths:
               - address
               - city
               - region
-  "/api/v1/head_doctors/{id}/delete":
+  "/api/v1/doctors/{id}":
     delete:
       summary: Deletes a doctor by id
       tags:
-      - Head Doctors
+      - Doctors
       security:
       - ApiKeyAuth: []
       parameters:
