@@ -41,6 +41,10 @@ class Doctor < ApplicationRecord
 
   has_secure_password
 
+  scope :list_doctor_by_hospital, ->(current_user) {
+    includes(:hospital).where(doctors: { hospital_id: current_user })
+  }
+
   enum :role, %i[doctor head_doctor], _prefix: true, _suffix: true
 
   validates :email, uniqueness: true
@@ -61,6 +65,17 @@ class Doctor < ApplicationRecord
     self.reset_password_token = nil
     self.password = password
     save!
+  end
+
+  def create_doctor(params)
+    temp_password = generate_temporary_password
+    doctor = Doctor.new(params)
+    doctor.password = temp_password
+    doctor.generate_password_token!
+    doctor.save!
+
+    DoctorMailer.send_temporary_password(doctor, temp_password).deliver_later
+    doctor
   end
 
   private
