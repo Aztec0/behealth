@@ -1,24 +1,15 @@
 class CalendarController < ApplicationController
   before_action :authenticate_request
+  before_action :set_current_user
 
   # GET /calendar
   def index
-    events = current_doctor_or_patient.appointments.map do |appointment|
-      {
-        title: "#{appointment.doctor.name} - #{appointment.patient.name}",
-        start: appointment.appointment_datetime,
-        end: appointment.appointment_datetime + 1.hour,
-        id: appointment.id,
-        status: appointment.status
-      }
-    end
-
-    render json: events
+    render json: appointments_json
   end
 
   # POST /calendar
   def create
-    appointment = current_doctor_or_patient.appointments.build(appointment_params)
+    appointment = current_user.appointments.build(appointment_params)
 
     if appointment.save
       render json: { message: 'Appointment created', id: appointment.id }, status: :created
@@ -29,7 +20,7 @@ class CalendarController < ApplicationController
 
   # PUT /calendar/:id
   def update
-    appointment = current_doctor_or_patient.appointments.find(params[:id])
+    appointment = current_user.appointments.find(params[:id])
 
     if appointment.update(appointment_params)
       render json: { message: 'Appointment updated' }, status: :ok
@@ -39,6 +30,18 @@ class CalendarController < ApplicationController
   end
 
   private
+
+  def appointments_json
+    @current_user.appointments.map do |appointment|
+      {
+        title: "#{appointment.doctor.name} - #{appointment.patient.name}",
+        start: appointment.appointment_datetime,
+        end: appointment.appointment_datetime + 1.hour,
+        id: appointment.id,
+        status: appointment.status
+      }
+    end
+  end
 
   # Only allow a list of trusted parameters through.
   def appointment_params

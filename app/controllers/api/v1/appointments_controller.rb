@@ -1,15 +1,16 @@
 class AppointmentsController < ApplicationController
-  before_action :authenticate_request
+  # before_action :authenticate_request
+  before_action :set_current_user
   before_action :set_appointment, only: [:show, :update, :cancel, :accept]
 
   # GET /appointments
   def index
     if params[:upcoming]
-      @appointments = current_doctor_or_patient.appointments.upcoming.where.not(status: "cancelled").order(appointment_datetime: :asc)
+      @appointments = current_user.appointments.upcoming.where.not(status: "cancelled").order(appointment_datetime: :asc)
     elsif params[:past]
-      @appointments = current_doctor_or_patient.appointments.past.where.not(status: "cancelled").order(appointment_datetime: :asc)
+      @appointments = current_user.appointments.past.where.not(status: "cancelled").order(appointment_datetime: :asc)
     else
-      @appointments = current_doctor_or_patient.appointments.all.where.not(status: "cancelled").order(appointment_datetime: :asc)
+      @appointments = current_user.appointments.all.where.not(status: "cancelled").order(appointment_datetime: :asc)
     end
 
     render json: @appointments

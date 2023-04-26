@@ -27,7 +27,4 @@ class Calendar < ApplicationRecord
 
   validates :name, presence: true
 
-  def events(start_date, end_date)
-  appointments.where('appointment_datetime BETWEEN ? AND ?', start_date, end_date)
-end
 end

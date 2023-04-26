@@ -4,10 +4,20 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :appointments, only: [:index, :show, :create, :update] do
-        post 'cancel', on: :member
-        post 'accept', on: :member
+        member do
+          post :cancel
+          post :accept
+        end
       end
-      get 'calendar', to: 'calendar#index'
+
+      resources :calendars, only: [:index, :show, :create, :update] do
+        member do
+          get :events
+        end
       end
-  end
+
+      resources :doctors, only: [:index, :show, :create, :update]
+      resources :patients, only: [:index, :show, :create, :update]
+    end
+    end
 end
