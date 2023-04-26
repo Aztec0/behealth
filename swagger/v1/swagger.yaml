@@ -611,19 +611,23 @@ paths:
         description: Patient data
   "/api/v1/search":
     get:
-      summary: Search for hospitals or doctors
+      summary: Search for a hospital or doctor in the region
       tags:
       - Search
       parameters:
       - name: query
         in: query
-        description: Search query for hospital or doctor
-        required: true
+        description: |-
+          Searching query for hospital or doctor. Input address, name, city for hospital or
+                                        name, surname, specialty for doctor
+        required: false
         schema:
           type: string
       - name: region
         in: query
-        description: Region filter
+        description: |-
+          Region filter. Enter the name of the region to search for a hospital or doctor in that
+                                        location. If field leave empty, request was for all areas
         required: false
         schema:
           type: string
@@ -638,6 +642,61 @@ paths:
                   hospitals:
                     type: array
                   doctors:
+                    type: array
+        '422':
+          description: Invalid search query
+  "/api/v1/search_doctors_by_specialty":
+    get:
+      summary: Searching doctors by specialty
+      tags:
+      - Search
+      parameters:
+      - name: query
+        in: query
+        description: 'Searching doctor by name, surname, second name, position '
+        required: false
+        schema:
+          type: string
+      - name: position
+        in: query
+        description: Doctor speciality
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Doctors found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  doctors:
+                    type: array
+        '422':
+          description: Invalid search query
+  "/api/v1/search_hospitals":
+    get:
+      summary: Searching hospitals
+      tags:
+      - Search
+      parameters:
+      - name: query
+        in: query
+        description: Searching hospital by name. If field leave empty request was
+          for all hospitals
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Hospitals found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hospitals:
                     type: array
         '422':
           description: Invalid search query
@@ -675,10 +734,10 @@ servers:
   variables:
     behealthHost:
       default: 64.226.64.5
-- url: http://{behealth_host}
+- url: https://{be_health_host}
   variables:
-    behealth_host:
-      default: 161.35.210.52
+    be_health_host:
+      default: 164.90.237.228
 - url: http://{staging_host}
   variables:
     staging_host:

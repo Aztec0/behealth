@@ -40,10 +40,10 @@ RSpec.configure do |config|
           }
         },
         {
-          url: 'http://{behealth_host}',
+          url: 'https://{be_health_host}',
           variables: {
-            behealth_host: {
-              default: '161.35.210.52'
+            be_health_host: {
+              default: '164.90.237.228'
             }
           }
         },
