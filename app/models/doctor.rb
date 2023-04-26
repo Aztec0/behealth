@@ -43,6 +43,7 @@ class Doctor < ApplicationRecord
   belongs_to :hospital, optional: true
   belongs_to :head_doctor, optional: true
   has_many :feedbacks
+  has_many :messages
 
   has_secure_password
 

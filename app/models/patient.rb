@@ -27,6 +27,7 @@ class Patient < ApplicationRecord
   has_secure_password
 
   has_many :feedbacks
+  has_many :messages
   has_one :patient_address
   has_one :patient_work
   has_one :patient_document

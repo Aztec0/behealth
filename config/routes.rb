@@ -29,6 +29,10 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :chats, only: [:index, :create, :show] do
+        resources :messages, only: [:index, :create]
+      end
+
       #Feedbacks for doctors
       get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
       post   'doctor/:doctor_id/feedback/create',            to: 'feedbacks#create'
