@@ -66,13 +66,13 @@ RSpec.describe 'api/v1/doctors', type: :request do
       parameter name: :doctor_params, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string },
-          surname: { type: :string },
-          second_name: { type: :string },
-          email: { type: :string },
-          phone: { type: :integer },
-          birthday: { type: :string },
-          position: { type: :string }
+          name: { type: :string, default: 'John' },
+          surname: { type: :string, default: 'Doe' },
+          second_name: { type: :string, default: 'Doe' },
+          email: { type: :string, default: 'john.doe@example.com' },
+          phone: { type: :integer, default: '1234567890' },
+          birthday: { type: :string, default: '1990-01-01' },
+          position: { type: :string, default: 'Cardiologist' }
         },
         required: %w[name surname second_name email phone birthday position]
       }
@@ -143,10 +143,10 @@ RSpec.describe 'api/v1/doctors', type: :request do
       parameter name: :hospital, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string },
-          address: { type: :string },
-          city: { type: :string },
-          region: { type: :string }
+          name: { type: :string, default: 'New Hospital' },
+          address: { type: :string, default: '123 Main St' },
+          city: { type: :string, default: 'Anytown' },
+          region: { type: :string, default: 'NY' }
         },
         required: %w[name address city region]
       }
