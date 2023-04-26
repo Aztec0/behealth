@@ -39,6 +39,7 @@
 #
 
 class Doctor < ApplicationRecord
+  include Constantable
 
   belongs_to :hospital, optional: true
   belongs_to :head_doctor, optional: true
@@ -52,7 +53,7 @@ class Doctor < ApplicationRecord
 
   validates :email, uniqueness: true
   validates :name, presence: true
-  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :password, presence: true, length: { minimum: PASSWORD_MINIMUM_LENGTH }
 
   # for ransack searching
   def self.ransackable_attributes(auth_object = nil)

@@ -24,6 +24,8 @@
 #
 
 class Patient < ApplicationRecord
+  include Constantable
+
   has_secure_password
 
   has_many :feedbacks
@@ -31,10 +33,10 @@ class Patient < ApplicationRecord
   has_one :patient_work
   has_one :patient_document
 
-  enum sex: %i[nothing male female]
+  enum sex: { nothing: 0, male: 1, female: 2 }
 
-  validates :name, :surname, :fathername, format: { with: /\A\p{Cyrillic}+\z/ }, allow_blank: true
-  validates :tin, length: { is: 10 }, numericality: { only_integer: true }, allow_blank: true
+  validates :name, :surname, :fathername, format: { with: NAME_REGEX }, allow_blank: true
+  validates :tin, length: { is: TIN_LENGTH }, numericality: { only_integer: true }, allow_blank: true
   validates :email, uniqueness: true
 
   def contact_info

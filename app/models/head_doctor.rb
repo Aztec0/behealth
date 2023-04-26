@@ -38,6 +38,8 @@
 #  fk_rails_...  (hospital_id => hospitals.id) ON DELETE => nullify
 #
 class HeadDoctor < Doctor
+  include Constantable
+
   has_many :doctors, dependent: :nullify
   belongs_to :hospital, optional: true
 
@@ -48,7 +50,7 @@ class HeadDoctor < Doctor
   has_secure_password
 
   validates :name, presence: true
-  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :password, presence: true, length: { minimum: PASSWORD_MINIMUM_LENGTH }, allow_nil: true
 
   def create_doctor(params)
     temp_password = generate_temporary_password

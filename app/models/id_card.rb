@@ -10,8 +10,10 @@
 #  updated_at :datetime         not null
 #
 class IdCard < ApplicationRecord
+  include Constantable
+
   has_one :patient_document, as: :document
 
-  validates :number, format: { with: /\A[0-9]{9}\z/ }
-  validates :issued_by, format: { with: /\A[0-9]{4}\z/ }
+  validates :number, format: { with: ID_CARD_NUMBER_REGEX }
+  validates :issued_by, format: { with: ID_CARD_ISSUED_BY_REGEX }
 end

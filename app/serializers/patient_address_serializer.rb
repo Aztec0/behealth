@@ -20,5 +20,9 @@
 #  fk_rails_...  (patient_id => patients.id)
 #
 class PatientAddressSerializer < ActiveModel::Serializer
-  attributes :id, :address_type, :settlement, :house, :apartments
+  attributes :id, :type, :address_type, :settlement, :house, :apartments
+
+  def type
+    'address'
+  end
 end

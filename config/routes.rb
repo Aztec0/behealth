@@ -13,41 +13,61 @@ Rails.application.routes.draw do
       post '/signup', to: 'registrations#signup'
       post '/confirmation', to: 'registrations#confirmation'
 
-      post '/password_reset', to: 'password#reset'
-      get '/personal_info', to: 'doctors_cabinet#personal_info'
-      get '/professional_info', to: 'doctors_cabinet#professional_info'
-      patch '/edit_doctor', to: 'doctors_cabinet#update'
+      post '/password-reset', to: 'password#reset'
+      get 'doctor/main-info', to: 'doctors_cabinet#personal_info'
+      get 'doctor/extra-info', to: 'doctors_cabinet#professional_info'
+      patch 'doctor/edit', to: 'doctors_cabinet#update'
 
-      resources :head_doctors, only: [:index] do
+      resources :head_doctors, path: 'head-doctors', only: [:index] do
         collection do
-          get :canceled_appointments
-          post :create_doctor
-          post :create_hospital
+          get 'canceled-appointments', action: :canceled_appointments, as: :canceled_appointments
+          post 'create-doctor', action: :create_doctor, as: :create_doctor
+          post 'create-hospital', action: :create_hospital, as: :create_hospital
         end
         member do
           delete :delete
         end
       end
 
-      #Feedbacks for doctors
+      # Feedbacks for doctors
       get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
-      post   'doctor/:doctor_id/feedback/create',            to: 'feedbacks#create'
+      post   'doctor/:doctor_id/feedback',                   to: 'feedbacks#create'
 
-      #Additional information of patient
-      get    'patient-account/additional-data',              to: 'additional_info#index'
-      post   'patient-account/additional-data/create',       to: 'additional_info#create'
-      put    'patient-account/additional-data/update',       to: 'additional_info#update'
-      delete 'patient-account/additional-data/destroy',      to: 'additional_info#destroy'
+      # Additional information of patient
+      get    'patient/extra-info',                           to: 'additional_info#index'
+      post   'patient/extra-info',                           to: 'additional_info#create'
+      put    'patient/extra-info',                           to: 'additional_info#update'
+      delete 'patient/extra-info',                           to: 'additional_info#destroy'
 
-      #Personal information of patient
-      get    'patient-account/personal-information',         to: 'personal_info#index'
-      post   'patient-account/personal-information/create',  to: 'personal_info#create'
-      put    'patient-account/personal-information/update',  to: 'personal_info#update'
-      delete 'patient-account/personal-information/destroy', to: 'personal_info#destroy'
+      # Personal information of patient
+      get    'patient/main-info',                            to: 'personal_info#index'
+      post   'patient/main-info',                            to: 'personal_info#create'
+      put    'patient/main-info',                            to: 'personal_info#update'
+      delete 'patient/main-info',                            to: 'personal_info#destroy'
     end
 
     namespace :v2 do
-      get    'patient-account/additional-data',              to: 'additional_info#index'
+      # Additional information of patient
+      get    'patient/extra-info',                           to: 'additional_info#index'
+
+      # Personal information of patient
+      get    'patient/main-info',                            to: 'personal_info#index'
+      put    'patient/main-info',                            to: 'personal_info#update'
+
+      # Address of patient
+      post   'patient/address',                              to: 'patient_address#create'
+      put    'patient/address',                              to: 'patient_address#update'
+      delete 'patient/address',                              to: 'patient_address#destroy'
+
+      # Document of patient
+      post   'patient/document',                              to: 'patient_document#create'
+      put    'patient/document',                              to: 'patient_document#update'
+      delete 'patient/document',                              to: 'patient_document#destroy'
+
+      # Workplace of patient
+      post   'patient/work',                                  to: 'patient_work#create'
+      put    'patient/work',                                  to: 'patient_work#update'
+      delete 'patient/work',                                  to: 'patient_work#destroy'
     end
   end
 end
