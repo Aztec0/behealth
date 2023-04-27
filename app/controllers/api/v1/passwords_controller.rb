@@ -13,7 +13,7 @@ class Api::V1::PasswordsController < ApplicationController
     if @user.present?
       @user.generate_password_token! # generate pass token
       PasswordMailer.test_mailer(@user, user_type).deliver_now
-      render json: { status: 'We send mail to your email address' }, status: :ok
+      render json: 'We send mail to your email address'
     else
       render json: { error: 'Email address not found. Please check and try again.' }, status: :not_found
     end

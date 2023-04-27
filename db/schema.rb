@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_25_071737) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_13_151616) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -107,8 +107,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_071737) do
   end
 
   create_table "patients", force: :cascade do |t|
-    t.string "name"
-    t.string "surname"
+    t.string "first_name"
+    t.string "last_name"
     t.date "birthday"
     t.string "email"
     t.bigint "phone"
@@ -121,12 +121,31 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_071737) do
     t.string "confirm_token"
     t.bigint "chat_id"
     t.integer "sex", default: 0
-    t.string "fathername"
+    t.string "second_name"
     t.integer "tin"
   end
 
+  create_table "taggings", force: :cascade do |t|
+    t.bigint "tag_id", null: false
+    t.bigint "hospital_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hospital_id"], name: "index_taggings_on_hospital_id"
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "doctors", "doctors", column: "head_doctor_id"
   add_foreign_key "doctors", "hospitals", on_delete: :nullify
   add_foreign_key "feedbacks", "doctors"
   add_foreign_key "feedbacks", "patients"
+  add_foreign_key "hospitals", "doctors", on_delete: :nullify
   add_foreign_key "patient_addresses", "patients"
+  add_foreign_key "taggings", "hospitals"
+  add_foreign_key "taggings", "tags"
 end
