@@ -18,7 +18,7 @@ class DoctorPolicy < ApplicationPolicy
     user.role == 'head_doctor'
   end
 
-  def canceled_appointments?
+  def staff_appointments?
     user.role == 'head_doctor'
   end
 

@@ -126,12 +126,16 @@ paths:
               properties:
                 second_email:
                   type: string
+                  default: "@gmail.com"
                 second_phone:
                   type: integer
+                  default: '123456789'
                 description:
                   type: string
+                  default: Something about yourself
                 price:
                   type: integer
+                  default: '100'
               required:
               - second_email
               - second_phone
@@ -228,6 +232,111 @@ paths:
       responses:
         '200':
           description: successful
+  "/api/v1/create_doctor":
+    post:
+      summary: Creates a doctor
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '201':
+          description: returns the newly created doctor
+        '422':
+          description: invalid request
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: John
+                surname:
+                  type: string
+                  default: Doe
+                second_name:
+                  type: string
+                  default: Doe
+                email:
+                  type: string
+                  default: john.doe@example.com
+                phone:
+                  type: integer
+                  default: '1234567890'
+                birthday:
+                  type: string
+                  default: '1990-01-01'
+                position:
+                  type: string
+                  default: Cardiologist
+              required:
+              - name
+              - surname
+              - second_name
+              - email
+              - phone
+              - birthday
+              - position
+  "/api/v1/create_hospital":
+    post:
+      summary: Creates a hospital
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '201':
+          description: returns the newly created hospital
+        '422':
+          description: returns an error message if hospital cannot be created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: New Hospital
+                address:
+                  type: string
+                  default: 123 Main St
+                city:
+                  type: string
+                  default: Anytown
+                region:
+                  type: string
+                  default: NY
+              required:
+              - name
+              - address
+              - city
+              - region
+  "/api/v1/doctors/{id}":
+    delete:
+      summary: Deletes a doctor by id
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: id
+        in: path
+        description: Doctor ID
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: doctor deleted
+        '404':
+          description: doctor not found
   "/api/v1/list_doctor_by_hospital":
     get:
       summary: Retrieves a list of doctors associated with the hospital
@@ -290,100 +399,53 @@ paths:
                     type: string
                 required:
                 - error
-  "/api/create_doctor":
-    post:
-      summary: Creates a doctor
+  "/api/v1/staff_appointments":
+    get:
+      summary: Retrieves a list of doctors appointments
       tags:
       - Doctors
       security:
       - ApiKeyAuth: []
-      parameters: []
       responses:
-        '201':
-          description: returns the newly created doctor
-        '422':
-          description: invalid request
+        '200':
+          description: returns a list of doctors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    appointment_datetime:
+                      type: string
+                    status:
+                      type: string
+                    doctor_full_name:
+                      type: string
+                    hospital_name:
+                      type: string
+                    patient_full_name:
+                      type: string
+                  required:
+                  - id
+                  - appointment_datetime
+                  - status
+                  - doctor_full_name
+                  - hospital_name
+                  - patient_full_name
         '401':
-          description: unauthorized
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                surname:
-                  type: string
-                second_name:
-                  type: string
-                email:
-                  type: string
-                phone:
-                  type: integer
-                birthday:
-                  type: string
-                position:
-                  type: string
-              required:
-              - name
-              - surname
-              - second_name
-              - email
-              - phone
-              - birthday
-              - position
-  "/api/v1/create_hospital":
-    post:
-      summary: Creates a hospital
-      tags:
-      - Doctors
-      security:
-      - ApiKeyAuth: []
-      parameters: []
-      responses:
-        '201':
-          description: returns the newly created hospital
-        '422':
-          description: returns an error message if hospital cannot be created
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                address:
-                  type: string
-                city:
-                  type: string
-                region:
-                  type: string
-              required:
-              - name
-              - address
-              - city
-              - region
-  "/api/v1/doctors/{id}":
-    delete:
-      summary: Deletes a doctor by id
-      tags:
-      - Doctors
-      security:
-      - ApiKeyAuth: []
-      parameters:
-      - name: id
-        in: path
-        description: Doctor ID
-        required: true
-        schema:
-          type: integer
-      responses:
-        '204':
-          description: doctor deleted
-        '404':
-          description: doctor not found
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
   "/api/v1/hospitals":
     get:
       summary: List all hospitals

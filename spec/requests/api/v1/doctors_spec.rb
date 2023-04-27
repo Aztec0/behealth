@@ -18,47 +18,7 @@ RSpec.describe 'api/v1/doctors', type: :request do
     end
   end
 
-  path '/api/v1/list_doctor_by_hospital' do
-    get 'Retrieves a list of doctors associated with the hospital' do
-      tags 'Doctors'
-      security [{ ApiKeyAuth: [] }]
-      produces 'application/json'
-      response '200', 'returns a list of doctors' do
-        schema type: :array,
-               items: {
-                 type: :object,
-                 properties: {
-                   id: { type: :integer },
-                   name: { type: :string },
-                   surname: { type: :string },
-                   email: { type: :string },
-                   phone: { type: :integer },
-                   birthday: { type: :string },
-                   position: { type: :string },
-                   rating: { type: :integer },
-                   created_at: { type: :string },
-                   updated_at: { type: :string },
-                   hospital_id: { type: :integer }
-                 },
-                 required: %w[id name surname email phone birthday position rating created_at updated_at hospital_id]
-               }
-
-        run_test!
-      end
-
-      response '401', 'Unauthorized' do
-        schema type: :object,
-               properties: {
-                 error: { type: :string }
-               },
-               required: %w[error]
-
-        run_test!
-      end
-    end
-  end
-
-  path '/api/create_doctor' do
+  path '/api/v1/create_doctor' do
     post 'Creates a doctor' do
       tags 'Doctors'
       security [{ ApiKeyAuth: [] }]
@@ -191,6 +151,79 @@ RSpec.describe 'api/v1/doctors', type: :request do
       end
 
       response '404', 'doctor not found' do
+        run_test!
+      end
+    end
+  end
+  path '/api/v1/list_doctor_by_hospital' do
+    get 'Retrieves a list of doctors associated with the hospital' do
+      tags 'Doctors'
+      security [{ ApiKeyAuth: [] }]
+      produces 'application/json'
+      response '200', 'returns a list of doctors' do
+        schema type: :array,
+               items: {
+                 type: :object,
+                 properties: {
+                   id: { type: :integer },
+                   name: { type: :string },
+                   surname: { type: :string },
+                   email: { type: :string },
+                   phone: { type: :integer },
+                   birthday: { type: :string },
+                   position: { type: :string },
+                   rating: { type: :integer },
+                   created_at: { type: :string },
+                   updated_at: { type: :string },
+                   hospital_id: { type: :integer }
+                 },
+                 required: %w[id name surname email phone birthday position rating created_at updated_at hospital_id]
+               }
+
+        run_test!
+      end
+
+      response '401', 'Unauthorized' do
+        schema type: :object,
+               properties: {
+                 error: { type: :string }
+               },
+               required: %w[error]
+
+        run_test!
+      end
+    end
+  end
+  path '/api/v1/staff_appointments' do
+    get 'Retrieves a list of doctors appointments' do
+      tags 'Doctors'
+      security [{ ApiKeyAuth: [] }]
+      produces 'application/json'
+      response '200', 'returns a list of doctors' do
+        schema type: :array,
+               items: {
+                 type: :object,
+                 properties: {
+                   id: { type: :integer },
+                   appointment_datetime: { type: :string },
+                   status: { type: :string },
+                   doctor_full_name: { type: :string },
+                   hospital_name: { type: :string },
+                   patient_full_name: { type: :string }
+                 },
+                 required: %w[id appointment_datetime status doctor_full_name hospital_name patient_full_name]
+               }
+
+        run_test!
+      end
+
+      response '401', 'Unauthorized' do
+        schema type: :object,
+               properties: {
+                 error: { type: :string }
+               },
+               required: %w[error]
+
         run_test!
       end
     end

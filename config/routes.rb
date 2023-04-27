@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
       # Advanced options for doctors
       get '/list_doctor_by_hospital',                        to: 'doctors#list_doctor_by_hospital'
-      get '/canceled_appointments',                          to: 'doctors#canceled_appointments'
+      get '/staff_appointments',                             to: 'doctors#appointments'
       post '/create_doctor',                                 to: 'doctors#create_doctor'
       post '/create_hospital',                               to: 'doctors#create_hospital'
       delete '/doctors/:id',                                 to: 'doctors#delete'

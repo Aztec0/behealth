@@ -2,7 +2,7 @@
 
 class Api::V1::DoctorsController < ApplicationController
   before_action :authenticate_request, except: %i[index]
-  before_action :authorize_request, only: %i[create_doctor create_hospital delete list_doctor_by_hospital]
+  before_action :authorize_request, except: %i[index show]
   before_action :set_doctor, only: :show
 
   def index
@@ -10,7 +10,17 @@ class Api::V1::DoctorsController < ApplicationController
     render json: doctors, each_serializer: DoctorSerializer, action: :show
   end
 
-  def canceled_apointments; end
+  # in progress
+  def staff_appointments
+    # this part will be refactor to scop in appointment model
+    @pagy, appointments = pagy(Appointment.staff_appointments(current_user.hospital_id))
+
+    scope :staff_appointments, ->(hospital_id) {
+      includes(:doctors).where(doctors: { hospital_id: hospital_id })
+    }
+
+    render json: appointments, each_serializer: AppointmentSerializer, action: :show
+  end
 
   def create_hospital
     if current_user.hospital.present?
