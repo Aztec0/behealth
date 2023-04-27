@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::AdditionalWorkController < ApplicationController
+class Api::V1::AdditionalAddressController < ApplicationController
   before_action :authenticate_patient_user
   # позбутись тернарні оператори(6-8)
 
