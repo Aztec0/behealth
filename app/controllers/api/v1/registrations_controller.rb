@@ -29,9 +29,9 @@ class Api::V1::RegistrationsController < ApplicationController
       @patient.update(patient_params)
       if @patient.save!
         @patient.email_activate
-        render json: {status: 'Email activated, you successfully registered' }, status: :ok
+        render json: { status: 'Email activated, you successfully registered' }, status: :ok
       else
-        render json: { error: 'Something went wrong'}, status: :unprocessable_entity
+        render json: { error: 'Something went wrong' }, status: :unprocessable_entity
       end
     else
       render json: { error: 'Link not valid or expired. Try generating a new link.' }, status: :unprocessable_entity

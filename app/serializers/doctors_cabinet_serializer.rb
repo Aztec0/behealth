@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DoctorsCabinetSerializer < ActiveModel::Serializer
 
   def attributes(*args)

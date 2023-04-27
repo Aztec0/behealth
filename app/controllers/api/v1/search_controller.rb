@@ -15,15 +15,15 @@ class Api::V1::SearchController < ApplicationController
 
     if params[:query].present?
       @pagy, hospitals = pagy(hospitals.where('address ILIKE ? OR city ILIKE ? OR name ILIKE ?', "%#{params[:query]}%",
-                                  "%#{params[:query]}%", "%#{params[:query]}%"))
+                                              "%#{params[:query]}%", "%#{params[:query]}%"))
       @pagy, doctors = pagy(doctors.where('doctors.name ILIKE ? OR doctors.surname ILIKE ? OR doctors.position ILIKE ?',
-                              "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"))
+                                          "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"))
     end
 
     if hospitals.any? || doctors.any?
       render json: {
         hospitals: ActiveModelSerializers::SerializableResource.new(hospitals, each_serializer: HospitalsSerializer),
-        doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorSerializer),
+        doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorSerializer)
       }, status: :ok
     else
       render json: { message: 'No results found' }, status: :unprocessable_entity
@@ -41,7 +41,7 @@ class Api::V1::SearchController < ApplicationController
 
     if params[:query].present?
       @pagy, doctors = pagy(doctors.where('name ILIKE ? OR surname ILIKE ? OR position ILIKE ?',
-                              "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"))
+                                          "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"))
     end
 
     @pagy, doctors = pagy(doctors.order('RANDOM()'))

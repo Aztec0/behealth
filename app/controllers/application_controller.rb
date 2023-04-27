@@ -3,8 +3,10 @@
 class ApplicationController < ActionController::API
   include Pundit::Authorization
   include Pagy::Backend
-  before_action :authenticate_request
+  # before_action :authenticate_request
+
   private
+
   def current_user
     @current_patient || @current_doctor
   end
@@ -49,6 +51,7 @@ class ApplicationController < ActionController::API
     type.capitalize.constantize.find_by(id: user_id)
   end
 
+  # rubocop don't like names prefix 'set' here
   def set_current_user(user)
     if user.is_a?(Patient)
       @current_patient = user
