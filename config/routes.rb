@@ -69,5 +69,9 @@ Rails.application.routes.draw do
       put    'patient/work',                                  to: 'patient_work#update'
       delete 'patient/work',                                  to: 'patient_work#destroy'
     end
+
+    namespace :v2 do
+      get    'patient-account/additional-data',               to: 'additional_info#index'
+    end
   end
 end
