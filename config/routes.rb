@@ -5,6 +5,13 @@ Rails.application.routes.draw do
   mount Rswag::Api::Engine => '/api-docs'
   namespace :api do
     namespace :v1 do
+      resources :appointments, only: [:index, :show, :create, :update] do
+        member do
+          post :cancel
+          post :accept
+        end
+      end
+
       # Search hospitals and doctors
       get '/search', to: 'search#search'
       get '/search_doctors_by_specialty', to: 'search#search_doctors_by_specialty'
@@ -34,21 +41,16 @@ Rails.application.routes.draw do
       # list all hospitals
       get '/hospitals',                                      to: 'hospitals#index'
 
-      #Feedbacks for doctors
-      get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
-      post   'doctor/:doctor_id/feedback/create',            to: 'feedbacks#create'
+      resources :calendars, only: [:index, :show, :create, :update] do
+        member do
+          get :events
+        end
+      end
 
-      #Additional information of patient
-      get    'patient-account/additional-data',              to: 'additional_info#index'
-      post   'patient-account/additional-data/create',       to: 'additional_info#create'
-      put    'patient-account/additional-data/update',       to: 'additional_info#update'
-      delete 'patient-account/additional-data/destroy',      to: 'additional_info#destroy'
-
-      #Personal information of patient
-      get    'patient-account/personal-information',         to: 'personal_info#index'
-      post   'patient-account/personal-information/create',  to: 'personal_info#create'
-      put    'patient-account/personal-information/update',  to: 'personal_info#update'
-      delete 'patient-account/personal-information/destroy', to: 'personal_info#destroy'
+      resources :doctors, only: [:index, :show, :create, :update]
+      resources :patients, only: [:index, :show, :create, :update]
     end
+    end
+
   end
 end
