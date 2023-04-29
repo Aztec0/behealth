@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe 'api/v1/personal_info', type: :request do
@@ -21,8 +23,7 @@ RSpec.describe 'api/v1/personal_info', type: :request do
     end
   end
 
-  path '/api/v1/patient-account/personal-information/create' do
-
+  path '/api/v1/patient-account/personal-information' do
     post('create personal_info') do
       tags 'Personal Information'
 
@@ -52,8 +53,7 @@ RSpec.describe 'api/v1/personal_info', type: :request do
     end
   end
 
-  path '/api/v1/patient-account/personal-information/update' do
-
+  path '/api/v1/patient-account/personal-information' do
     put('update personal_info') do
       tags 'Personal Information'
 
@@ -90,8 +90,7 @@ RSpec.describe 'api/v1/personal_info', type: :request do
     end
   end
 
-  path '/api/v1/patient-account/personal-information/destroy' do
-
+  path '/api/v1/patient-account/personal-information' do
     delete('delete personal_info') do
       tags 'Personal Information'
       response(200, 'successful') do

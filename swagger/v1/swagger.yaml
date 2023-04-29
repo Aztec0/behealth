@@ -4,29 +4,14 @@ info:
   title: API V1
   version: v1
 paths:
-<<<<<<< HEAD
-  "/api/v1/doctors":
-    get:
-      summary: list doctors
-      tags:
-      - Doctors
-      responses:
-        '200':
-          description: successful
-  "/api/v1/forgot":
-    post:
-      summary: Sends an email to reset the user's password
-=======
   "/api/v1/patient-account/additional-data":
     get:
       summary: list additional_infos
->>>>>>> origin/development
       tags:
       - Additional Information
       responses:
         '200':
           description: successful
-  "/api/v1/patient-account/additional-data/create":
     post:
       summary: create additional_info
       tags:
@@ -49,12 +34,6 @@ paths:
                   default: Основна
                 settlement:
                   type: string
-<<<<<<< HEAD
-              required:
-              - email
-              - password
-              - user_type
-=======
                   default: Черкаси
                 house:
                   type: string
@@ -71,7 +50,6 @@ paths:
                 position:
                   type: string
                   default: Студент
-  "/api/v1/patient-account/additional-data/update":
     put:
       summary: update additional_info
       tags:
@@ -110,7 +88,6 @@ paths:
                 position:
                   type: string
                   default: Студент
-  "/api/v1/patient-account/additional-data/destroy":
     delete:
       summary: delete additional_info
       tags:
@@ -128,14 +105,416 @@ paths:
                 type:
                   type: string
                   default: Must be 'address' or 'work'
+  "/api/v1/edit_doctor":
+    patch:
+      summary: Update doctors params
+      tags:
+      - Doctors cabinet
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                second_email:
+                  type: string
+                  default: "@gmail.com"
+                second_phone:
+                  type: integer
+                  default: '123456789'
+                description:
+                  type: string
+                  default: Something about yourself
+                price:
+                  type: integer
+                  default: '100'
+              required:
+              - second_email
+              - second_phone
+              - description
+              - price
+        description: Doctors params to update
+  "/api/v1/personal_info":
+    get:
+      summary: Returns personal information about the doctor
+      tags:
+      - Doctors cabinet
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: returns personal information
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    full_name:
+                      type: string
+                    email:
+                      type: string
+                    second_email:
+                      type: string
+                    phone:
+                      type: integer
+                    second_phone:
+                      type: integer
+                    description:
+                      type: string
+                  required:
+                  - full_name
+                  - email
+                  - second_email
+                  - second_phone
+                  - description
+        '422':
+          description: Unprocessable_entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/v1/professional_info":
+    get:
+      summary: Returns professional information about the doctor
+      tags:
+      - Doctors cabinet
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: returns professional information
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    price:
+                      type: integer
+                    position:
+                      type: string
+                    hospital_city:
+                      type: string
+                    hospital_region:
+                      type: string
+                    hospital_address:
+                      type: string
+                    hospital_name:
+                      type: string
+                  required:
+                  - price
+                  - position
+                  - hospital_city
+                  - hospital_region
+                  - hospital_address
+                  - hospital_name
   "/api/v1/doctors":
     get:
-      summary: list doctors
+      summary: List all doctors
       tags:
-      - Doctors
+      - Doctors and Hospitals
       responses:
         '200':
           description: successful
+  "/api/v1/create_doctor":
+    post:
+      summary: Creates a doctor
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '201':
+          description: returns the newly created doctor
+        '422':
+          description: invalid request
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: John
+                surname:
+                  type: string
+                  default: Doe
+                second_name:
+                  type: string
+                  default: Doe
+                email:
+                  type: string
+                  default: john.doe@example.com
+                phone:
+                  type: integer
+                  default: '1234567890'
+                birthday:
+                  type: string
+                  default: '1990-01-01'
+                position:
+                  type: string
+                  default: Cardiologist
+              required:
+              - name
+              - surname
+              - second_name
+              - email
+              - phone
+              - birthday
+              - position
+  "/api/v1/create_hospital":
+    post:
+      summary: Creates a hospital
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '201':
+          description: returns the newly created hospital
+        '422':
+          description: returns an error message if hospital cannot be created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: New Hospital
+                address:
+                  type: string
+                  default: 123 Main St
+                city:
+                  type: string
+                  default: Anytown
+                region:
+                  type: string
+                  default: NY
+              required:
+              - name
+              - address
+              - city
+              - region
+  "/api/v1/doctors/{id}":
+    delete:
+      summary: Deletes a doctor by id
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: id
+        in: path
+        description: Doctor ID
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: doctor deleted
+        '404':
+          description: doctor not found
+  "/api/v1/list_doctor_by_hospital":
+    get:
+      summary: Retrieves a list of doctors associated with the hospital
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: returns a list of doctors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    surname:
+                      type: string
+                    email:
+                      type: string
+                    phone:
+                      type: integer
+                    birthday:
+                      type: string
+                    position:
+                      type: string
+                    rating:
+                      type: integer
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+                    hospital_id:
+                      type: integer
+                  required:
+                  - id
+                  - name
+                  - surname
+                  - email
+                  - phone
+                  - birthday
+                  - position
+                  - rating
+                  - created_at
+                  - updated_at
+                  - hospital_id
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/v1/staff_appointments":
+    get:
+      summary: Retrieves a list of doctors appointments
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: returns a list of doctors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    appointment_datetime:
+                      type: string
+                    status:
+                      type: string
+                    doctor_full_name:
+                      type: string
+                    hospital_name:
+                      type: string
+                    patient_full_name:
+                      type: string
+                  required:
+                  - id
+                  - appointment_datetime
+                  - status
+                  - doctor_full_name
+                  - hospital_name
+                  - patient_full_name
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/v1/hospitals":
+    get:
+      summary: List all hospitals
+      tags:
+      - Doctors and Hospitals
+      responses:
+        '200':
+          description: successful
+  "/api/v1/forgot":
+    post:
+      summary: Sends an email to reset the user's password
+      tags:
+      - Passwords
+      parameters: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                user_type:
+                  type: string
+              required:
+              - email
+              - user_type
+        description: The user's email address
+  "/api/v1/reset":
+    post:
+      summary: Resets the user's password
+      tags:
+      - Passwords
+      parameters:
+      - name: token
+        in: query
+        description: The password reset token generated for the user
+        required: true
+        schema:
+          type: string
+      - name: user_type
+        in: query
+        description: The user's type
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+              required:
+              - password
+        description: The new password for the user
   "/api/v1/patient-account/personal-information":
     get:
       summary: list personal_infos
@@ -144,7 +523,6 @@ paths:
       responses:
         '200':
           description: successful
-  "/api/v1/patient-account/personal-information/create":
     post:
       summary: create personal_info
       tags:
@@ -174,7 +552,6 @@ paths:
                 date:
                   type: string
                   default: 12.04.2023
-  "/api/v1/patient-account/personal-information/update":
     put:
       summary: update personal_info
       tags:
@@ -210,7 +587,7 @@ paths:
                 birthday:
                   type: string
                   default: 05.11.2003
-                itn:
+                tin:
                   type: string
                   default: '1111111111'
                 sex:
@@ -228,7 +605,6 @@ paths:
                 date:
                   type: string
                   default: 12.04.2023
-  "/api/v1/patient-account/personal-information/destroy":
     delete:
       summary: delete personal_info
       tags:
@@ -236,16 +612,199 @@ paths:
       responses:
         '200':
           description: successful
->>>>>>> origin/development
+  "/api/v1/signup":
+    post:
+      summary: Sends an email to register user
+      tags:
+      - Signup
+      parameters: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+        description: The user's email and password
+  "/api/v1/confirmation":
+    post:
+      summary: Confirmation user's email and input other data
+      tags:
+      - Signup
+      parameters:
+      - name: token
+        in: query
+        description: The confirm reset token generated for the patient
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                birthday:
+                  type: string
+                  format: datetime
+                name:
+                  type: string
+                second_name:
+                  type: string
+                surname:
+                  type: string
+                phone:
+                  type: string
+                  format: bigint
+              required:
+              - birthday
+              - name
+              - surname
+              - phone
+        description: Patient data
+  "/api/v1/search":
+    get:
+      summary: Search for a hospital or doctor in the region
+      tags:
+      - Search
+      parameters:
+      - name: query
+        in: query
+        description: |-
+          Searching query for hospital or doctor. Input address, name, city for hospital or
+                                        name, surname, specialty for doctor
+        required: false
+        schema:
+          type: string
+      - name: region
+        in: query
+        description: |-
+          Region filter. Enter the name of the region to search for a hospital or doctor in that
+                                        location. If field leave empty, request was for all areas
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Hospitals and doctors found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hospitals:
+                    type: array
+                  doctors:
+                    type: array
+        '422':
+          description: Invalid search query
+  "/api/v1/search_doctors_by_specialty":
+    get:
+      summary: Searching doctors by specialty
+      tags:
+      - Search
+      parameters:
+      - name: query
+        in: query
+        description: 'Searching doctor by name, surname, second name, position '
+        required: false
+        schema:
+          type: string
+      - name: position
+        in: query
+        description: Doctor speciality
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Doctors found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  doctors:
+                    type: array
+        '422':
+          description: Invalid search query
+  "/api/v1/search_hospitals":
+    get:
+      summary: Searching hospitals
+      tags:
+      - Search
+      parameters:
+      - name: query
+        in: query
+        description: Searching hospital by name. If field leave empty request was
+          for all hospitals
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Hospitals found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hospitals:
+                    type: array
+        '422':
+          description: Invalid search query
+  "/api/v1/login":
+    post:
+      summary: create session
+      tags:
+      - Login
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                user_type:
+                  type: string
+              required:
+              - email
+              - password
+              - user_type
 servers:
 - url: http://{defaultHost}
   variables:
     defaultHost:
-<<<<<<< HEAD
+      default: 127.0.0.1:3000
+- url: https://{behealthtHost}
+  variables:
+    behealthHost:
+      default: 167.99.136.207
 - url: http://{behealthtHost}
   variables:
     behealthHost:
-      default: 64.226.64.5
+      default: 167.99.136.207
 - url: https://{staging_host}
   variables:
     staging_host:
@@ -257,6 +816,3 @@ components:
       name: Authorization
       in: header
       description: "{token}"
-=======
-      default: www.example.com
->>>>>>> origin/development

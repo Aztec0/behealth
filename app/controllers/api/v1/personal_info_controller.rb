@@ -1,16 +1,14 @@
+# frozen_string_literal: true
+
 class Api::V1::PersonalInfoController < ApplicationController
   before_action :authenticate_request
 
   def index
     unless @current_patient.nil?
-      patient_document = @current_patient.patient_document.nil? ? 'undefined' : @current_patient.patient_document
-      unless patient_document == 'undefined'
+      patient_document = @current_patient.patient_document
         document = patient_document.document_type.constantize.find(patient_document.document_id)
         record = patient_document.document_type == 'Passport' ? PassportSerializer.new(document) : IdCardSerializer.
           new(document)
-      else
-        record = 'undefined'
-      end
 
       render json: { contact_info: @current_patient.contact_info, main_info: @current_patient.main_info,
                      document: record }
@@ -90,6 +88,6 @@ class Api::V1::PersonalInfoController < ApplicationController
   end
 
   def patient_params
-    params.permit(:email, :phone, :name, :surname, :fathername, :birthday, :itn, :sex)
+    params.permit(:email, :phone, :name, :surname, :fathername, :birthday, :tin, :sex)
   end
 end

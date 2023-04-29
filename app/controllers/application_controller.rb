@@ -1,7 +1,28 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::API
-  # before_action :authenticate_request
+  include Pundit::Authorization
+  include Pagy::Backend
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   private
+
+  def current_user
+    @current_patient || @current_doctor
+  end
+
+  def authenticate_patient_user
+    return user_not_authorized unless current_user.is_a?(Patient)
+  end
+
+  def authenticate_doctor_user
+    return user_not_authorized unless current_user.is_a?(Doctor)
+  end
+
+  def user_not_authorized
+    render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
+  end
 
   def authenticate_request
     token = extract_token_from_header
@@ -35,6 +56,7 @@ class ApplicationController < ActionController::API
     type.capitalize.constantize.find_by(id: user_id)
   end
 
+  # rubocop don't like names prefix 'set' here
   def set_current_user(user)
     if user.is_a?(Patient)
       @current_patient = user

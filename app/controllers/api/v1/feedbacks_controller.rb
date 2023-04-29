@@ -1,34 +1,41 @@
-class Api::V1::FeedbacksController < ApplicationController
-  before_action :authenticate_request, only: :create
-  before_action :set_doctor
+# frozen_string_literal: true
 
-  def index
-    feedbacks = @doctor.feedbacks
+module Api
+  module V1
+    class FeedbacksController < ApplicationController
+      before_action :authenticate_request, only: :create
+      before_action :set_doctor
 
-    render json: feedbacks
-  end
+      def index
+        feedbacks = @doctor.feedbacks
 
-  def create
-    unless @current_patient.nil?
-      feedback = @current_patient.feedbacks.build(feedback_params)
-
-      if feedback.save
-        render json: { status: 'SUCCESS', message: 'Feedback was created successfully!', data: feedback }, status: :created
-      else
-        render json: feedback.errors, status: :unprocessable_entity
+        render json: feedbacks
       end
-    else
-      render json: { error: 'Only patients are allowed to create feedback' }, status: :forbidden
+
+      def create
+        if @current_patient.nil?
+          render json: { error: 'Only patients are allowed to create feedback' }, status: :forbidden
+        else
+          feedback = @current_patient.feedbacks.build(feedback_params)
+
+          if feedback.save
+            render json: { status: 'SUCCESS', message: 'Feedback was created successfully!', data: feedback },
+                   status: :created
+          else
+            render json: feedback.errors, status: :unprocessable_entity
+          end
+        end
+      end
+
+      private
+
+      def feedback_params
+        params.permit(:rating, :title, :body).merge(doctor: @doctor)
+      end
+
+      def set_doctor
+        @doctor = Doctor.find(params[:id])
+      end
     end
-  end
-
-   private
-
-  def feedback_params
-    params.permit(:rating, :title, :body).merge(doctor: @doctor)
-  end
-
-  def set_doctor
-    @doctor = Doctor.find(params[:doctor_id])
   end
 end

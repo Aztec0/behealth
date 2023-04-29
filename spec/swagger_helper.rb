@@ -27,29 +27,46 @@ RSpec.configure do |config|
           url: 'http://{defaultHost}',
           variables: {
             defaultHost: {
-<<<<<<< HEAD
+              default: '127.0.0.1:3000'
             }
           }
-        },        {
-        url: 'http://{behealthtHost}',
-        variables: {
-          behealthHost: {
-            default: '64.226.64.5'
+        },
+        {
+          # this is stable host
+          url: 'https://{behealthtHost}',
+          variables: {
+            behealthHost: {
+              default: '167.99.136.207'
+            }
           }
-        }
-      },
+        },
+        {
+          url: 'http://{behealthtHost}',
+          variables: {
+            behealthHost: {
+              default: '167.99.136.207'
+            }
+          }
+        },
         {
           url: 'https://{staging_host}',
           variables: {
             staging_host: {
               default: ''
-=======
-              default: 'www.example.com'
->>>>>>> origin/development
             }
           }
         }
-      ]
+      ],
+      components: {
+        securitySchemes: {
+          ApiKeyAuth: {
+            type: :apiKey,
+            name: 'Authorization',
+            in: :header,
+            description: '{token}'
+          }
+        }
+      }
     }
   }
 

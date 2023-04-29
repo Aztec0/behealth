@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :puma do
   bundle_wrapper_path = '/home/deployer/.rvm/gems/ruby-3.1.3/wrappers/bundle'
 
@@ -13,14 +15,20 @@ namespace :puma do
   desc 'Stop puma'
   task :stop do
     on roles(:app) do
-      execute "cd #{release_path} && #{bundle_wrapper_path} exec pumactl -P #{shared_path}/tmp/pids/puma.pid stop" rescue nil
+      execute "cd #{release_path} && #{bundle_wrapper_path} exec pumactl -P #{shared_path}/tmp/pids/puma.pid stop"
+    rescue StandardError
+      nil
     end
   end
 
   desc 'Restart puma'
   task :restart do
     on roles(:app) do
-      execute("cd #{release_path} && #{bundle_wrapper_path} exec pumactl -P #{shared_path}/tmp/pids/puma.pid stop") rescue nil
+      begin
+        execute("cd #{release_path} && #{bundle_wrapper_path} exec pumactl -P #{shared_path}/tmp/pids/puma.pid stop")
+      rescue StandardError
+        nil
+      end
 
       sudo 'service puma restart'
     end

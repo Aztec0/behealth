@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: patient_addresses
@@ -21,4 +23,10 @@
 #
 class PatientAddress < ApplicationRecord
   belongs_to :patient
+
+  VALID_SETTLEMENT = /\A[\p{Cyrillic} ,.–();]+\z/.freeze
+
+  validates :settlement, presence: true, length: { maximum: 100 }, format: { with: VALID_SETTLEMENT }
+  validates :house, presence: true, format: { with: %r{\A[0-9/]{1,5}\z} }
+  validates :house, format: { with: /\A[1-9]{1,5}\z/ }
 end

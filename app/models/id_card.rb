@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: id_cards
@@ -11,4 +13,7 @@
 #
 class IdCard < ApplicationRecord
   has_one :patient_document, as: :document
+
+  validates :number, format: { with: /\A[0-9]{9}\z/ }
+  validates :issued_by, format: { with: /\A[0-9]{4}\z/ }
 end
