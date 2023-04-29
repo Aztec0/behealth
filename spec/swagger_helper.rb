@@ -32,7 +32,7 @@ RSpec.configure do |config|
           }
         },
         {
-          url: 'https://{staging_host}',
+          url: 'http://{staging_host}',
           variables: {
             staging_host: {
               default: 'www.behealth.pp.ua'

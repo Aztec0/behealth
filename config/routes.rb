@@ -1,11 +1,15 @@
-# frozen_string_literaal: true
+# frozen_string_literal: true
 
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   namespace :api do
     namespace :v1 do
+      # Search hospitals and doctors
       get '/search', to: 'search#search'
+      get '/search_doctors_by_specialty', to: 'search#search_doctors_by_specialty'
+      get '/search_hospitals', to: 'search#search_hospitals'
+
       get '/index', to: 'hospitals#index'
       post '/login', to: 'sessions#create'
       post '/forgot', to: 'passwords#forgot'
@@ -18,16 +22,17 @@ Rails.application.routes.draw do
       get 'doctor/extra-info', to: 'doctors_cabinet#professional_info'
       patch 'doctor/edit', to: 'doctors_cabinet#update'
 
-      resources :head_doctors, path: 'head-doctors', only: [:index] do
-        collection do
-          get 'canceled-appointments', action: :canceled_appointments, as: :canceled_appointments
-          post 'create-doctor', action: :create_doctor, as: :create_doctor
-          post 'create-hospital', action: :create_hospital, as: :create_hospital
-        end
-        member do
-          delete :delete
-        end
-      end
+      # Advanced options for doctors
+      get '/list_doctor_by_hospital',                        to: 'doctors#list_doctor_by_hospital'
+      get '/staff_appointments',                             to: 'doctors#appointments'
+      post '/create_doctor',                                 to: 'doctors#create_doctor'
+      post '/create_hospital',                               to: 'doctors#create_hospital'
+      delete '/doctors/:id',                                 to: 'doctors#delete'
+
+      # list all doctors
+      get '/doctors',                                        to: 'doctors#index'
+      # list all hospitals
+      get '/hospitals',                                      to: 'hospitals#index'
 
       # Feedbacks for doctors
       get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
@@ -68,10 +73,6 @@ Rails.application.routes.draw do
       post   'patient/work',                                  to: 'patient_work#create'
       put    'patient/work',                                  to: 'patient_work#update'
       delete 'patient/work',                                  to: 'patient_work#destroy'
-    end
-
-    namespace :v2 do
-      get    'patient-account/additional-data',               to: 'additional_info#index'
     end
   end
 end

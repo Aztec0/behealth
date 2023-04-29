@@ -24,45 +24,34 @@
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  head_doctor_id       :bigint
 #  hospital_id          :bigint
 #
 # Indexes
 #
-#  index_doctors_on_head_doctor_id  (head_doctor_id)
-#  index_doctors_on_hospital_id     (hospital_id)
+#  index_doctors_on_hospital_id  (hospital_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (head_doctor_id => doctors.id)
 #  fk_rails_...  (hospital_id => hospitals.id) ON DELETE => nullify
 #
 
 class Doctor < ApplicationRecord
   include Constantable
 
-  belongs_to :hospital, optional: true
-  belongs_to :head_doctor, optional: true
+  belongs_to :hospital, optional: true # потрібно для того , щоб гол.лікар міг створити лікарню, вона потім додається лікарю який її створив
   has_many :feedbacks
 
   has_secure_password
 
-  scope :by_head_doctor, ->(head_doctor) { where(doctors: { head_doctor_id: head_doctor }) }
+  scope :list_doctor_by_hospital, ->(current_user) {
+    includes(:hospital).where(doctors: { hospital_id: current_user })
+  }
 
   enum :role, %i[doctor head_doctor], _prefix: true, _suffix: true
 
   validates :email, uniqueness: true
   validates :name, presence: true
   validates :password, presence: true, length: { minimum: PASSWORD_MINIMUM_LENGTH }
-
-  # for ransack searching
-  def self.ransackable_attributes(auth_object = nil)
-    %w[name surname position hospital_name].freeze
-  end
-
-  def self.ransackable_associations(auth_object = nil)
-    ['hospitals']
-  end
 
   def generate_password_token!
     self.reset_password_token = generate_token
@@ -71,13 +60,24 @@ class Doctor < ApplicationRecord
   end
 
   def token_valid?
-    (self.token_sent_at + 4.hours) > Time.now.utc
+    (token_sent_at + 4.hours) > Time.now.utc
   end
 
   def reset_password!(password)
     self.reset_password_token = nil
     self.password = password
     save!
+  end
+
+  def create_doctor(params)
+    temp_password = generate_temporary_password
+    doctor = Doctor.new(params)
+    doctor.password = temp_password
+    doctor.generate_password_token!
+    doctor.save!
+
+    DoctorMailer.send_temporary_password(doctor, temp_password).deliver_later
+    doctor
   end
 
   private

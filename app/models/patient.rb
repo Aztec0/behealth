@@ -45,7 +45,7 @@ class Patient < ApplicationRecord
 
   def main_info
     fullname = "#{surname} #{name} #{fathername unless fathername.nil?}".strip
-    {fullname: fullname, birthday: birthday.strftime("%d.%m.%Y"), tin: tin, sex: sex}
+    { fullname: fullname, birthday: birthday.strftime("%d.%m.%Y"), tin: tin, sex: sex }
   end
 
   def generate_confirm_token!
@@ -67,7 +67,7 @@ class Patient < ApplicationRecord
   end
 
   def token_valid?
-    (self.token_sent_at + 4.hours) > Time.now.utc
+    (token_sent_at + 4.hours) > Time.now.utc
   end
 
   def reset_password!(password)

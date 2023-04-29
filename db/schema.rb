@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_20_193316) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_25_071737) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,7 +28,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_20_193316) do
     t.datetime "token_sent_at"
     t.integer "rating", default: 0
     t.integer "role", default: 0
-    t.bigint "head_doctor_id"
     t.bigint "hospital_id"
     t.boolean "email_confirmed", default: true
     t.string "second_name"
@@ -36,7 +35,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_20_193316) do
     t.decimal "price"
     t.string "second_email"
     t.bigint "second_phone"
-    t.index ["head_doctor_id"], name: "index_doctors_on_head_doctor_id"
     t.index ["hospital_id"], name: "index_doctors_on_hospital_id"
   end
 
@@ -59,8 +57,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_20_193316) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "doctor_id"
-    t.index ["doctor_id"], name: "index_hospitals_on_doctor_id"
   end
 
   create_table "id_cards", force: :cascade do |t|
@@ -129,10 +125,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_20_193316) do
     t.integer "tin"
   end
 
-  add_foreign_key "doctors", "doctors", column: "head_doctor_id"
   add_foreign_key "doctors", "hospitals", on_delete: :nullify
   add_foreign_key "feedbacks", "doctors"
   add_foreign_key "feedbacks", "patients"
-  add_foreign_key "hospitals", "doctors", on_delete: :nullify
   add_foreign_key "patient_addresses", "patients"
 end

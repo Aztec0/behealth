@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::PersonalInfoController < ApplicationController
   before_action :check_patient
   before_action :set_document

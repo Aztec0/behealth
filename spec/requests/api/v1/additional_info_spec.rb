@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe 'api/v1/additional_info', type: :request do
@@ -26,7 +28,7 @@ RSpec.describe 'api/v1/additional_info', type: :request do
     post('create additional_info') do
       tags 'Additional Information'
 
-      consumes "application/json"
+      consumes 'application/json'
       parameter name: :post, in: :body, schema: {
         type: :object,
         properties: {
@@ -60,7 +62,7 @@ RSpec.describe 'api/v1/additional_info', type: :request do
     put('update additional_info') do
       tags 'Additional Information'
 
-      consumes "application/json"
+      consumes 'application/json'
       parameter name: :post, in: :body, schema: {
         type: :object,
         properties: {
@@ -94,7 +96,7 @@ RSpec.describe 'api/v1/additional_info', type: :request do
     delete('delete additional_info') do
       tags 'Additional Information'
 
-      consumes "application/json"
+      consumes 'application/json'
       parameter name: :post, in: :body, schema: {
         type: :object,
         properties: {
