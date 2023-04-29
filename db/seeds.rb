@@ -1,10 +1,38 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
+HeadDoctor.create(name: 'Андрей', surname: 'Сергеев',
+                  position: 'главный врач', birthday: '1990-01-01',
+                  email: 'test@test.com', password: '123456789',
+                  phone: '79999999999', rating: 5,
+                  role: 1, hospital_id: nil)
+HeadDoctor.create(name: 'Андрей', surname: 'Сергеев',
+                  position: 'главный врач', birthday: '1990-01-01',
+                  email: 'test1@test.com', password: '123456789',
+                  phone: '79999999989', rating: 5,
+                  role: 1, hospital_id: nil)
+
+PatientAddress.create(patient_id: 2, settlement: 'Черкаси', house: '1', apartments: '1', address_type: 'Основний')
+PatientWork.create(patient_id: 2, work_type: 'Основна', place: 'Аском', position: 'Монтажник')
+
+Hospital.create!(region: 'Вінницький', city: 'Вінниця', address: 'вул. Хмельницьке шосе, 96',
+                 name: 'КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО “Центр первинної медико-санітарної допомоги №3”')
+Hospital.create!(region: 'Святошинський район', city: 'Київ', address: 'вул. Симиренка, 10', name:
+  'КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО "КОНСУЛЬТАТИВНО-ДІАГНОСТИЧНИЙ ЦЕНТР" СВЯТОШИНСЬКОГО РАЙОНУ М. КИЄВА')
+Hospital.create!(region: 'Немишлянський район', city: 'Харків', address: 'вул. Олімпійська, 3',
+                 name: 'КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО "МІСЬКА ПОЛІКЛІНІКА № 5" ХАРКІВСЬКОЇ МІСЬКОЇ РАДИ')
+Hospital.create!(region: 'Галицький район', city: 'Львів', address: 'вул. Руська, 20',
+                 name: 'КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО "1-А МІСЬКА ПОЛІКЛІНІКА М. ЛЬВОВА"')
+Hospital.create!(region: 'Київський район', city: 'Одеса', address: 'вул. Левітана, 62', name:
+  'КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО "КОНСУЛЬТАТИВНО-ДІАГНОСТИЧНИЙ ЦЕНТР №20" ОДЕСЬКОЇ МІСЬКОЇ РАДИ')
+Hospital.create!(region: 'Амур-Нижньодніпровський район', city: 'Дніпро', address: 'пров. Фестивальний, 1', name:
+  'КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО "ДНІПРОВСЬКИЙ ЦЕНТР ПЕРВИННОЇ МЕДИКО-САНІТАРНОЇ ДОПОМОГИ №9" ДНІПРОВСЬКОЇ МІСЬКОЇ РАДИ')
+Hospital.create!(region: 'Хортицький район', city: 'Запоріжжя', address: 'вул. Запорізького Козацтва, 25', name:
+  'КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО "ЗАПОРІЗЬКИЙ ЦЕНТР ПЕРВИННОЇ МЕДИКО-САНІТАРНОЇ ДОПОМОГИ № 5"')
+Hospital.create!(region: 'Деснянський район', city: 'Чернігів', address: 'вул. Шевченка 114', name:
+  'КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО "ЧЕРНІГІВСЬКИЙ РАЙОННИЙ ЦЕНТР ПЕРВИННОЇ МЕДИКО-САНІТАРНОЇ ДОПОМОГИ"')
+Hospital.create!(region: 'Придніпровський район', city: 'Черкаси', address: "вулиця В'ячеслава Чорновола, 1", name:
+  'КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО «Другий Черкаський міський центр первинної медико-санітарної допомоги»')
+Hospital.create!(region: 'Суворовський район', city: 'Херсон', address: 'проспект 200-річчя Херсона, 25', name:
+  'Комунального некомерційного підприємства "Херсонська міська клінічна Лікарня ім. А. і О. Тропіних"')
+
 patient1 = Patient.create(name: 'Human', surname: 'Тестовий', birthday: '05.11.2003', email: 'testuser@test.rb',
               phone: '+380000000000', password: '11111111')
 doctor1 = Doctor.create(name: 'John Smith', email: 'example@example.com', password: 'password')
@@ -20,7 +48,6 @@ Calendar.create(
   end: DateTime.now + 1.day + 1.hour,
   appointment: Appointment.first
 )
-# frozen_string_literal: true
 
 # if need uncomit
 # need add validates field like password and etc

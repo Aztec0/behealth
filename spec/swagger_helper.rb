@@ -32,27 +32,10 @@ RSpec.configure do |config|
           }
         },
         {
-          # this is stable host
-          url: 'https://{behealthtHost}',
-          variables: {
-            behealthHost: {
-              default: '167.99.136.207'
-            }
-          }
-        },
-        {
-          url: 'http://{behealthtHost}',
-          variables: {
-            behealthHost: {
-              default: '167.99.136.207'
-            }
-          }
-        },
-        {
           url: 'https://{staging_host}',
           variables: {
             staging_host: {
-              default: ''
+              default: 'www.behealth.pp.ua'
             }
           }
         }

@@ -8,12 +8,10 @@ module Api
 
       def index
         feedbacks = @doctor.feedbacks
-
-        render json: feedbacks
-      end
+  end
 
       def create
-        if @current_patient.nil?
+        if @current_patient.present?
           render json: { error: 'Only patients are allowed to create feedback' }, status: :forbidden
         else
           feedback = @current_patient.feedbacks.build(feedback_params)

@@ -3,7 +3,8 @@
 require 'swagger_helper'
 
 RSpec.describe 'api/v1/additional_info', type: :request do
-  path '/api/v1/patient-account/additional-data' do
+
+  path '/api/v1/patient/extra-info' do
     get('list additional_infos') do
       tags 'Additional Information'
 
@@ -20,7 +21,7 @@ RSpec.describe 'api/v1/additional_info', type: :request do
     end
   end
 
-  path '/api/v1/patient-account/additional-data' do
+  path '/api/v1/patient/extra-info' do
     post('create additional_info') do
       tags 'Additional Information'
 
@@ -52,7 +53,7 @@ RSpec.describe 'api/v1/additional_info', type: :request do
     end
   end
 
-  path '/api/v1/patient-account/additional-data' do
+  path '/api/v1/patient/extra-info' do
     put('update additional_info') do
       tags 'Additional Information'
 
@@ -84,7 +85,7 @@ RSpec.describe 'api/v1/additional_info', type: :request do
     end
   end
 
-  path '/api/v1/patient-account/additional-data' do
+  path '/api/v1/patient/extra-info' do
     delete('delete additional_info') do
       tags 'Additional Information'
 

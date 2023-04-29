@@ -33,6 +33,7 @@
 #
 
 class Doctor < ApplicationRecord
+  include Constantable
 include Passwordable::Shareable
 include Passwordable::Doctorable
 belongs_to :hospital, optional: true # потрібно для того , щоб гол.лікар міг створити лікарню, вона потім додається лікарю який її створив
@@ -49,6 +50,7 @@ scope :list_doctor_by_hospital, ->(current_user) {
   enum :role, %i[doctor head_doctor], _prefix: true, _suffix: true
 
   validates :email, uniqueness: true
+  validates :password, presence: true, length: { minimum: PASSWORD_MINIMUM_LENGTH }
   validates :first_name, presence: true
 
   def create_doctor(params)

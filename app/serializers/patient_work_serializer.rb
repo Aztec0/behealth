@@ -13,5 +13,9 @@
 #  patient_id :bigint           not null
 #
 class PatientWorkSerializer < ActiveModel::Serializer
-  attributes :id, :work_type, :place, :position
+  attributes :id, :type, :work_type, :place, :position
+
+  def type
+    'work'
+  end
 end
