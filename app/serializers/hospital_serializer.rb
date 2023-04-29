@@ -21,6 +21,6 @@
 #
 #  fk_rails_...  (doctor_id => doctors.id) ON DELETE => nullify
 #
-class Hospital < ApplicationRecord
-  has_many :doctors
+class HospitalSerializer < ActiveModel::Serializer
+  attributes :id, :region, :city, :address, :name, :doctor_id
 end
