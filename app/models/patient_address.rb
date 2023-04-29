@@ -23,7 +23,7 @@
 #
 class PatientAddress < ApplicationRecord
   include Constantable
-
+  
   belongs_to :patient
 
   validates :settlement, presence: true, length: { maximum: 100 }, format: { with: SETTLEMENT_REGEX }

@@ -32,7 +32,7 @@ RSpec.configure do |config|
           }
         },
         {
-          url: 'http://{staging_host}',
+          url: 'https://{staging_host}',
           variables: {
             staging_host: {
               default: 'www.behealth.pp.ua'
@@ -52,7 +52,6 @@ RSpec.configure do |config|
       }
     }
   }
-
 
   # Specify the format of the output Swagger file when running 'rswag:specs:swaggerize'.
   # The swagger_docs configuration option has the filename including format in

@@ -1,10 +1,17 @@
-# frozen_string_literal: true
+# frozen_string_literaal: true
 
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   namespace :api do
     namespace :v1 do
+      resources :appointments, only: [:index, :show, :create, :update] do
+        member do
+          post :cancel
+          post :accept
+        end
+      end
+
       # Search hospitals and doctors
       get '/search', to: 'search#search'
       get '/search_doctors_by_specialty', to: 'search#search_doctors_by_specialty'
@@ -50,6 +57,15 @@ Rails.application.routes.draw do
       put    'patient/main-info',                            to: 'personal_info#update'
       delete 'patient/main-info',                            to: 'personal_info#destroy'
     end
+    
+    resources :calendars, only: [:index, :show, :create, :update] do
+        member do
+          get :events
+        end
+      end
+
+      resources :doctors, only: [:index, :show, :create, :update]
+      resources :patients, only: [:index, :show, :create, :update]
 
     namespace :v2 do
       # Additional information of patient
@@ -74,5 +90,6 @@ Rails.application.routes.draw do
       put    'patient/work',                                  to: 'patient_work#update'
       delete 'patient/work',                                  to: 'patient_work#destroy'
     end
+
   end
 end

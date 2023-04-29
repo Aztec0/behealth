@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class DoctorPolicy < ApplicationPolicy
-
   def index?
     user.role == 'head_doctor'
   end
@@ -25,7 +24,6 @@ class DoctorPolicy < ApplicationPolicy
   def list_doctor_by_hospital?
     user.role == 'head_doctor'
   end
-
 
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
