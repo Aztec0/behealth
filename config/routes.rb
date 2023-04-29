@@ -1,4 +1,4 @@
-# frozen_string_literaal: true
+# frozen_string_literal: true
 
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
@@ -34,7 +34,7 @@ Rails.application.routes.draw do
       # list all hospitals
       get '/hospitals',                                      to: 'hospitals#index'
 
-      #Feedbacks for doctors
+      # Feedbacks for doctors
       get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
       post   'doctor/:doctor_id/feedback',                   to: 'feedbacks#create'
 
@@ -64,10 +64,10 @@ Rails.application.routes.draw do
       # list all hospitals
       get '/hospitals',                                      to: 'hospitals#index'
 
-      # Additional information of patient
+      #Additional information of patient
       get    'patient/extra-info',                           to: 'additional_info#index'
 
-      # Personal information of patient
+      #Personal information of patient
       get    'patient/main-info',                            to: 'personal_info#index'
       put    'patient/main-info',                            to: 'personal_info#update'
 

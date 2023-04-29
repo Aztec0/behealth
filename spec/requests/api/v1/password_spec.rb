@@ -3,9 +3,7 @@
 require 'swagger_helper'
 
 RSpec.describe 'api/password', type: :request do
-
   path '/api/v1/forgot' do
-
     post 'Sends an email to reset the user\'s password' do
       tags 'Passwords'
       consumes 'application/json'
@@ -44,7 +42,6 @@ RSpec.describe 'api/password', type: :request do
   end
 
   path '/api/v1/reset' do
-
     post 'Resets the user\'s password' do
       tags 'Passwords'
       consumes 'application/json'

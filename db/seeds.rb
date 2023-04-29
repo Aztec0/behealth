@@ -14,12 +14,12 @@ end
                     phone: '79999999999', role: 1, hospital_id: rand(1..10))
 end
 
-10.times do
-  Doctor.create(name: Faker::Name.name, surname: Faker::Name.last_name,
-  second_name: Faker::Name.last_name, position: Faker::Job.position,
-  rating: rand(1..5), hospital_id: rand(1..10), password: SecureRandom.alphanumeric(10),
-  email: "testtest#{rand(1..10)}@test.com")
-end
+#10.times do
+#  Doctor.create(name: Faker::Name.name, surname: Faker::Name.last_name,
+#  second_name: Faker::Name.last_name, position: Faker::Job.position,
+#  rating: rand(1..5), hospital_id: rand(1..10), password: SecureRandom.alphanumeric(10),
+#  email: "testtest#{rand(1..10)}@test.com")
+#end
 
 Hospital.create!(region: 'Вінницький', city: 'Вінниця', address: 'вул. Хмельницьке шосе, 96',
                  name: 'КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО “Центр первинної медико-санітарної допомоги №3”')
@@ -41,7 +41,6 @@ Hospital.create!(region: 'Придніпровський район', city: 'Ч�
   'КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО «Другий Черкаський міський центр первинної медико-санітарної допомоги»')
 Hospital.create!(region: 'Суворовський район', city: 'Херсон', address: 'проспект 200-річчя Херсона, 25', name:
   'Комунального некомерційного підприємства "Херсонська міська клінічна Лікарня ім. А. і О. Тропіних"')
-
 
 
 #PatientAddress.create(patient_id: 1, settlement: 'Черкаси', house: '1', apartments: '1', address_type: 'Основний')
