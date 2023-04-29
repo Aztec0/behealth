@@ -41,7 +41,7 @@ RSpec.describe 'api/password', type: :request do
       end
     end
 
-    path '/api/v1/reset' do
+    path '/api/v1/password-reset' do
 
       post 'Resets the user\'s password' do
         tags 'Passwords'
