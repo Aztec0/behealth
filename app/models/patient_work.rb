@@ -13,11 +13,10 @@
 #  patient_id :bigint           not null
 #
 class PatientWork < ApplicationRecord
+  include Constantable
+
   belongs_to :patient
 
-  VALID_PLACE = /\A[\p{Cyrillic} ,.–();]+\z/
-  VALID_POSITION = /\A\p{Cyrillic}+\z/
-
-  validates :place, presence: true, length: { maximum: 100 }, format: { with: VALID_PLACE }
-  validates :position, presence: true, length: { maximum: 15 }, format: { with: VALID_POSITION }
+  validates :place, presence: true, length: { maximum: 100 }, format: { with: WORKPLACE_REGEX }
+  validates :position, presence: true, length: { maximum: 15 }, format: { with: POSITION_REGEX }
 end

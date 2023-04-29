@@ -24,19 +24,24 @@
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  head_doctor_id       :bigint
 #  hospital_id          :bigint
 #
 # Indexes
 #
-#  index_doctors_on_hospital_id  (hospital_id)
+#  index_doctors_on_head_doctor_id  (head_doctor_id)
+#  index_doctors_on_hospital_id     (hospital_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (head_doctor_id => doctors.id)
 #  fk_rails_...  (hospital_id => hospitals.id) ON DELETE => nullify
 #
 
 class Doctor < ApplicationRecord
+  include Constantable
   belongs_to :hospital, optional: true # потрібно для того , щоб гол.лікар міг створити лікарню, вона потім додається лікарю який її створив
+
   has_many :feedbacks
 
   has_secure_password
@@ -49,7 +54,7 @@ class Doctor < ApplicationRecord
 
   validates :email, uniqueness: true
   validates :name, presence: true
-  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :password, presence: true, length: { minimum: PASSWORD_MINIMUM_LENGTH }
 
   def generate_password_token!
     self.reset_password_token = generate_token

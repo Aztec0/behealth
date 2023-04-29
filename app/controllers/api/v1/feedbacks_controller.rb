@@ -11,7 +11,7 @@ class Api::V1::FeedbacksController < ApplicationController
   end
 
   def create
-    unless @current_patient.nil?
+    if @current_patient.present?
       feedback = @current_patient.feedbacks.build(feedback_params)
 
       if feedback.save
