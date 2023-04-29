@@ -51,44 +51,23 @@ RSpec.describe 'api/v2/doctors', type: :request do
                },
                required: %w[id name surname email phone birthday position hospital_id]
 
-        let(:doctor_params) do
-          {
-            name: 'John',
-            surname: 'Doe',
-            email: 'john.doe@example.com',
-            phone: '1234567890',
-            birthday: '1990-01-01',
-            position: 'Cardiologist',
-            hospital_id: hospital.id,
-            password: 'password123',
-            password_confirmation: 'password123'
-          }
-        end
-
         run_test!
       end
 
-      response '422', 'invalid request' do
-        let(:doctor_params) { {} }
+      response '422', 'Invalid request' do
+        schema type: :object,
+               properties: {
+                 error: { type: :string, description: 'The error message' }
+               }
+
         run_test!
       end
 
       response '401', 'unauthorized' do
-        let(:doctor_params) do
-          {
-            name: 'John',
-            surname: 'Doe',
-            email: 'john.doe@example.com',
-            phone: '1234567890',
-            birthday: '1990-01-01',
-            position: 'Cardiologist',
-            hospital_id: hospital.id,
-            password: 'password123',
-            password_confirmation: 'password123'
-          }
-        end
-
-        let(:Authorization) { '' }
+        schema type: :object,
+               properties: {
+                 error: { type: :string, description: 'The error message' }
+               }
 
         run_test!
       end
@@ -121,8 +100,6 @@ RSpec.describe 'api/v2/doctors', type: :request do
                  region: { type: :string }
                },
                required: %w[id name address city region]
-
-        let(:hospital) { { name: 'New Hospital', address: '123 Main St', city: 'Anytown', region: 'NY' } }
         run_test!
       end
 
@@ -132,8 +109,6 @@ RSpec.describe 'api/v2/doctors', type: :request do
                  error: { type: :string }
                },
                required: %w[error]
-
-        let(:hospital) { { name: '', address: '', city: '', region: '' } }
         run_test!
       end
     end

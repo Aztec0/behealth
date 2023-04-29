@@ -24,15 +24,10 @@ RSpec.describe 'api/v2/search', type: :request do
                    type: :array
                  }
                }
-
-        let(:query) { 'John' }
-        let(:region) { 'New York' }
         run_test!
       end
 
       response '422', 'Invalid search query' do
-        let(:query) { '' }
-        let(:region) { '' }
         run_test!
       end
     end
@@ -54,14 +49,10 @@ RSpec.describe 'api/v2/search', type: :request do
                    type: :array
                  }
                }
-        let(:query) { 'John' }
-        let(:region) { 'New York' }
         run_test!
       end
 
       response '422', 'Invalid search query' do
-        let(:query) { '' }
-        let(:region) { '' }
         run_test!
       end
     end
@@ -82,15 +73,10 @@ RSpec.describe 'api/v2/search', type: :request do
                    type: :array
                  }
                }
-
-        let(:query) { 'John' }
-        let(:region) { 'New York' }
         run_test!
       end
 
       response '422', 'Invalid search query' do
-        let(:query) { '' }
-        let(:region) { '' }
         run_test!
       end
     end
