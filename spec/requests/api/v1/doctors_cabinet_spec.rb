@@ -2,8 +2,8 @@
 
 require 'swagger_helper'
 
-RSpec.describe 'api/doctors_cabinet', type: :request do
-  path '/api/v1/edit_doctor' do
+RSpec.describe "api/doctors_cabinet", type: :request do
+  path '/api/v1/doctor/edit' do
     patch 'Update doctors params' do
       tags 'Doctors cabinet'
       security [{ ApiKeyAuth: [] }]
@@ -30,7 +30,7 @@ RSpec.describe 'api/doctors_cabinet', type: :request do
     end
   end
 
-  path '/api/v1/personal_info' do
+  path '/api/v1/doctor/main-info' do
     get 'Returns personal information about the doctor' do
       tags 'Doctors cabinet'
       security [{ ApiKeyAuth: [] }]
@@ -65,7 +65,7 @@ RSpec.describe 'api/doctors_cabinet', type: :request do
     end
   end
 
-  path '/api/v1/professional_info' do
+  path '/api/v1/doctor/extra-info' do
     get 'Returns professional information about the doctor' do
       tags 'Doctors cabinet'
       security [{ ApiKeyAuth: [] }]

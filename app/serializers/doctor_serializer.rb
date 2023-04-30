@@ -20,7 +20,6 @@
 #  updated_at           :datetime         not null
 #  head_doctor_id       :bigint
 #  hospital_id          :bigint
-#
 # Indexes
 #
 #  index_doctors_on_head_doctor_id  (head_doctor_id)

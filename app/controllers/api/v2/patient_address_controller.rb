@@ -1,6 +1,7 @@
 class Api::V2::PatientAddressController < ApplicationController
   before_action :check_patient
   before_action :set_address
+  before_action :address_check, only: %i[update destroy]
 
   def create
     return render_error('Address already present', status: :unprocessable_entity) if @address.present?
