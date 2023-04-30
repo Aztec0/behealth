@@ -34,19 +34,17 @@
 
 class Doctor < ApplicationRecord
   include Constantable
-include Passwordable::Shareable
-include Passwordable::Doctorable
-belongs_to :hospital, optional: true # потрібно для того , щоб гол.лікар міг створити лікарню, вона потім додається лікарю який її створив
+  include Passwordable::Shareable
+  include Passwordable::Doctorable
+  belongs_to :hospital, optional: true # потрібно для того , щоб гол.лікар міг створити лікарню, вона потім додається лікарю який її створив
 
   has_many :feedbacks
   has_many :appointments, dependent: :destroy
   has_many :patients, through: :appointments
 
-  has_secure_password
-
-scope :list_doctor_by_hospital, ->(current_user) {
-  includes(:hospital).where(doctors: { hospital_id: current_user })
-}
+  scope :list_doctor_by_hospital, ->(current_user) {
+    includes(:hospital).where(doctors: { hospital_id: current_user })
+  }
   enum :role, %i[doctor head_doctor], _prefix: true, _suffix: true
 
   validates :email, uniqueness: true

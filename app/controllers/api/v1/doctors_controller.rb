@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::DoctorsController < ApplicationController
-  before_action :authenticate_request_doctor, except: %i[index]
+  before_action :authenticate_doctor_user, except: %i[index]
   before_action :authorize_request, except: %i[index show]
   before_action :set_doctor, only: :show
 
@@ -12,13 +12,7 @@ class Api::V1::DoctorsController < ApplicationController
 
   # in progress
   def staff_appointments
-    # this part will be refactor to scop in appointment model
     @pagy, appointments = pagy(Appointment.staff_appointments(current_user.hospital_id))
-
-    scope :staff_appointments, ->(hospital_id) {
-      includes(:doctors).where(doctors: { hospital_id: hospital_id })
-    }
-
     render json: appointments, each_serializer: AppointmentSerializer, action: :show
   end
 

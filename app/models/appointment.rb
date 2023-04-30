@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Appointment < ApplicationRecord
   belongs_to :doctor
   belongs_to :patient
@@ -9,6 +11,9 @@ class Appointment < ApplicationRecord
 
   scope :upcoming, -> { where(status: ["unconfirmed", "planned"]).where("appointment_datetime >= ?", DateTime.now).order(appointment_datetime: :asc) }
   scope :past, -> { where(status: "completed").where("appointment_datetime < ?", DateTime.now).order(appointment_datetime: :desc) }
+  scope :staff_appointments, ->(hospital_id) {
+    includes(:doctor).where(doctors: { hospital_id: hospital_id })
+  }
 
   private
 

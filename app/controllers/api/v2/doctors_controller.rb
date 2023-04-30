@@ -1,23 +1,20 @@
 # frozen_string_literal: true
 
 class Api::V2::DoctorsController < ApplicationController
+  before_action :authenticate_doctor_user, except: %i[index]
   before_action :authenticate_request, except: %i[index]
   before_action :authorize_request, except: %i[index]
 
   def index
     @pagy, doctors = pagy(Doctor.all)
-    render_success(DoctorSerializer.new(doctors))
+    render_success({ doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorSerializer) })
   end
 
   # in progress
   def staff_appointments
-    # this part will be refactor to scop in appointment model
     @pagy, appointments = pagy(Appointment.staff_appointments(current_user.hospital_id))
-
-    scope :staff_appointments, ->(hospital_id) {
-      includes(:doctors).where(doctors: { hospital_id: hospital_id })
-    }
-    render_success(AppointmentSerializer.new(appointments))
+    render_success({ appointments: ActiveModelSerializers::SerializableResource.new(appointments,
+                                                                                    each_serializer: AppointmentSerializer) })
   end
 
   def create_hospital
@@ -31,7 +28,7 @@ class Api::V2::DoctorsController < ApplicationController
       hospital = Hospital.new(hospital_params)
       if hospital.save
         current_user.update(hospital_id: hospital.id)
-        render_success('Hospital created successfully')
+        render_success({ hospital: })
       else
         render_error('Unable to create hospital', status: :unprocessable_entity)
       end
@@ -41,7 +38,7 @@ class Api::V2::DoctorsController < ApplicationController
   def create_doctor
     doctor = current_user.create_doctor(doctor_params.merge(hospital_id: current_user.hospital_id))
     if doctor.save!
-      render_success('Doctor created successfully')
+      render_success({ doctor: })
     else
       render_error('Unable to create doctor', status: :unprocessable_entity)
     end
@@ -60,7 +57,8 @@ class Api::V2::DoctorsController < ApplicationController
   def list_doctor_by_hospital
     @pagy, doctors = pagy(Doctor.list_doctor_by_hospital(current_user.hospital_id))
     if doctors
-      render_success(DoctorSerializer.new(doctors))
+      render_success({ doctors: ActiveModelSerializers::SerializableResource.new(doctors,
+                                                                               each_serializer: DoctorSerializer) })
     else
       render_error('Unable to fetch doctors', status: :unprocessable_entity)
     end
