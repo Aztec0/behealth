@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::DoctorsCabinetController < ApplicationController
-  before_action :authenticate_current_doctor
+  before_action :authenticate_doctor_user
 
   def personal_info
     render json: @current_doctor, serializer: DoctorsCabinetSerializer, action: :personal_info, status: :ok

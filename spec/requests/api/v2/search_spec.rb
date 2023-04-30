@@ -2,8 +2,8 @@
 
 require 'swagger_helper'
 
-RSpec.describe 'Api::V1::SearchController', swagger_doc: 'v1/swagger.yaml', type: :request do
-  path '/api/v1/search' do
+RSpec.describe 'api/v2/search', swagger_doc: 'v2/swagger.yaml', type: :request do
+  path '/api/v2/search' do
     get 'Search for a hospital or doctor in the region' do
       tags 'Search'
       produces 'application/json'
@@ -24,21 +24,16 @@ RSpec.describe 'Api::V1::SearchController', swagger_doc: 'v1/swagger.yaml', type
                    type: :array
                  }
                }
-
-        let(:query) { 'John' }
-        let(:region) { 'New York' }
         run_test!
       end
 
       response '422', 'Invalid search query' do
-        let(:query) { '' }
-        let(:region) { '' }
         run_test!
       end
     end
   end
 
-  path '/api/v1/search_doctors_by_specialty' do
+  path '/api/v2/search_doctors_by_specialty' do
     get 'Searching doctors by specialty' do
       tags 'Search'
       produces 'application/json'
@@ -54,20 +49,16 @@ RSpec.describe 'Api::V1::SearchController', swagger_doc: 'v1/swagger.yaml', type
                    type: :array
                  }
                }
-        let(:query) { 'John' }
-        let(:region) { 'New York' }
         run_test!
       end
 
       response '422', 'Invalid search query' do
-        let(:query) { '' }
-        let(:region) { '' }
         run_test!
       end
     end
   end
 
-  path '/api/v1/search_hospitals' do
+  path '/api/v2/search_hospitals' do
     get 'Searching hospitals' do
       tags 'Search'
       produces 'application/json'
@@ -82,15 +73,10 @@ RSpec.describe 'Api::V1::SearchController', swagger_doc: 'v1/swagger.yaml', type
                    type: :array
                  }
                }
-
-        let(:query) { 'John' }
-        let(:region) { 'New York' }
         run_test!
       end
 
       response '422', 'Invalid search query' do
-        let(:query) { '' }
-        let(:region) { '' }
         run_test!
       end
     end

@@ -2,8 +2,8 @@
 
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/hospitals', swagger_doc: 'v1/swagger.yaml', type: :request do
-  path '/api/v1/hospitals' do
+RSpec.describe 'api/v2/hospitals', swagger_doc: 'v2/swagger.yaml', type: :request do
+  path '/api/v2/hospitals' do
     get('List all hospitals') do
       tags 'Doctors and Hospitals'
       response(200, 'successful') do

@@ -9,14 +9,14 @@
 #  confirm_token        :string
 #  email                :string
 #  email_confirmed      :boolean          default(FALSE)
-#  fathername           :string
-#  itn                  :integer
-#  name                 :string
+#  first_name           :string
+#  last_name            :string
 #  password_digest      :string
 #  phone                :bigint
 #  reset_password_token :string
+#  second_name          :string
 #  sex                  :integer          default("nothing")
-#  surname              :string
+#  tin                  :integer
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
@@ -35,7 +35,7 @@ class Patient < ApplicationRecord
   has_many :appointments, dependent: :destroy
   has_many :doctors, through: :appointments
 
-  enum sex: { nothing: 0, male: 1, female: 2 }
+  enum sex: %i[nothing male female]
 
   validates :name, :surname, :fathername, format: { with: NAME_REGEX }, allow_blank: true
   validates :tin, length: { is: TIN_LENGTH }, numericality: { only_integer: true }, allow_blank: true

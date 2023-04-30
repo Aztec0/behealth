@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Patients', type: :request do
+RSpec.describe 'Patients', swagger_doc: 'v1/swagger.yaml', type: :request do
   describe 'GET /index' do
     pending "add some examples (or delete) #{__FILE__}"
   end

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'swagger_helper'
-RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request do
-  path '/api/v1/doctors' do
+RSpec.describe 'api/v2/doctors', swagger_doc: 'v2/swagger.yaml', type: :request do
+  path '/api/v2/doctors' do
     get('List all doctors') do
       tags 'Doctors and Hospitals'
       response(200, 'successful') do
@@ -18,7 +18,7 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
     end
   end
 
-  path '/api/v1/create_doctor' do
+  path '/api/v2/create_doctor' do
     post 'Creates a doctor' do
       tags 'Doctors'
       security [{ ApiKeyAuth: [] }]
@@ -51,51 +51,30 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
                },
                required: %w[id name surname email phone birthday position hospital_id]
 
-        let(:doctor_params) do
-          {
-            name: 'John',
-            surname: 'Doe',
-            email: 'john.doe@example.com',
-            phone: '1234567890',
-            birthday: '1990-01-01',
-            position: 'Cardiologist',
-            hospital_id: hospital.id,
-            password: 'password123',
-            password_confirmation: 'password123'
-          }
-        end
-
         run_test!
       end
 
-      response '422', 'invalid request' do
-        let(:doctor_params) { {} }
+      response '422', 'Invalid request' do
+        schema type: :object,
+               properties: {
+                 error: { type: :string, description: 'The error message' }
+               }
+
         run_test!
       end
 
       response '401', 'unauthorized' do
-        let(:doctor_params) do
-          {
-            name: 'John',
-            surname: 'Doe',
-            email: 'john.doe@example.com',
-            phone: '1234567890',
-            birthday: '1990-01-01',
-            position: 'Cardiologist',
-            hospital_id: hospital.id,
-            password: 'password123',
-            password_confirmation: 'password123'
-          }
-        end
-
-        let(:Authorization) { '' }
+        schema type: :object,
+               properties: {
+                 error: { type: :string, description: 'The error message' }
+               }
 
         run_test!
       end
     end
   end
 
-  path '/api/v1/create_hospital' do
+  path '/api/v2/create_hospital' do
     post 'Creates a hospital' do
       tags 'Doctors'
       security [{ ApiKeyAuth: [] }]
@@ -121,8 +100,6 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
                  region: { type: :string }
                },
                required: %w[id name address city region]
-
-        let(:hospital) { { name: 'New Hospital', address: '123 Main St', city: 'Anytown', region: 'NY' } }
         run_test!
       end
 
@@ -132,14 +109,12 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
                  error: { type: :string }
                },
                required: %w[error]
-
-        let(:hospital) { { name: '', address: '', city: '', region: '' } }
         run_test!
       end
     end
   end
 
-  path '/api/v1/doctors/{id}' do
+  path '/api/v2/doctors/{id}' do
     delete 'Deletes a doctor by id' do
       tags 'Doctors'
       security [{ ApiKeyAuth: [] }]
@@ -155,7 +130,7 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
       end
     end
   end
-  path '/api/v1/list_doctor_by_hospital' do
+  path '/api/v2/list_doctor_by_hospital' do
     get 'Retrieves a list of doctors associated with the hospital' do
       tags 'Doctors'
       security [{ ApiKeyAuth: [] }]
@@ -194,7 +169,7 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
       end
     end
   end
-  path '/api/v1/staff_appointments' do
+  path '/api/v2/staff_appointments' do
     get 'Retrieves a list of doctors appointments' do
       tags 'Doctors'
       security [{ ApiKeyAuth: [] }]

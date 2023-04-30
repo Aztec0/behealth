@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-RSpec.describe "api/doctors_cabinet", type: :request do
+RSpec.describe "api/doctors_cabinet", swagger_doc: 'v1/swagger.yaml', type: :request do
   path '/api/v1/doctor/edit' do
     patch 'Update doctors params' do
       tags 'Doctors cabinet'

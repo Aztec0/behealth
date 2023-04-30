@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-RSpec.describe 'api/registrations', type: :request do
+RSpec.describe 'api/registrations', swagger_doc: 'v1/swagger.yaml', type: :request do
   path '/api/v1/signup' do
     post 'Sends an email to register user' do
       tags 'Signup'

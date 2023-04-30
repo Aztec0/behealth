@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/personal_info', type: :request do
+RSpec.describe 'api/v1/personal_info', swagger_doc: 'v1/swagger.yaml', type: :request do
 
   path '/api/v1/patient/main-info' do
 

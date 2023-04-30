@@ -1,4 +1,4 @@
-# frozen_string_literaal: true
+# frozen_string_literal: true
 
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
@@ -68,10 +68,22 @@ Rails.application.routes.draw do
       resources :patients, only: [:index, :show, :create, :update]
 
     namespace :v2 do
-      # Additional information of patient
+      # Advanced options for doctors
+      get '/list_doctor_by_hospital',                        to: 'doctors#list_doctor_by_hospital'
+      get '/staff_appointments',                             to: 'doctors#appointments'
+      post '/create_doctor',                                 to: 'doctors#create_doctor'
+      post '/create_hospital',                               to: 'doctors#create_hospital'
+      delete '/doctors/:id',                                 to: 'doctors#delete'
+
+      # list all doctors
+      get '/doctors',                                        to: 'doctors#index'
+      # list all hospitals
+      get '/hospitals',                                      to: 'hospitals#index'
+
+      #Additional information of patient
       get    'patient/extra-info',                           to: 'additional_info#index'
 
-      # Personal information of patient
+      #Personal information of patient
       get    'patient/main-info',                            to: 'personal_info#index'
       put    'patient/main-info',                            to: 'personal_info#update'
 

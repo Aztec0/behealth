@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/additional_info', type: :request do
+RSpec.describe 'api/v1/additional_info', swagger_doc: 'v1/swagger.yaml', type: :request do
 
   path '/api/v1/patient/extra-info' do
     get('list additional_infos') do

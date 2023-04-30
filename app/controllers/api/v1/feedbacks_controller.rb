@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-module Api
-  module V1
-    class FeedbacksController < ApplicationController
-      before_action :authenticate_request, only: :create
-      before_action :set_doctor
+class Api::V1::FeedbacksController < ApplicationController
+  before_action :authenticate_request, only: :create
+  before_action :set_doctor
 
-      def index
-        feedbacks = @doctor.feedbacks
+  def index
+    feedbacks = @doctor.feedbacks
+
+    render json: feedbacks
   end
 
       def create
@@ -27,13 +27,11 @@ module Api
 
       private
 
-      def feedback_params
-        params.permit(:rating, :title, :body).merge(doctor: @doctor)
-      end
+  def feedback_params
+    params.permit(:rating, :title, :body).merge(doctor: @doctor)
+  end
 
-      def set_doctor
-        @doctor = Doctor.find(params[:id])
-      end
-    end
+  def set_doctor
+    @doctor = Doctor.find(params[:id])
   end
 end
