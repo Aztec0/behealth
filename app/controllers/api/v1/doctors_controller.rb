@@ -7,7 +7,7 @@ class Api::V1::DoctorsController < ApplicationController
 
   def index
     @pagy, doctors = pagy(Doctor.all)
-    render json: doctors, each_serializer: DoctorSerializer, action: :show
+    render json: doctors, each_serializer: DoctorShowSerializer
   end
 
   # in progress

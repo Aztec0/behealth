@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-RSpec.describe 'api/password', type: :request do
+RSpec.describe 'api/password', swagger_doc: 'v1/swagger.yaml', type: :request do
   path '/api/v1/forgot' do
     post 'Sends an email to reset the user\'s password' do
       tags 'Passwords'

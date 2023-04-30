@@ -9,14 +9,14 @@
 #  confirm_token        :string
 #  email                :string
 #  email_confirmed      :boolean          default(FALSE)
-#  fathername           :string
-#  itn                  :integer
-#  name                 :string
+#  first_name           :string
+#  last_name            :string
 #  password_digest      :string
 #  phone                :bigint
 #  reset_password_token :string
+#  second_name          :string
 #  sex                  :integer          default("nothing")
-#  surname              :string
+#  tin                  :integer
 #  token_sent_at        :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null

@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-RSpec.describe 'Api::V1::SearchController', type: :request do
+RSpec.describe 'Api::V1::SearchController', swagger_doc: 'v1/swagger.yaml', type: :request do
   path '/api/v1/search' do
     get 'Search for a hospital or doctor in the region' do
       tags 'Search'

@@ -7,7 +7,8 @@ class Api::V2::DoctorsController < ApplicationController
 
   def index
     @pagy, doctors = pagy(Doctor.all)
-    render_success({ doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorSerializer) })
+    render_success({ doctors: ActiveModelSerializers::SerializableResource.new(doctors,
+                                                                               each_serializer: DoctorShowSerializer) })
   end
 
   # in progress

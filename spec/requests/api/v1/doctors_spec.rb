@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'swagger_helper'
-RSpec.describe 'api/v1/doctors', type: :request do
+RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request do
   path '/api/v1/doctors' do
     get('List all doctors') do
       tags 'Doctors and Hospitals'

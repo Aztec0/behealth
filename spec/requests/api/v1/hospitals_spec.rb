@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/hospitals', type: :request do
+RSpec.describe 'api/v1/hospitals', swagger_doc: 'v1/swagger.yaml', type: :request do
   path '/api/v1/hospitals' do
     get('List all hospitals') do
       tags 'Doctors and Hospitals'

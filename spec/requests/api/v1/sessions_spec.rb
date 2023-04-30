@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-RSpec.describe 'api/sessions', type: :request do
+RSpec.describe 'api/sessions', swagger_doc: 'v1/swagger.yaml', type: :request do
   path '/api/v1/login' do
     post('create session') do
       tags 'Login'

@@ -4,6 +4,6 @@ class DoctorShowSerializer < ActiveModel::Serializer
   has_one :hospital
 
   def age
-    ((Time.zone.now - object.birthday.to_time) / 1.year.seconds).floor
+    object.birthday ? ((Time.zone.now - object.birthday.to_time) / 1.year.seconds).floor : nil
   end
 end
