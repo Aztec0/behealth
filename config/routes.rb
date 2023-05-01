@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       get '/patient/:id', to: 'patient#show'
       patch '/patient/:id/update', to: 'patient#update'
       delete '/patient/:id/delete', to: 'patient#delete'
+      # end admin section
 
       # Search hospitals and doctors
       get '/search', to: 'search#search'
