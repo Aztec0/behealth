@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-class HospitalPolicy < ApplicationPolicy
+class PatientPolicy < ApplicationPolicy
   def show?
     user.role == 'admin'
   end
 
   def create?
-    user.role == 'admin'
+    user.role == 'admin' || user.role == 'patient'
   end
 
   def update?
-    user.role == 'admin'
+    user.role == 'admin' || user.role == 'patient'
   end
 
   def delete?
