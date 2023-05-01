@@ -23,7 +23,7 @@ class Api::V1::SearchController < ApplicationController
     if hospitals.any? || doctors.any?
       render json: {
         hospitals: ActiveModelSerializers::SerializableResource.new(hospitals, each_serializer: HospitalsSerializer),
-        doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorSerializer)
+        doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorShowSerializer)
       }, status: :ok
     else
       render json: { message: 'No results found' }, status: :unprocessable_entity
@@ -48,7 +48,7 @@ class Api::V1::SearchController < ApplicationController
 
     if doctors.any?
       render json: {
-        doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorSerializer)
+        doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorShowSerializer)
       }, status: :ok
     else
       render json: { message: 'No results found' }, status: :unprocessable_entity
