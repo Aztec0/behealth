@@ -44,10 +44,12 @@ class Doctor < ApplicationRecord
   has_many :feedbacks
   has_many :appointments, dependent: :destroy
   has_many :patients, through: :appointments
+  has_many :tags, as: :tagable
 
   scope :list_doctor_by_hospital, ->(current_user) {
     includes(:hospital).where(doctors: { hospital_id: current_user })
   }
+
   enum :role, %i[doctor head_doctor], _prefix: true, _suffix: true
 
   validates :email, uniqueness: true

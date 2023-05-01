@@ -12,6 +12,11 @@ Rails.application.routes.draw do
         end
       end
 
+      get 'tags/index', to: 'tags#index'
+      get 'tags/create'
+      get 'tags/show'
+      patch 'hospital/update/:id', to: 'hospitals#update'
+
       # Search hospitals and doctors
       get '/search', to: 'search#search'
       get '/search_doctors_by_specialty', to: 'search#search_doctors_by_specialty'
