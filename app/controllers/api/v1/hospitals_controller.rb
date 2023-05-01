@@ -28,23 +28,23 @@ class Api::V1::HospitalsController < ApplicationController
 
   def update
     hospital = Hospital.find_by(id: params[:id])
-    hospital.update(hospital_params)
-    if tag_list[:tag_list].present?
-      tag_list[:tag_list].split(',').map do |n|
-        tag = Tag.find_or_initialize_by(tag_name: n.strip, tagable: hospital)
-        tag.save unless tag.persisted?
+    if hospital.update(hospital_params)
+      if params[:tag_list].present?
+        hospital.tags.destroy_all
+        params[:tag_list].split(',').map do |n|
+          Tag.where(tag_name: n.strip, tagable: hospital).first_or_create!
+        end
       end
+      render json: hospital, each_serializer: HospitalsSerializer
+    else
+      render json: 'Something went wrong', status: :unprocessable_entity
     end
-    render json: hospital, each_serializer: HospitalsSerializer
   end
 
   private
 
   def hospital_params
-    params.require(:hospital).permit(:address, :city, :name, :region)
-  end
-
-  def tag_list
-    { tag_list: params.fetch(:tag_list, []) }
+    params.permit(:address, :city, :name, :region)
   end
 end
+

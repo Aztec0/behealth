@@ -13,12 +13,13 @@ class Api::V1::DoctorsCabinetController < ApplicationController
 
   def update
     current_user.assign_attributes(doctor_params)
-    current_user.save(validate: false)
-      if tag_list[:tag_list].present?
-        tag_list[:tag_list].split(',').map do |n|
-          tag = Tag.find_or_initialize_by(tag_name: n.strip, tagable: current_user)
-          tag.save unless tag.persisted?
+    if current_user.save(validate: false)
+      if params[:tag_list].present?
+        current_user.tags.destroy_all
+        params[:tag_list].split(',').map do |n|
+          Tag.where(tag_name: n.strip, tagable: current_user).first_or_create!
         end
+      end
       render json: { status: 'Parameters updated' }, status: :ok
     else
       render json: { error: 'Something went wrong' }, status: :unprocessable_entity
@@ -28,10 +29,6 @@ class Api::V1::DoctorsCabinetController < ApplicationController
   private
 
   def doctor_params
-    params.require(:doctor).permit(:second_email, :second_phone, :about, :admission_price)
-  end
-
-  def tag_list
-    { tag_list: params.fetch(:tag_list, []) }
+    params.permit(:second_email, :second_phone, :about, :admission_price)
   end
 end

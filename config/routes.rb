@@ -32,13 +32,13 @@ Rails.application.routes.draw do
       post '/password-reset', to: 'password#reset'
       get 'doctor/main-info', to: 'doctors_cabinet#personal_info'
       get 'doctor/extra-info', to: 'doctors_cabinet#professional_info'
-      patch 'doctor/edit', to: 'doctors_cabinet#update'
+      patch 'doctor/edit/:id', to: 'doctors_cabinet#update'
 
       # Advanced options for doctors
       get '/list_doctor_by_hospital',                        to: 'doctors#list_doctor_by_hospital'
       get '/staff_appointments',                             to: 'doctors#appointments'
       post '/create_doctor',                                 to: 'doctors#create_doctor'
-      post '/create_hospital',                               to: 'doctors#create_hospital'
+      post '/create_hospital',                               to: 'hospitals#create'
       delete '/doctors/:id',                                 to: 'doctors#delete'
 
       # list all doctors

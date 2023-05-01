@@ -3,19 +3,20 @@
 require 'swagger_helper'
 
 RSpec.describe "api/doctors_cabinet", swagger_doc: 'v1/swagger.yaml', type: :request do
-  path '/api/v1/doctor/edit' do
+  path '/api/v1/doctor/edit/:id' do
     patch 'Update doctors params' do
       tags 'Doctors cabinet'
       security [{ ApiKeyAuth: [] }]
       consumes 'application/json'
       produces 'application/json'
+      parameter name: :tag_list, in: :query, type: :string, description: 'List of tags for doctor'
       parameter name: :doctor_params, in: :body, type: :string, description: 'Doctors params to update', schema: {
         type: :object,
         properties: {
           second_email: { type: :string, default: '@gmail.com' },
           second_phone: { type: :integer, default: '123456789' },
-          description: { type: :string, default: 'Something about yourself' },
-          price: { type: :integer, default: '100' }
+          about: { type: :string, default: 'Something about yourself' },
+          admission_price: { type: :integer, default: '100' }
         },
         required: %w[second_email second_phone description price]
       }
@@ -45,7 +46,7 @@ RSpec.describe "api/doctors_cabinet", swagger_doc: 'v1/swagger.yaml', type: :req
                    second_email: { type: :string },
                    phone: { type: :integer },
                    second_phone: { type: :integer },
-                   description: { type: :string }
+                   about: { type: :string }
                  },
                  required: %w[full_name email second_email second_phone description]
                }
@@ -75,7 +76,7 @@ RSpec.describe "api/doctors_cabinet", swagger_doc: 'v1/swagger.yaml', type: :req
                items: {
                  type: :object,
                  properties: {
-                   price: { type: :integer },
+                   admission_price: { type: :integer },
                    position: { type: :string },
                    hospital_city: { type: :string },
                    hospital_region: { type: :string },

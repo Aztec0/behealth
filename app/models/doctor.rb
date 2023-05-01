@@ -46,6 +46,7 @@ class Doctor < ApplicationRecord
   has_many :patients, through: :appointments
   has_many :tags, as: :tagable
 
+
   scope :list_doctor_by_hospital, ->(current_user) {
     includes(:hospital).where(doctors: { hospital_id: current_user })
   }
