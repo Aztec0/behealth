@@ -37,7 +37,7 @@ class Patient < ApplicationRecord
 
   enum sex: %i[nothing male female]
 
-  validates :name, :surname, :fathername, format: { with: NAME_REGEX }, allow_blank: true
+  validates :first_name, :last_name, :second_name, format: { with: NAME_REGEX }, allow_blank: true
   validates :tin, length: { is: TIN_LENGTH }, numericality: { only_integer: true }, allow_blank: true
   validates :email, uniqueness: true
 
