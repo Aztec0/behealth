@@ -1,12 +1,14 @@
 require 'swagger_helper'
 
-RSpec.describe 'api/v2/patient_document', type: :request do
+RSpec.describe 'api/v2/patient_document', swagger_doc: 'v2/swagger.yaml', type: :request do
 
   path '/api/v2/patient/document' do
 
     post('create patient_document') do
       response(200, 'successful') do
         tags 'Patient Document'
+
+        security [{ ApiKeyAuth: [] }]
 
         consumes "application/json"
         parameter name: :post, in: :body, schema: {
@@ -35,6 +37,8 @@ RSpec.describe 'api/v2/patient_document', type: :request do
       response(200, 'successful') do
         tags 'Patient Document'
 
+        security [{ ApiKeyAuth: [] }]
+
         consumes "application/json"
         parameter name: :post, in: :body, schema: {
           type: :object,
@@ -61,6 +65,8 @@ RSpec.describe 'api/v2/patient_document', type: :request do
     delete('delete patient_document') do
       response(200, 'successful') do
         tags 'Patient Document'
+
+        security [{ ApiKeyAuth: [] }]
 
         after do |example|
           example.metadata[:response][:content] = {

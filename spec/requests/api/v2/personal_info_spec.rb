@@ -1,12 +1,14 @@
 require 'swagger_helper'
 
-RSpec.describe 'api/v2/personal_info', type: :request do
+RSpec.describe 'api/v2/personal_info', swagger_doc: 'v2/swagger.yaml', type: :request do
 
   path '/api/v2/patient/main-info' do
 
     get('list personal_infos') do
       response(200, 'successful') do
         tags 'Personal Information'
+
+        security [{ ApiKeyAuth: [] }]
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -22,6 +24,8 @@ RSpec.describe 'api/v2/personal_info', type: :request do
     put('update personal_info') do
       response(200, 'successful') do
         tags 'Personal Information'
+
+        security [{ ApiKeyAuth: [] }]
 
         consumes "application/json"
         parameter name: :post, in: :body, schema: {

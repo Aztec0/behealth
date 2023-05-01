@@ -1,10 +1,12 @@
 require 'swagger_helper'
 
-RSpec.describe 'api/v2/additional_info', type: :request do
+RSpec.describe 'api/v2/additional_info', swagger_doc: 'v2/swagger.yaml', type: :request do
 
   path '/api/v2/patient/extra-info' do
     get('list additional_infos') do
       tags 'Additional Information'
+
+      security [{ ApiKeyAuth: [] }]
 
       response(200, 'successful') do
 
