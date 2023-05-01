@@ -30,7 +30,9 @@ class Api::V1::RegistrationsController < ApplicationController
       @patient.update(patient_params)
       if @patient.save!
         @patient.email_activate
-        render json: { status: 'Email activated, you successfully registered' }, status: :ok
+        @patient.authenticate(@patient.password)
+        token = JWT.encode({ user_id: @patient.id, type: 'patient' }, Rails.application.secret_key_base)
+        render json: { token: token }, status: :ok
       else
         render json: { error: 'Something went wrong' }, status: :unprocessable_entity
       end
