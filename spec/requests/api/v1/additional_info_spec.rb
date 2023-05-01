@@ -4,7 +4,7 @@ require 'swagger_helper'
 
 RSpec.describe 'api/v1/additional_info', swagger_doc: 'v1/swagger.yaml', type: :request do
 
-  path '/api/v1/patient/extra-info' do
+  path '/api/v1/patient-account/additional-data' do
     get('list additional_infos') do
       tags 'Additional Information'
 
@@ -21,7 +21,7 @@ RSpec.describe 'api/v1/additional_info', swagger_doc: 'v1/swagger.yaml', type: :
     end
   end
 
-  path '/api/v1/patient/extra-info' do
+  path '/api/v1/patient-account/additional-data' do
     post('create additional_info') do
       tags 'Additional Information'
 
@@ -53,7 +53,7 @@ RSpec.describe 'api/v1/additional_info', swagger_doc: 'v1/swagger.yaml', type: :
     end
   end
 
-  path '/api/v1/patient/extra-info' do
+  path '/api/v1/patient-account/additional-data' do
     put('update additional_info') do
       tags 'Additional Information'
 
@@ -85,7 +85,7 @@ RSpec.describe 'api/v1/additional_info', swagger_doc: 'v1/swagger.yaml', type: :
     end
   end
 
-  path '/api/v1/patient/extra-info' do
+  path '/api/v1/patient-account/additional-data' do
     delete('delete additional_info') do
       tags 'Additional Information'
 
