@@ -253,10 +253,10 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                first_name:
                   type: string
                   default: John
-                surname:
+                last_name:
                   type: string
                   default: Doe
                 second_name:
@@ -275,14 +275,14 @@ paths:
                   type: string
                   default: Cardiologist
               required:
-              - name
-              - surname
+              - first_name
+              - last_name
               - second_name
               - email
               - phone
               - birthday
               - position
-  "/api/v1/doctors/{id}":
+  "/api/v1/delete_doctor/{id}":
     delete:
       summary: Deletes a doctor by id
       tags:
@@ -320,9 +320,11 @@ paths:
                   properties:
                     id:
                       type: integer
-                    name:
+                    first_name:
                       type: string
-                    surname:
+                    last_name:
+                      type: string
+                    second_name:
                       type: string
                     email:
                       type: string
@@ -342,8 +344,9 @@ paths:
                       type: integer
                   required:
                   - id
-                  - name
-                  - surname
+                  - first_name
+                  - last_name
+                  - second_name
                   - email
                   - phone
                   - birthday
@@ -410,7 +413,7 @@ paths:
                     type: string
                 required:
                 - error
-  "/api/v1/hospitals":
+  "/api/v1/index":
     get:
       summary: List all hospitals
       tags:

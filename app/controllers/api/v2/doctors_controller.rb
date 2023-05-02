@@ -18,26 +18,8 @@ class Api::V2::DoctorsController < ApplicationController
                                                                                     each_serializer: AppointmentSerializer) })
   end
 
-  def create_hospital
-    if current_user.hospital.present?
-      if current_user.hospital.update(hospital_params)
-        render_success('Hospital update successful')
-      else
-        render_error('Unable to update hospital', status: :unprocessable_entity)
-      end
-    else
-      hospital = Hospital.new(hospital_params)
-      if hospital.save
-        current_user.update(hospital_id: hospital.id)
-        render_success({ hospital: })
-      else
-        render_error('Unable to create hospital', status: :unprocessable_entity)
-      end
-    end
-  end
-
   def create_doctor
-    doctor = current_user.create_doctor(doctor_params.merge(hospital_id: current_user.hospital_id))
+    doctor = Doctor.create_doctor(doctor_params.merge(hospital_id: current_user.hospital_id))
     if doctor.save!
       render_success({ doctor: })
     else
@@ -45,7 +27,7 @@ class Api::V2::DoctorsController < ApplicationController
     end
   end
 
-  def delete
+  def delete_doctor
     doctor = Doctor.find_by(id: params[:id])
     if doctor.present? && doctor.hospital_id == current_user.hospital_id && current_user.id != doctor.id
       doctor.destroy
@@ -59,7 +41,7 @@ class Api::V2::DoctorsController < ApplicationController
     @pagy, doctors = pagy(Doctor.list_doctor_by_hospital(current_user.hospital_id))
     if doctors
       render_success({ doctors: ActiveModelSerializers::SerializableResource.new(doctors,
-                                                                               each_serializer: DoctorSerializer) })
+                                                                               each_serializer: DoctorByHospitalSerializer) })
     else
       render_error('Unable to fetch doctors', status: :unprocessable_entity)
     end
@@ -72,10 +54,6 @@ class Api::V2::DoctorsController < ApplicationController
       :name, :surname, :second_name, :email, :phone, :birthday, :position,
       :hospital_id
     )
-  end
-
-  def hospital_params
-    params.permit(:address, :city, :name, :region)
   end
 
   def authorize_request

@@ -2,7 +2,6 @@
 
 class Api::V1::HospitalsController < ApplicationController
   skip_before_action :authenticate_request, only: %i[index]
-  # before_action :authenticate_doctor_user, except: %i[index]
   before_action :authorize_request, except: %i[index]
   before_action :set_hospital, only: %i[show update delete]
   def index

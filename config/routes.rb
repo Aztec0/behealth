@@ -49,7 +49,7 @@ Rails.application.routes.draw do
       get '/list_doctor_by_hospital',                        to: 'doctors#list_doctor_by_hospital'
       get '/staff_appointments',                             to: 'doctors#appointments'
       post '/create_doctor',                                 to: 'doctors#create_doctor'
-      delete '/delete_doctor/:id',                           to: 'doctors#delete'
+      delete '/delete_doctor/:id',                           to: 'doctors#delete_doctor'
 
       # list all doctors
       get '/doctors',                                        to: 'doctors#index'
@@ -87,20 +87,19 @@ Rails.application.routes.draw do
 
       # Advanced options for doctors
       get '/list_doctor_by_hospital',                        to: 'doctors#list_doctor_by_hospital'
-      get '/staff_appointments',                             to: 'doctors#appointments'
+      get '/staff_appointments',                             to: 'doctors#staff_appointments'
       post '/create_doctor',                                 to: 'doctors#create_doctor'
-      post '/create_hospital',                               to: 'doctors#create_hospital'
-      delete '/doctors/:id',                                 to: 'doctors#delete'
+      delete '/delete_doctor/:id',                           to: 'doctors#delete_doctor'
 
       # list all doctors
       get '/doctors',                                        to: 'doctors#index'
       # list all hospitals
       get '/hospitals',                                      to: 'hospitals#index'
 
-      #Additional information of patient
+      # Additional information of patient
       get    'patient/extra-info',                           to: 'additional_info#index'
 
-      #Personal information of patient
+      # Personal information of patient
       get    'patient/main-info',                            to: 'personal_info#index'
       put    'patient/main-info',                            to: 'personal_info#update'
 

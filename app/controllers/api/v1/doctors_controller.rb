@@ -64,12 +64,11 @@ class Api::V1::DoctorsController < ApplicationController
   def list_doctor_by_hospital
     @pagy, doctors = pagy(Doctor.list_doctor_by_hospital(current_user.hospital_id))
     if doctors
-      render json: doctors, each_serializer: DoctorShowSerializer, action: :index, status: :ok
+      render json: doctors, each_serializer: DoctorByHospitalSerializer, action: :index, status: :ok
     else
       render json: { error: 'Unable to fetch doctors' }, status: :unauthorized
     end
   end
-
 
   private
 

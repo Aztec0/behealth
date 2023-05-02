@@ -34,10 +34,10 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                first_name:
                   type: string
                   default: John
-                surname:
+                last_name:
                   type: string
                   default: Doe
                 second_name:
@@ -56,50 +56,14 @@ paths:
                   type: string
                   default: Cardiologist
               required:
-              - name
-              - surname
+              - first_name
+              - last_name
               - second_name
               - email
               - phone
               - birthday
               - position
-  "/api/v2/create_hospital":
-    post:
-      summary: Creates a hospital
-      tags:
-      - Doctors
-      security:
-      - ApiKeyAuth: []
-      parameters: []
-      responses:
-        '201':
-          description: returns the newly created hospital
-        '422':
-          description: returns an error message if hospital cannot be created
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  default: New Hospital
-                address:
-                  type: string
-                  default: 123 Main St
-                city:
-                  type: string
-                  default: Anytown
-                region:
-                  type: string
-                  default: NY
-              required:
-              - name
-              - address
-              - city
-              - region
-  "/api/v2/doctors/{id}":
+  "/api/v2/doctor/{id}":
     delete:
       summary: Deletes a doctor by id
       tags:
@@ -137,9 +101,11 @@ paths:
                   properties:
                     id:
                       type: integer
-                    name:
+                    first_name:
                       type: string
-                    surname:
+                    last_name:
+                      type: string
+                    second_name:
                       type: string
                     email:
                       type: string
@@ -159,8 +125,9 @@ paths:
                       type: integer
                   required:
                   - id
-                  - name
-                  - surname
+                  - first_name
+                  - last_name
+                  - second_name
                   - email
                   - phone
                   - birthday
