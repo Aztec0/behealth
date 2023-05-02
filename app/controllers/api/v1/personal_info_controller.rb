@@ -1,19 +1,21 @@
 # frozen_string_literal: true
 
 class Api::V1::PersonalInfoController < ApplicationController
-  before_action :check_patient
+  before_action :authenticate_patient_user
   before_action :set_document
   before_action :find_document, only: %i[index update destroy]
 
   def index
-    record = if @patient_document.document_type == 'Passport'
-               PassportSerializer.new(@document)
-             else
-               IdCardSerializer.new(@document)
-             end
+    if @patient_document.present?
+      document = if @patient_document.document_type == 'Passport'
+                 PassportSerializer.new(@document)
+               else
+                 IdCardSerializer.new(@document)
+                 end
+    end
 
-    render json: { contact_info: @current_patient.contact_info, main_info: @current_patient.main_info,
-                   document: record }
+    render json: { contact_info: current_user.contact_info, main_info: current_user.main_info,
+                   document: document }
   end
 
   def create
@@ -79,15 +81,13 @@ class Api::V1::PersonalInfoController < ApplicationController
     params.permit(:email, :phone, :name, :surname, :fathername, :birthday, :tin, :sex)
   end
 
-  def check_patient
-    render json: { message: 'Log In as patient please' }, status: :unauthorized if @current_patient.nil?
-  end
-
   def set_document
-    @patient_document = @current_patient.patient_document
+    @patient_document = current_user.patient_document
   end
 
   def find_document
-    @document = @patient_document.document_type.constantize.find(@patient_document.document_id)
+    if @patient_document.present?
+      @document = @patient_document.document_type.constantize.find(@patient_document.document_id)
+    end
   end
 end

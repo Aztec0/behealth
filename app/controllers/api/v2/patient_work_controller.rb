@@ -1,12 +1,12 @@
 class Api::V2::PatientWorkController < ApplicationController
-  before_action :check_patient
+  before_action :authenticate_patient_user
   before_action :set_work
   before_action :work_check, only: %i[update destroy]
 
   def create
     return render_error('Work already present', status: :unprocessable_entity) if @work.present?
 
-    work = @current_patient.build_patient_work(patient_work_params)
+    work = current_user.build_patient_work(patient_work_params)
 
     if work.save
       render_success('Work was created successfully!', status: :created)
@@ -37,12 +37,8 @@ class Api::V2::PatientWorkController < ApplicationController
     params.permit(:work_type, :place, :position)
   end
 
-  def check_patient
-    render_error('Log In as patient please', status: :unauthorized) if @current_patient.nil?
-  end
-
   def set_work
-    @work = @current_patient.patient_work
+    @work = current_user.patient_work
   end
 
   def work_check

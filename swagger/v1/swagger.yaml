@@ -4,7 +4,7 @@ info:
   title: API V1
   version: v1
 paths:
-  "/api/v1/patient/extra-info":
+  "/api/v1/patient-account/additional-data":
     get:
       summary: list additional_infos
       tags:
@@ -282,6 +282,42 @@ paths:
               - phone
               - birthday
               - position
+  "/api/v1/create_hospital":
+    post:
+      summary: Creates a hospital
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '201':
+          description: returns the newly created hospital
+        '422':
+          description: returns an error message if hospital cannot be created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: New Hospital
+                address:
+                  type: string
+                  default: 123 Main St
+                city:
+                  type: string
+                  default: Anytown
+                region:
+                  type: string
+                  default: NY
+              required:
+              - name
+              - address
+              - city
+              - region
   "/api/v1/doctors/{id}":
     delete:
       summary: Deletes a doctor by id
@@ -479,7 +515,7 @@ paths:
               required:
               - password
         description: The new password for the user
-  "/api/v1/patient/main-info":
+  "/api/v1/patient-account/personal-information":
     get:
       summary: list personal_infos
       tags:
@@ -533,13 +569,13 @@ paths:
                 type:
                   type: string
                   default: Must be 'patient_info' or 'document'
-                name:
+                first_name:
                   type: string
                   default: Юзер
-                surname:
+                last_name:
                   type: string
                   default: Юзеренко
-                fathername:
+                second_name:
                   type: string
                   default: Юзеренкович
                 email:
