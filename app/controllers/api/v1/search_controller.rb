@@ -10,20 +10,20 @@ class Api::V1::SearchController < ApplicationController
 
     if region.present? && Hospital.exists?(region: region)
       @pagy, hospitals = pagy(hospitals.where(region: region))
-      @pagy, doctors = pagy(doctors.joins(:hospital).where(hospitals: { region: region }))
+      @pagy, doctors = pagy(doctors.includes(:hospital).where(hospitals: { region: region }))
     end
 
     if params[:query].present?
       @pagy, hospitals = pagy(hospitals.where('address ILIKE ? OR city ILIKE ? OR name ILIKE ?', "%#{params[:query]}%",
                                               "%#{params[:query]}%", "%#{params[:query]}%"))
-      @pagy, doctors = pagy(doctors.where('doctors.name ILIKE ? OR doctors.surname ILIKE ? OR doctors.position ILIKE ?',
+      @pagy, doctors = pagy(doctors.where('doctors.first_name ILIKE ? OR doctors.last_name ILIKE ? OR doctors.position ILIKE ?',
                                           "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"))
     end
 
     if hospitals.any? || doctors.any?
       render json: {
-        hospitals: ActiveModelSerializers::SerializableResource.new(hospitals, each_serializer: HospitalsSerializer),
-        doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorShowSerializer)
+        hospitals: ActiveModelSerializers::SerializableResource.new(hospitals, each_serializer: HospitalsSearchSerializer),
+        doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorSearchSerializer)
       }, status: :ok
     else
       render json: { message: 'No results found' }, status: :unprocessable_entity
@@ -40,7 +40,7 @@ class Api::V1::SearchController < ApplicationController
                      end
 
     if params[:query].present?
-      @pagy, doctors = pagy(doctors.where('name ILIKE ? OR surname ILIKE ? OR position ILIKE ?',
+      @pagy, doctors = pagy(doctors.where('first_name ILIKE ? OR last_name ILIKE ? OR position ILIKE ?',
                                           "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"))
     end
 
@@ -48,7 +48,7 @@ class Api::V1::SearchController < ApplicationController
 
     if doctors.any?
       render json: {
-        doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorShowSerializer)
+        doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorSearchSerializer)
       }, status: :ok
     else
       render json: { message: 'No results found' }, status: :unprocessable_entity
@@ -64,7 +64,7 @@ class Api::V1::SearchController < ApplicationController
 
     if hospitals.any?
       render json: {
-        hospitals: ActiveModelSerializers::SerializableResource.new(hospitals, each_serializer: HospitalsSerializer)
+        hospitals: ActiveModelSerializers::SerializableResource.new(hospitals, each_serializer: HospitalsSearchSerializer)
       }, status: :ok
     else
       render json: { message: 'No results found' }, status: :unprocessable_entity
