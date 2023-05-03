@@ -536,13 +536,13 @@ paths:
                 type:
                   type: string
                   default: Must be 'patient_info' or 'document'
-                name:
+                first_name:
                   type: string
                   default: Юзер
-                surname:
+                last_name:
                   type: string
                   default: Юзеренко
-                fathername:
+                second_name:
                   type: string
                   default: Юзеренкович
                 email:
