@@ -4,7 +4,7 @@ info:
   title: API V1
   version: v1
 paths:
-  "/api/v1/patient/extra-info":
+  "/api/v1/patient-account/additional-data":
     get:
       summary: list additional_infos
       tags:
@@ -482,7 +482,7 @@ paths:
               required:
               - password
         description: The new password for the user
-  "/api/v1/patient/main-info":
+  "/api/v1/patient-account/personal-information":
     get:
       summary: list personal_infos
       tags:
@@ -536,13 +536,13 @@ paths:
                 type:
                   type: string
                   default: Must be 'patient_info' or 'document'
-                name:
+                first_name:
                   type: string
                   default: Юзер
-                surname:
+                last_name:
                   type: string
                   default: Юзеренко
-                fathername:
+                second_name:
                   type: string
                   default: Юзеренкович
                 email:

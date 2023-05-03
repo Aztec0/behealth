@@ -60,6 +60,16 @@ Rails.application.routes.draw do
       get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
       post   'doctor/:doctor_id/feedback',                   to: 'feedbacks#create'
 
+      # Links for front-end
+      get    'patient-account/additional-data',              to: 'additional_info#index'
+      post   'patient-account/additional-data',              to: 'additional_info#create'
+      put    'patient-account/additional-data',              to: 'additional_info#update'
+      delete 'patient-account/additional-data',              to: 'additional_info#destroy'
+      get    'patient-account/personal-information',         to: 'personal_info#index'
+      post   'patient-account/personal-information',         to: 'personal_info#create'
+      put    'patient-account/personal-information',         to: 'personal_info#update'
+      delete 'patient-account/personal-information',         to: 'personal_info#destroy'
+
       # Additional information of patient
       get    'patient/extra-info',                           to: 'additional_info#index'
       post   'patient/extra-info',                           to: 'additional_info#create'
