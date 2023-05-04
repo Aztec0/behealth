@@ -14,4 +14,5 @@
 #
 class Hospital < ApplicationRecord
   has_many :doctors
+  has_many :feedbacks, as: :doctorable
 end
