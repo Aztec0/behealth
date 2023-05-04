@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_02_200445) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_04_204007) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,7 +47,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_200445) do
     t.datetime "updated_at", null: false
     t.string "reset_password_token"
     t.datetime "token_sent_at"
-    t.integer "rating", default: 0
+    t.float "rating", default: 0.0
     t.integer "role", default: 0
     t.bigint "hospital_id"
     t.boolean "email_confirmed", default: true
@@ -79,6 +79,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_200445) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "rating", default: 0.0
   end
 
   create_table "id_cards", force: :cascade do |t|

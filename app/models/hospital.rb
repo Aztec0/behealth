@@ -8,6 +8,7 @@
 #  address    :string
 #  city       :string
 #  name       :string
+#  rating     :float            default(0.0)
 #  region     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

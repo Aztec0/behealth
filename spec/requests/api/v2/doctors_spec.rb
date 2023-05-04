@@ -26,8 +26,8 @@ RSpec.describe 'api/v2/doctors', swagger_doc: 'v2/swagger.yaml', type: :request 
       parameter name: :doctor_params, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string, default: 'John' },
-          surname: { type: :string, default: 'Doe' },
+          first_name: { type: :string, default: 'John' },
+          last_name: { type: :string, default: 'Doe' },
           second_name: { type: :string, default: 'Doe' },
           email: { type: :string, default: 'john.doe@example.com' },
           phone: { type: :integer, default: '1234567890' },
@@ -41,8 +41,8 @@ RSpec.describe 'api/v2/doctors', swagger_doc: 'v2/swagger.yaml', type: :request 
         schema type: :object,
                properties: {
                  id: { type: :integer },
-                 name: { type: :string },
-                 surname: { type: :string },
+                 first_name: { type: :string },
+                 last_name: { type: :string },
                  email: { type: :string },
                  phone: { type: :integer },
                  birthday: { type: :string },
@@ -141,8 +141,8 @@ RSpec.describe 'api/v2/doctors', swagger_doc: 'v2/swagger.yaml', type: :request 
                  type: :object,
                  properties: {
                    id: { type: :integer },
-                   name: { type: :string },
-                   surname: { type: :string },
+                   first_name: { type: :string },
+                   last_name: { type: :string },
                    email: { type: :string },
                    phone: { type: :integer },
                    birthday: { type: :string },

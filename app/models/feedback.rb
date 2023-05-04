@@ -24,7 +24,6 @@
 #  fk_rails_...  (patient_id => patients.id)
 #
 class Feedback < ApplicationRecord
-  belongs_to :doctor, polymorphic: true
-  belongs_to :hospital, polymorphic: true
+  belongs_to :doctorable, polymorphic: true
   belongs_to :patient, optional: true
 end

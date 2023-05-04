@@ -6,7 +6,7 @@ PatientWork.create(patient_id: 1, work_type: 'Основна', place: 'Аско�
 #   Doctor.create(name: Faker::Name.name, surname: Faker::Name.last_name,
 #                     position: 'main doctor', birthday: '1990-01-01',
 #                     email: "test_head#{rand(1..10)}@test.com", password: '123456789',
-#                     phone: '79999999999', role: 1, hospital_id: rand(1..10))
+#                     phone: '99999999999', role: 1, hospital_id: rand(1..10))
 # end
 #
 # 40.times do

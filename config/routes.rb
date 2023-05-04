@@ -42,8 +42,10 @@ Rails.application.routes.draw do
       get '/hospitals',                                      to: 'hospitals#index'
 
       # Feedbacks for doctors
-      get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
-      post   'doctor/:doctor_id/feedback',                   to: 'feedbacks#create'
+      get    'feedbacks/:type/:id',                          to: 'feedbacks#index'
+      post   'feedbacks/:type/:id',                          to: 'feedbacks#create'
+      put    'feedbacks/:id',                                to: 'feedbacks#update'
+      delete 'feedbacks/:id',                                to: 'feedbacks#destroy'
 
       # Links for front-end
       get    'patient-account/additional-data',              to: 'additional_info#index'

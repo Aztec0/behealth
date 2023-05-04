@@ -3,6 +3,7 @@
 class Api::V1::DoctorsController < ApplicationController
   before_action :authenticate_doctor_user, except: %i[index]
   before_action :authorize_request, except: %i[index show]
+  skip_before_action :authenticate_request, only: :index
   before_action :set_doctor, only: :show
 
   def index
