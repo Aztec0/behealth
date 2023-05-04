@@ -13,6 +13,7 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
             }
           }
         end
+
         run_test!
       end
     end
@@ -51,16 +52,50 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
                  hospital_id: { type: :integer }
                },
                required: %w[id first_name last_name second_name email phone birthday position hospital_id]
+        let(:hospital) { create(:hospital) }
+        let(:doctor_params) { create(:doctor) }
 
-        run_test!
+        run_test! do
+          expect(json).not_to be_a(nil)
+          expect(json['id']).to be_a(Integer)
+          expect(json['first_name']).to eq(doctor_params[:first_name])
+          expect(json['last_name']).to eq(doctor_params[:last_name])
+          expect(json['second_name']).to eq(doctor_params[:second_name])
+          expect(json['email']).to eq(doctor_params[:email])
+          expect(json['phone']).to eq(doctor_params[:phone])
+          expect(json['birthday']).to eq(doctor_params[:birthday])
+          expect(json['position']).to eq(doctor_params[:position])
+          expect(json['hospital_id']).to eq(doctor_params[:hospital.id])
+        end
       end
 
       response '422', 'invalid request' do
-        run_test!
+        let(:doctor_params) do
+          {
+            first_name: '',
+            last_name: '',
+            second_name: '',
+            email: 'invalid_email',
+            phone: '',
+            birthday: '',
+            position: '',
+            hospital_id: ''
+          }
+        end
+
+        run_test! do
+          expect(json).not_to be_a(nil)
+          expect(json['error']).to eq('Invalid request')
+        end
       end
 
       response '401', 'unauthorized' do
-        run_test!
+        let(:ApiKeyAuth) { '' }
+
+        run_test! do
+          expect(json).not_to be_a(nil)
+          expect(json['error']).to eq('Unauthorized')
+        end
       end
     end
   end

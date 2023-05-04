@@ -653,7 +653,7 @@ paths:
         in: query
         description: |-
           Searching query for hospital or doctor. Input address, name, city for hospital or
-                                        name, surname, specialty for doctor
+                                        First Name, Last Name, specialty(position) for doctor
         required: false
         schema:
           type: string
@@ -687,7 +687,7 @@ paths:
       parameters:
       - name: query
         in: query
-        description: 'Searching doctor by name, surname, second name, position '
+        description: 'Searching doctor by first_name, last_name, position '
         required: false
         schema:
           type: string

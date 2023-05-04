@@ -16,6 +16,7 @@ RSpec.describe 'api/v1/additional_info', swagger_doc: 'v1/swagger.yaml', type: :
             }
           }
         end
+
         run_test!
       end
     end
@@ -48,6 +49,7 @@ RSpec.describe 'api/v1/additional_info', swagger_doc: 'v1/swagger.yaml', type: :
             }
           }
         end
+
         run_test!
       end
     end
@@ -80,6 +82,7 @@ RSpec.describe 'api/v1/additional_info', swagger_doc: 'v1/swagger.yaml', type: :
             }
           }
         end
+
         run_test!
       end
     end
@@ -105,6 +108,7 @@ RSpec.describe 'api/v1/additional_info', swagger_doc: 'v1/swagger.yaml', type: :
             }
           }
         end
+
         run_test!
       end
     end

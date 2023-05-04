@@ -64,7 +64,7 @@ group :development, :test do
 
   # Byebug is a simple to use and feature rich debugger for Ruby
   gem 'byebug'
-
+  gem 'factory_bot_rails'
   # It's a library for generating fake data such as names, addresses, and phone numbers
   gem 'faker'
   # for testing send emails
@@ -93,4 +93,3 @@ group :development do
   gem 'capistrano-upload-config'
   gem 'sshkit-sudo'
 end
-
