@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         end
       end
 
+      get '/auth/google_oauth2/callback', to: 'sessions#google_oauth2'
       # Search hospitals and doctors
       get '/search', to: 'search#search'
       get '/search_doctors_by_specialty', to: 'search#search_doctors_by_specialty'
