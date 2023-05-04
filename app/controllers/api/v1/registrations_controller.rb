@@ -27,7 +27,7 @@ class Api::V1::RegistrationsController < ApplicationController
     token = params[:token].to_s
     @patient = Patient.find_by(confirm_token: token)
     if @patient.present? && @patient.token_valid?
-      @patient.update(patient_params)
+      @patient.assign_attributes(patient_params)
       if @patient.save!
         @patient.email_activate
         render json: { status: 'Email activated, you successfully registered' }, status: :ok

@@ -1,0 +1,344 @@
+---
+openapi: 3.0.1
+info:
+  title: API V2
+  version: v2
+  description: This is the second version of behealth API
+paths:
+  "/api/v2/doctors":
+    get:
+      summary: List all doctors
+      tags:
+      - Doctors and Hospitals
+      responses:
+        '200':
+          description: successful
+  "/api/v2/create_doctor":
+    post:
+      summary: Creates a doctor
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '201':
+          description: returns the newly created doctor
+        '422':
+          description: Invalid request
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: John
+                surname:
+                  type: string
+                  default: Doe
+                second_name:
+                  type: string
+                  default: Doe
+                email:
+                  type: string
+                  default: john.doe@example.com
+                phone:
+                  type: integer
+                  default: '1234567890'
+                birthday:
+                  type: string
+                  default: '1990-01-01'
+                position:
+                  type: string
+                  default: Cardiologist
+              required:
+              - name
+              - surname
+              - second_name
+              - email
+              - phone
+              - birthday
+              - position
+  "/api/v2/create_hospital":
+    post:
+      summary: Creates a hospital
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '201':
+          description: returns the newly created hospital
+        '422':
+          description: returns an error message if hospital cannot be created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: New Hospital
+                address:
+                  type: string
+                  default: 123 Main St
+                city:
+                  type: string
+                  default: Anytown
+                region:
+                  type: string
+                  default: NY
+              required:
+              - name
+              - address
+              - city
+              - region
+  "/api/v2/doctors/{id}":
+    delete:
+      summary: Deletes a doctor by id
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: id
+        in: path
+        description: Doctor ID
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: doctor deleted
+        '404':
+          description: doctor not found
+  "/api/v2/list_doctor_by_hospital":
+    get:
+      summary: Retrieves a list of doctors associated with the hospital
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: returns a list of doctors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    surname:
+                      type: string
+                    email:
+                      type: string
+                    phone:
+                      type: integer
+                    birthday:
+                      type: string
+                    position:
+                      type: string
+                    rating:
+                      type: integer
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+                    hospital_id:
+                      type: integer
+                  required:
+                  - id
+                  - name
+                  - surname
+                  - email
+                  - phone
+                  - birthday
+                  - position
+                  - rating
+                  - created_at
+                  - updated_at
+                  - hospital_id
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/v2/staff_appointments":
+    get:
+      summary: Retrieves a list of doctors appointments
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: returns a list of doctors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    appointment_datetime:
+                      type: string
+                    status:
+                      type: string
+                    doctor_full_name:
+                      type: string
+                    hospital_name:
+                      type: string
+                    patient_full_name:
+                      type: string
+                  required:
+                  - id
+                  - appointment_datetime
+                  - status
+                  - doctor_full_name
+                  - hospital_name
+                  - patient_full_name
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/api/v2/hospitals":
+    get:
+      summary: List all hospitals
+      tags:
+      - Doctors and Hospitals
+      responses:
+        '200':
+          description: successful
+  "/api/v2/search":
+    get:
+      summary: Search for a hospital or doctor in the region
+      tags:
+      - Search
+      parameters:
+      - name: query
+        in: query
+        description: |-
+          Searching query for hospital or doctor. Input address, name, city for hospital or
+                                        name, surname, specialty for doctor
+        required: false
+        schema:
+          type: string
+      - name: region
+        in: query
+        description: |-
+          Region filter. Enter the name of the region to search for a hospital or doctor in that
+                                        location. If field leave empty, request was for all areas
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Hospitals and doctors found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hospitals:
+                    type: array
+                  doctors:
+                    type: array
+        '422':
+          description: Invalid search query
+  "/api/v2/search_doctors_by_specialty":
+    get:
+      summary: Searching doctors by specialty
+      tags:
+      - Search
+      parameters:
+      - name: query
+        in: query
+        description: 'Searching doctor by name, surname, second name, position '
+        required: false
+        schema:
+          type: string
+      - name: position
+        in: query
+        description: Doctor speciality
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Doctors found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  doctors:
+                    type: array
+        '422':
+          description: Invalid search query
+  "/api/v2/search_hospitals":
+    get:
+      summary: Searching hospitals
+      tags:
+      - Search
+      parameters:
+      - name: query
+        in: query
+        description: Searching hospital by name. If field leave empty request was
+          for all hospitals
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Hospitals found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hospitals:
+                    type: array
+        '422':
+          description: Invalid search query
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: 127.0.0.1:3000
+- url: https://{staging_host}
+  variables:
+    staging_host:
+      default: www.behealth.pp.ua
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: "{token}"

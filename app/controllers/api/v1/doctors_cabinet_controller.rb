@@ -12,7 +12,8 @@ class Api::V1::DoctorsCabinetController < ApplicationController
   end
 
   def update
-    if @current_doctor.update(doctor_params)
+    if @current_doctor.assign_attributes(doctor_params)
+      @current_doctor.save(validates: false)
       render json: { status: 'Parameters updated' }, status: :ok
     else
       render json: { error: 'Something went wrong' }, status: :unprocessable_entity
