@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "Api::V1::DoctorsFeedbacks", type: :request do
-  describe "GET /index" do
+RSpec.describe 'Api::V1::DoctorsFeedbacks', swagger_doc: 'v1/swagger.yaml', type: :request do
+  describe 'GET /index' do
     pending "add some examples (or delete) #{__FILE__}"
   end
 end

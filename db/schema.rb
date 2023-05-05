@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_02_161122) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_25_071737) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,8 +36,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_161122) do
   end
 
   create_table "doctors", force: :cascade do |t|
-    t.string "name"
-    t.string "surname"
+    t.string "first_name"
+    t.string "last_name"
     t.date "birthday"
     t.string "position"
     t.bigint "hospital_id", null: false
@@ -47,8 +47,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_161122) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
+    t.datetime "token_sent_at"
     t.integer "rating", default: 0
+    t.integer "role", default: 0
+    t.bigint "hospital_id"
+    t.boolean "email_confirmed", default: true
+    t.string "second_name"
+    t.text "about"
+    t.decimal "admission_price"
+    t.string "second_email"
+    t.bigint "second_phone"
     t.index ["hospital_id"], name: "index_doctors_on_hospital_id"
   end
 
@@ -121,24 +129,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_161122) do
   end
 
   create_table "patients", force: :cascade do |t|
-    t.string "name"
-    t.string "surname"
+    t.string "first_name"
+    t.string "last_name"
     t.date "birthday"
     t.string "email"
     t.bigint "phone"
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reset_password_token"
+    t.datetime "token_sent_at"
+    t.boolean "email_confirmed", default: false
+    t.string "confirm_token"
+    t.bigint "chat_id"
     t.integer "sex", default: 0
-    t.string "fathername"
-    t.integer "itn"
+    t.string "second_name"
+    t.integer "tin"
   end
 
   add_foreign_key "appointments", "doctors"
   add_foreign_key "appointments", "patients"
   add_foreign_key "calendars", "doctors"
   add_foreign_key "calendars", "patients"
-  add_foreign_key "doctors", "hospitals"
+  add_foreign_key "doctors", "hospitals", on_delete: :nullify
   add_foreign_key "feedbacks", "doctors"
   add_foreign_key "feedbacks", "patients"
   add_foreign_key "patient_addresses", "patients"

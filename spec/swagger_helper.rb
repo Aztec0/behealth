@@ -27,29 +27,66 @@ RSpec.configure do |config|
           url: 'http://{defaultHost}',
           variables: {
             defaultHost: {
-<<<<<<< HEAD
+              default: '127.0.0.1:3000'
             }
           }
-        },        {
-        url: 'http://{behealthtHost}',
-        variables: {
-          behealthHost: {
-            default: '64.226.64.5'
-          }
-        }
-      },
+        },
         {
           url: 'https://{staging_host}',
           variables: {
             staging_host: {
-              default: ''
-=======
-              default: 'www.example.com'
->>>>>>> origin/development
+              default: 'www.behealth.pp.ua'
             }
           }
         }
-      ]
+      ],
+      components: {
+        securitySchemes: {
+          ApiKeyAuth: {
+            type: :apiKey,
+            name: 'Authorization',
+            in: :header,
+            description: '{token}'
+          }
+        }
+      }
+    },
+    'v2/swagger.yaml' => {
+      openapi: '3.0.1',
+      info: {
+        title: 'API V2',
+        version: 'v2',
+        description: 'This is the second version of behealth API'
+      },
+      paths: {},
+      servers: [
+        {
+          url: 'http://{defaultHost}',
+          variables: {
+            defaultHost: {
+              default: '127.0.0.1:3000'
+            }
+          }
+        },
+        {
+          url: 'https://{staging_host}',
+          variables: {
+            staging_host: {
+              default: 'www.behealth.pp.ua'
+            }
+          }
+        }
+      ],
+      components: {
+        securitySchemes: {
+          ApiKeyAuth: {
+            type: :apiKey,
+            name: 'Authorization',
+            in: :header,
+            description: '{token}'
+          }
+        }
+      }
     }
   }
 

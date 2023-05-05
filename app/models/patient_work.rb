@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: patient_works
@@ -11,5 +13,10 @@
 #  patient_id :bigint           not null
 #
 class PatientWork < ApplicationRecord
+  include Constantable
+
   belongs_to :patient
+
+  validates :place, presence: true, length: { maximum: 100 }, format: { with: WORKPLACE_REGEX }
+  validates :position, presence: true, length: { maximum: 15 }, format: { with: POSITION_REGEX }
 end

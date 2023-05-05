@@ -1,23 +1,32 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: patients
 #
-#  id              :bigint           not null, primary key
-#  birthday        :date
-#  email           :string
-#  fathername      :string
-#  itn             :integer
-#  name            :string
-#  password_digest :string
-#  phone           :bigint
-#  sex             :integer          default("nothing")
-#  surname         :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                   :bigint           not null, primary key
+#  birthday             :date
+#  confirm_token        :string
+#  email                :string
+#  email_confirmed      :boolean          default(FALSE)
+#  first_name           :string
+#  last_name            :string
+#  password_digest      :string
+#  phone                :bigint
+#  reset_password_token :string
+#  second_name          :string
+#  sex                  :integer          default("nothing")
+#  tin                  :integer
+#  token_sent_at        :datetime
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  chat_id              :bigint
 #
 
 class Patient < ApplicationRecord
-  has_secure_password
+  include Constantable
+  include Passwordable::Shareable
+  include Confirmable
 
   has_many :feedbacks
   has_one :patient_address
@@ -28,15 +37,16 @@ class Patient < ApplicationRecord
 
   enum sex: %i[nothing male female]
 
-  validates :name, :password, presence: true
-  validates :itn, length: { is: 10 }, numericality: { only_integer: true }, allow_blank: true
+  validates :first_name, :last_name, :second_name, format: { with: NAME_REGEX }, allow_blank: true
+  validates :tin, length: { is: TIN_LENGTH }, numericality: { only_integer: true }, allow_blank: true
+  validates :email, uniqueness: true
 
   def contact_info
     { email: email, phone: "+#{phone.to_s}" }
   end
 
   def main_info
-    fullname = "#{surname} #{name} #{fathername unless fathername.nil?}".strip
-    {fullname: fullname, birthday: birthday.strftime("%d.%m.%Y"), itn: itn, sex: sex}
+    birthday = birthday.present? ? birthday.strftime('%d.%m.%Y') : nil
+    { first_name: first_name, last_name: last_name, second_name: second_name, birthday: birthday, tin: tin, sex: sex }
   end
 end

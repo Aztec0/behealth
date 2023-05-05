@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: patient_addresses
@@ -20,13 +22,9 @@
 #  fk_rails_...  (patient_id => patients.id)
 #
 class PatientAddressSerializer < ActiveModel::Serializer
-  attributes :id, :address_type, :settlement, :house, :apartments
+  attributes :id, :type, :address_type, :settlement, :house, :apartments
 
-  def apartments
-    if object.apartments.nil?
-      'undefined'
-    else
-      object.apartments
-    end
+  def type
+    'address'
   end
 end

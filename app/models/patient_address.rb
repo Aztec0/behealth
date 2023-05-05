@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: patient_addresses
@@ -20,5 +22,11 @@
 #  fk_rails_...  (patient_id => patients.id)
 #
 class PatientAddress < ApplicationRecord
+  include Constantable
+  
   belongs_to :patient
+
+  validates :settlement, presence: true, length: { maximum: 100 }, format: { with: SETTLEMENT_REGEX }
+  validates :house, presence: true, format: { with: HOUSE_REGEX }
+  validates :apartments, format: { with: APARTMENTS_REGEX }
 end
