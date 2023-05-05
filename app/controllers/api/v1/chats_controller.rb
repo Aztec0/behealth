@@ -1,5 +1,4 @@
-class ChatsController < ApplicationController
-  before_action :authenticate_request
+class Api::V1::ChatsController < ApplicationController
   before_action :set_chat, only: [:show, :update, :destroy]
 
   # GET /chats

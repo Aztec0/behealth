@@ -63,9 +63,14 @@ Rails.application.routes.draw do
       # list all hospitals
       get '/hospitals',                                      to: 'hospitals#index'
 
-      resources :chats, only: [:index, :create, :show] do
-        resources :messages, only: [:index, :create]
-      end
+      # Chats and messages
+      get '/chats',                                          to: 'chats#index'
+      post '/chats',                                         to: 'chats#create'
+      get '/chats/:id',                                      to: 'chats#show'
+      delete '/chats/:id',                                   to: 'chats#delete'
+      get '/chats/:chat_id/messages',                        to: 'messages#index'
+      post '/chats/:chat_id/messages',                       to: 'messages#create'
+      delete '/chats/:chat_id/messages/:id',                 to: 'messages#destroy'
 
       #Feedbacks for doctors
       get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
@@ -111,17 +116,17 @@ Rails.application.routes.draw do
     end
 
 
-    # Calendar
-    get 'calendars', to: 'calendars#index'
-    post 'calendars', to: 'calendars#create'
-    put 'calendars/:id', to: 'calendars#update'
+      # Calendar
+      get '/calendars',                                      to: 'calendars#index'
+      post '/calendars',                                     to: 'calendars#create'
+      put '/calendars/:id',                                  to: 'calendars#update'
 
       # Conclusions
-      get '/api/v1/conclusions', to: 'conclusions#index'
-      post '/api/v1/conclusions', to: 'conclusions#create'
-      get '/api/v1/conclusions/:id', to: 'conclusions#show'
-      put '/api/v1/conclusions/:id', to: 'conclusions#update'
-      delete '/api/v1/conclusions/:id', to: 'conclusions#destroy'
+      get 'conclusions',                                     to: 'conclusions#index'
+      post '/conclusions',                                   to: 'conclusions#create'
+      get '/conclusions/:id',                                to: 'conclusions#show'
+      put '/conclusions/:id',                                to: 'conclusions#update'
+      delete '/conclusions/:id',                             to: 'conclusions#destroy'
     end
     namespace :v2 do
       # Search hospitals and doctors
@@ -163,4 +168,3 @@ Rails.application.routes.draw do
       delete 'patient/work',                                  to: 'patient_work#destroy'
     end
   end
-end

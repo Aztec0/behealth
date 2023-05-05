@@ -1,5 +1,4 @@
-class MessagesController < ApplicationController
-  before_action :authenticate_request
+class Api::V1::MessagesController < ApplicationController
 
   # GET /chats/:chat_id/messages
   def index
