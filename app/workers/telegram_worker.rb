@@ -3,7 +3,7 @@ class TelegramWorker
   require 'telegram/bot'
 
   def perform
-    appointments = Appointment.where('appointment_datetime <= ?', 2.days.from_now)
+    appointments = Appointment.where('appointment_datetime >= ?', Time.current).and(Appointment.where('appointment_datetime <= ?', 2.days.from_now))
     bot = Telegram::Bot::Client.new('5649347186:AAHTqQJ1frE5ZxS5Yz_qzuWsvYlrtbnK0xI')
 
     appointments.each do |a|
