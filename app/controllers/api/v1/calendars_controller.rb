@@ -1,4 +1,4 @@
-class CalendarController < ApplicationController
+class CalendarsController < ApplicationController
   before_action :authenticate_request
   before_action :set_current_user
 

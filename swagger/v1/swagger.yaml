@@ -657,12 +657,20 @@ paths:
                   type: integer
                 date:
                   type: string
-                  format: date-time
-              required:
-                - patient_id
-                - doctor_id
-                - date
-        description: Appointment details to create
+                  default: 12.04.2023
+    delete:
+      summary: delete personal_info
+      tags:
+      - Personal Information
+      responses:
+        '200':
+          description: successful
+  "/api/v1/signup":
+    post:
+      summary: Sends an email to register user
+      tags:
+      - Signup
+      parameters: []
       responses:
         '201':
           description: Created

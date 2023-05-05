@@ -95,6 +95,12 @@ Rails.application.routes.draw do
       get '/appointments/past',                              to: 'appointments#past'
       get '/appointments/upcoming',                          to: 'appointments#upcoming'
     end
+    
+
+    # Calendar
+    get 'calendars', to: 'calendars#index'
+    post 'calendars', to: 'calendars#create'
+    put 'calendars/:id', to: 'calendars#update'
 
     namespace :v2 do
       # Search hospitals and doctors
