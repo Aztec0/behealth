@@ -125,17 +125,17 @@ Rails.application.routes.draw do
       delete '/chats/:chat_id/messages/:id',                 to: 'messages#destroy'
 
 
-      # Calendar
-      get '/calendars',                                      to: 'calendars#index'
-      post '/calendars',                                     to: 'calendars#create'
-      put '/calendars/:id',                                  to: 'calendars#update'
-
+    # Calendar
+    get 'calendars', to: 'calendars#index'
+    post 'calendars', to: 'calendars#create'
+    put 'calendars/:id', to: 'calendars#update'
 
       # Conclusions
-      get 'conclusions',                                     to: 'conclusions#index'
-      post '/conclusions',                                   to: 'conclusions#create'
-      get '/conclusions/:id',                                to: 'conclusions#show'
-      put '/conclusions/:id',                                to: 'conclusions#update'
+      get '/api/v1/conclusions', to: 'conclusions#index'
+      post '/api/v1/conclusions', to: 'conclusions#create'
+      get '/api/v1/conclusions/:id', to: 'conclusions#show'
+      put '/api/v1/conclusions/:id', to: 'conclusions#update'
+      delete '/api/v1/conclusions/:id', to: 'conclusions#destroy'
     end
     namespace :v2 do
       # Search hospitals and doctors
@@ -210,5 +210,12 @@ Rails.application.routes.draw do
       get '/conclusions/:id',                                to: 'conclusions#show'
       put '/conclusions/:id',                                to: 'conclusions#update'
       delete '/conclusions/:id',                             to: 'messages#destroy'
+
+      # Feedbacks
+      get    'feedbacks/:type/:id',                          to: 'feedbacks#index'
+      post   'feedbacks/:type/:id',                          to: 'feedbacks#create'
+      put    'feedbacks/:id',                                to: 'feedbacks#update'
+      delete 'feedbacks/:id',                                to: 'feedbacks#destroy'
     end
   end
+end

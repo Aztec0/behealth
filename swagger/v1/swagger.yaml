@@ -9,6 +9,8 @@ paths:
       summary: list additional_infos
       tags:
       - Additional Information
+      security:
+      - ApiKeyAuth: []
       responses:
         '200':
           description: successful
@@ -16,6 +18,8 @@ paths:
       summary: create additional_info
       tags:
       - Additional Information
+      security:
+      - ApiKeyAuth: []
       parameters: []
       responses:
         '200':
@@ -54,6 +58,8 @@ paths:
       summary: update additional_info
       tags:
       - Additional Information
+      security:
+      - ApiKeyAuth: []
       parameters: []
       responses:
         '200':
@@ -92,6 +98,8 @@ paths:
       summary: delete additional_info
       tags:
       - Additional Information
+      security:
+      - ApiKeyAuth: []
       parameters: []
       responses:
         '200':
@@ -258,10 +266,10 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                first_name:
                   type: string
                   default: John
-                surname:
+                last_name:
                   type: string
                   default: Doe
                 second_name:
@@ -280,8 +288,8 @@ paths:
                   type: string
                   default: Cardiologist
               required:
-              - name
-              - surname
+              - first_name
+              - last_name
               - second_name
               - email
               - phone
@@ -323,7 +331,7 @@ paths:
               - address
               - city
               - region
-  "/api/v1/doctors/{id}":
+  "/api/v1/delete_doctor/{id}":
     delete:
       summary: Deletes a doctor by id
       tags:
@@ -361,9 +369,11 @@ paths:
                   properties:
                     id:
                       type: integer
-                    name:
+                    first_name:
                       type: string
-                    surname:
+                    last_name:
+                      type: string
+                    second_name:
                       type: string
                     email:
                       type: string
@@ -383,8 +393,9 @@ paths:
                       type: integer
                   required:
                   - id
-                  - name
-                  - surname
+                  - first_name
+                  - last_name
+                  - second_name
                   - email
                   - phone
                   - birthday
@@ -451,63 +462,98 @@ paths:
                     type: string
                 required:
                 - error
-  "/api/v1/hospitals":
+  "/api/v1/feedbacks/{type}/{id}":
+    parameters:
+    - name: type
+      in: path
+      description: type
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
     get:
-      summary: List all hospitals
+      summary: list feedbacks
       tags:
-      - Doctors and Hospitals
+      - Feedbacks
       responses:
         '200':
           description: successful
-  "/api/v1/forgot":
     post:
-      summary: Sends an email to reset the user's password
+      summary: create feedback
       tags:
-      - Passwords
+      - Feedbacks
+      security:
+      - ApiKeyAuth: []
       parameters: []
       responses:
         '200':
-          description: OK
-        '400':
-          description: Bad Request
+          description: successful
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                email:
+                title:
                   type: string
-                user_type:
+                  default: Test
+                body:
                   type: string
-              required:
-              - email
-              - user_type
-        description: The user's email address
-  "/api/v1/password-reset":
-    post:
-      summary: Resets the user's password
+                  default: It's just a test feedback
+                rating:
+                  type: integer
+                  default: 5
+  "/api/v1/feedbacks/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    put:
+      summary: update feedback
       tags:
-      - Passwords
-      parameters:
-      - name: token
-        in: query
-        description: The password reset token generated for the user
-        required: true
-        schema:
-          type: string
-      - name: user_type
-        in: query
-        description: The user's type
-        required: true
-        schema:
-          type: string
+      - Feedbacks
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  default: Test
+                body:
+                  type: string
+                  default: It's just a test feedback
+                rating:
+                  type: integer
+                  default: 5
+    delete:
+      summary: delete feedback
+      tags:
+      - Feedbacks
+      security:
+      - ApiKeyAuth: []
       responses:
         '200':
           description: OK
 
   "/api/v1/appointments":
     get:
+      summary: List all hospitals
       tags:
         - "Appointments"
       summary: "List all appointments"
@@ -553,6 +599,15 @@ paths:
                 - "patient_id"
         "401":
           description: "Unauthorized"
+      - Doctors and Hospitals
+      responses:
+        '200':
+          description: successful
+  "/api/v1/hospital/update/:id":
+    patch:
+      summary: Update hospital params
+      tags:
+      - Doctors
       security:
         - ApiKeyAuth: [ ]
   "/api/v1/appointments":
@@ -741,10 +796,276 @@ paths:
         - Appointments
       produces:
         - application/json
+      - ApiKeyAuth: []
+      parameters:
+      - name: tag_list
+        in: query
+        description: List of tags for hospital
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '422':
+          description: Unprocessable entity
       requestBody:
         content:
           application/json:
             schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                  default: Some addres
+                city:
+                  type: string
+                  default: Some city
+                name:
+                  type: string
+                  default: Some name
+                region:
+                  type: string
+                  default: Some region
+              required:
+              - second_email
+              - second_phone
+              - description
+              - price
+        description: Hospital`s params to update
+  "/api/v1/forgot":
+    post:
+      summary: Sends an email to reset the user's password
+      tags:
+      - Passwords
+      parameters: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                user_type:
+                  type: string
+              required:
+              - email
+              - user_type
+        description: The user's email address
+  "/api/v1/password-reset":
+    post:
+      summary: Resets the user's password
+      tags:
+      - Passwords
+      parameters:
+      - name: token
+        in: query
+        description: The password reset token generated for the user
+        required: true
+        schema:
+          type: string
+      - name: user_type
+        in: query
+        description: The user's type
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+              required:
+              - password
+        description: The new password for the user
+  "/api/v1/patient-account/personal-information":
+    get:
+      summary: list personal_infos
+      tags:
+      - Personal Information
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create personal_info
+      tags:
+      - Personal Information
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                document_type:
+                  type: string
+                  default: Must be 'Passport' or 'IdCard'
+                series:
+                  type: string
+                  default: Dont use for IdCard
+                number:
+                  type: string
+                  default: '1111'
+                issued_by:
+                  type: string
+                  default: '1111'
+                date:
+                  type: string
+                  default: 12.04.2023
+    put:
+      summary: update personal_info
+      tags:
+      - Personal Information
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  default: Must be 'patient_info' or 'document'
+                first_name:
+                  type: string
+                  default: Юзер
+                last_name:
+                  type: string
+                  default: Юзеренко
+                second_name:
+                  type: string
+                  default: Юзеренкович
+                email:
+                  type: string
+                  default: user@test.rb
+                phone:
+                  type: string
+                  default: "+380000000000"
+                birthday:
+                  type: string
+                  default: 05.11.2003
+                tin:
+                  type: string
+                  default: '1111111111'
+                sex:
+                  type: string
+                  default: "'nothing', 'male' or 'female'"
+                series:
+                  type: string
+                  default: Use for Passport
+                number:
+                  type: string
+                  default: '1111'
+                issued_by:
+                  type: string
+                  default: '1111'
+                date:
+                  type: string
+                  default: 12.04.2023
+    delete:
+      summary: delete personal_info
+      tags:
+      - Personal Information
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: successful
+  "/api/v1/signup":
+    post:
+      summary: Sends an email to register user
+      tags:
+      - Signup
+      parameters: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+        description: The user's email and password
+  "/api/v1/confirmation":
+    post:
+      summary: Confirmation user's email and input other data
+      tags:
+      - Signup
+      parameters:
+      - name: token
+        in: query
+        description: The confirm reset token generated for the patient
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                birthday:
+                  type: string
+                  format: datetime
+                first_name:
+                  type: string
+                second_name:
+                  type: string
+                last_name:
+                  type: string
+                phone:
+                  type: string
+                  format: bigint
+              required:
+              - birthday
+              - first_name
+              - second_name
+              - last_name
+              - phone
+        description: Patient data
+  "/api/v1/search":
+    get:
+      summary: Search for a hospital or doctor in the region
               type: object
               properties:
                 appointment:
@@ -1079,10 +1400,27 @@ paths:
     put:
       summary: Update an existing appointment
       tags:
+      - Search
         - Calendar
       security:
         - ApiKeyAuth: [ ]
       parameters:
+      - name: query
+        in: query
+        description: |-
+          Searching query for hospital or doctor. Input address, name, city for hospital or
+                                        First Name, Last Name, specialty(position) for doctor
+        required: false
+        schema:
+          type: string
+      - name: region
+        in: query
+        description: |-
+          Region filter. Enter the name of the region to search for a hospital or doctor in that
+                                        location. If field leave empty, request was for all areas
+        required: false
+        schema:
+          type: string
         - in: path
           name: id
           type: integer
@@ -1270,6 +1608,61 @@ paths:
           description: JWT token for authorization
           required: true
           type: string
+          description: Hospitals and doctors found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hospitals:
+                    type: array
+                  doctors:
+                    type: array
+        '422':
+          description: Invalid search query
+  "/api/v1/search_doctors_by_specialty":
+    get:
+      summary: Searching doctors by specialty
+      tags:
+      - Search
+      parameters:
+      - name: query
+        in: query
+        description: 'Searching doctor by first_name, last_name, position '
+        required: false
+        schema:
+          type: string
+      - name: position
+        in: query
+        description: Doctor speciality
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Doctors found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  doctors:
+                    type: array
+        '422':
+          description: Invalid search query
+  "/api/v1/search_hospitals":
+    get:
+      summary: Searching hospitals
+      tags:
+      - Search
+      parameters:
+      - name: query
+        in: query
+        description: Searching hospital by name. If field leave empty request was
+          for all hospitals
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
@@ -1348,10 +1741,16 @@ paths:
                     - content
       responses:
         '200':
-          description: OK
+          description: Hospitals found
           content:
             application/json:
               schema:
+                type: object
+                properties:
+                  hospitals:
+                    type: array
+        '422':
+          description: Invalid search query
                 type: object
                 properties:
                   id:

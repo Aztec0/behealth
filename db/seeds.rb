@@ -1,7 +1,17 @@
 # frozen_string_literal: true
 
+Patient.create(email: 'test@test.rb', password: '11111111', first_name: 'Тест')
+Hospital.create(region: 'aaa', city: 'aaa', address: 'aaa', name: 'aaa')
+Doctor.create(email: 'test@test.rb', password: '11111111', first_name: 'Тест', last_name: 'Тестовий',
+              second_name: 'Тестович', hospital: Hospital.last, email_confirmed: true)
 PatientAddress.create(patient_id: 1, settlement: 'Черкаси', house: '1', apartments: '1', address_type: 'Основний')
 PatientWork.create(patient_id: 1, work_type: 'Основна', place: 'Аском', position: 'Монтажник')
+IdCard.create(number: '123456789', issued_by: '1234', date: '05.05.2023')
+PatientDocument.create(patient: Patient.last, document_type: 'IdCard', document_id: IdCard.last.id)
+Feedback.create(title: 'Test', body: 'Test', rating: 4, patient: Patient.last, doctorable_type: 'Doctor',
+                doctorable_id: Doctor.last.id)
+Feedback.create(title: 'Test', body: 'Test', rating: 4, patient: Patient.last, doctorable_type: 'Hospital',
+                doctorable_id: Hospital.last.id)
 # 10.times do
 #   Doctor.create(name: Faker::Name.name, surname: Faker::Name.last_name,
 #                     position: 'main doctor', birthday: '1990-01-01',

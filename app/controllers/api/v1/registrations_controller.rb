@@ -43,6 +43,6 @@ class Api::V1::RegistrationsController < ApplicationController
   private
 
   def patient_params
-    params.permit(:birthday, :first_name, :second_name, :last_name, :phone)
+    params.permit(:birthday, :second_name, :phone).merge(first_name: params[:name], last_name: params[:surname])
   end
 end
