@@ -1,7 +1,6 @@
 class Api::V1::AppointmentsController < ApplicationController
   before_action :set_appointment, only: [:show, :update, :cancel, :accept]
 
-  # GET /appointments
   def index
     if params[:upcoming]
       @appointments = current_user.appointments.upcoming.where.not(status: "cancelled").order(appointment_datetime: :asc)
@@ -14,12 +13,10 @@ class Api::V1::AppointmentsController < ApplicationController
     render json: @appointments
   end
 
-  # GET /appointments/1
   def show
     render json: @appointment
   end
 
-  # POST /appointments
   def create
     @appointment = Appointment.new(appointment_params)
 
@@ -30,7 +27,6 @@ class Api::V1::AppointmentsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /appointments/1
   def update
     if @appointment.update(appointment_params)
       render json: @appointment
@@ -39,13 +35,11 @@ class Api::V1::AppointmentsController < ApplicationController
     end
   end
 
-  # POST /appointments/1/cancel
   def cancel
     @appointment.cancelled!
     render json: { message: 'Appointment cancelled' }
   end
 
-  # POST /appointments/1/accept
   def accept
     @appointment.planned!
     render json: { message: 'Appointment accepted' }
@@ -53,12 +47,10 @@ class Api::V1::AppointmentsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_appointment
     @appointment = Appointment.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def appointment_params
     params.require(:appointment).permit(:appointment_datetime, :status, :doctor_id, :patient_id)
   end
