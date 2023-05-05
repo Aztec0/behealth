@@ -56,6 +56,13 @@ Rails.application.routes.draw do
       # list all hospitals
       get '/hospitals',                                      to: 'hospitals#index'
 
+      resources :chats, only: [:index, :create, :show] do
+        resources :messages, only: [:index, :create]
+      end
+
+      #Feedbacks for doctors
+      get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
+      post   'doctor/:doctor_id/feedback',                   to: 'feedbacks#create'
       # Feedbacks for doctors
       get    'feedbacks/:type/:id',                          to: 'feedbacks#index'
       post   'feedbacks/:type/:id',                          to: 'feedbacks#create'
@@ -95,7 +102,7 @@ Rails.application.routes.draw do
       get '/appointments/past',                              to: 'appointments#past'
       get '/appointments/upcoming',                          to: 'appointments#upcoming'
     end
-    
+
 
     # Calendar
     get 'calendars', to: 'calendars#index'

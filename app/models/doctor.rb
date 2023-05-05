@@ -8,6 +8,7 @@
 #  about                :text
 #  admission_price      :decimal(, )
 #  birthday             :date
+#  description          :text
 #  email                :string
 #  email_confirmed      :boolean          default(TRUE)
 #  first_name           :string
@@ -15,7 +16,7 @@
 #  password_digest      :string
 #  phone                :bigint
 #  position             :string
-#  rating               :float            default(0.0)
+#  rating               :integer          default(0)
 #  reset_password_token :string
 #  role                 :integer          default("doctor")
 #  second_email         :string
@@ -41,6 +42,11 @@ class Doctor < ApplicationRecord
   include Passwordable::Doctorable
   belongs_to :hospital, optional: true # потрібно для того , щоб гол.лікар міг створити лікарню, вона потім додається лікарю який її створив
 
+  has_many :feedbacks
+  has_many :messages
+  has_many :chats
+
+  has_secure_password
   has_many :feedbacks, as: :doctorable
   has_many :appointments, dependent: :destroy
   has_many :patients, through: :appointments

@@ -66,7 +66,7 @@ GEM
       activesupport (= 7.0.4.3)
       marcel (~> 1.0)
       mini_mime (>= 1.1.0)
-    activesupport (7.0.4.3)
+    activesupport (7.0.4.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -115,7 +115,7 @@ GEM
     connection_pool (2.4.0)
     crass (1.0.6)
     date (3.3.3)
-    debug (1.7.2)
+    debug (1.7.1)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     diff-lcs (1.5.0)
@@ -147,8 +147,6 @@ GEM
     faraday-multipart (1.0.4)
       multipart-post (~> 2)
     faraday-net_http (3.0.2)
-    figaro (1.2.0)
-      thor (>= 0.14.0, < 2)
     globalid (1.1.0)
       activesupport (>= 5.0)
     i18n (1.13.0)
@@ -167,6 +165,19 @@ GEM
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     loofah (2.20.0)
+    jbuilder (2.11.5)
+      actionview (>= 5.0.0)
+      activesupport (>= 5.0.0)
+    json (2.6.3)
+    json-schema (3.0.0)
+      addressable (>= 2.8)
+    jsonapi-renderer (0.2.2)
+    jwt (2.7.0)
+    launchy (2.5.2)
+      addressable (~> 2.8)
+    letter_opener (1.8.1)
+      launchy (>= 2.2, < 3)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.8.1)
@@ -178,6 +189,8 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.18.0)
+    msgpack (1.6.1)
+    multipart-post (2.3.0)
     msgpack (1.7.0)
     multipart-post (2.3.0)
     net-imap (0.3.4)
@@ -204,6 +217,11 @@ GEM
     parser (3.2.2.1)
       ast (~> 2.4.1)
     pg (1.5.2)
+    public_suffix (5.0.1)
+    parallel (1.23.0)
+    parser (3.2.2.1)
+      ast (~> 2.4.1)
+    pg (1.4.6)
     public_suffix (5.0.1)
     puma (5.6.5)
       nio4r (~> 2.0)
@@ -243,8 +261,6 @@ GEM
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
     rake (13.0.6)
-    redis-client (0.14.1)
-      connection_pool
     regexp_parser (2.8.0)
     reline (0.3.3)
       io-console (~> 0.5)
@@ -302,11 +318,6 @@ GEM
       rubocop-capybara (~> 2.17)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
-    sidekiq (7.1.0)
-      concurrent-ruby (< 2)
-      connection_pool (>= 2.3.0)
-      rack (>= 2.2.4)
-      redis-client (>= 0.14.0)
     sshkit (1.21.4)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -330,6 +341,7 @@ GEM
 PLATFORMS
   arm64-darwin-22
   x86_64-darwin-20
+  x86_64-darwin-20
   x86_64-darwin-22
   x86_64-linux
 
@@ -348,6 +360,13 @@ DEPENDENCIES
   capistrano3-puma
   debug
   faker
+  jbuilder
+  jwt
+  letter_opener
+  net-imap
+  net-pop
+  net-smtp
+  faker
   figaro
   jwt
   letter_opener
@@ -365,6 +384,17 @@ DEPENDENCIES
   rubocop-performance (~> 1.15)
   rubocop-rails (~> 2.17)
   rubocop-rspec
+  sshkit-sudo
+  telegram-bot-ruby
+  ransack
+  rspec-rails
+  rswag-api
+  rswag-specs
+  rswag-ui
+  rubocop (~> 1.40)
+  rubocop-performance (~> 1.15)
+  rubocop-rails (~> 2.17)
+  securerandom
   sshkit-sudo
   telegram-bot-ruby
   tzinfo-data
