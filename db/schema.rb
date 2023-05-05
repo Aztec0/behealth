@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_25_071737) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_30_132124) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -144,6 +144,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_071737) do
     t.integer "sex", default: 0
     t.string "second_name"
     t.integer "tin"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "tag_name"
+    t.string "tagable_type", null: false
+    t.bigint "tagable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tagable_type", "tagable_id"], name: "index_tags_on_tagable"
   end
 
   add_foreign_key "appointments", "doctors"

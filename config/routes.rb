@@ -22,6 +22,11 @@ Rails.application.routes.draw do
       patch '/patient/:id/update', to: 'patient#update'
       delete '/patient/:id/delete', to: 'patient#delete'
       # end admin section
+      get 'tags/index', to: 'tags#index'
+      get 'tags/create'
+      get 'tags/show'
+      patch 'hospital/update/:id', to: 'hospitals#update'
+
       # Search hospitals and doctors
       get '/search', to: 'search#search'
       get '/search_doctors_by_specialty', to: 'search#search_doctors_by_specialty'
@@ -37,13 +42,13 @@ Rails.application.routes.draw do
       post '/password-reset', to: 'password#reset'
       get 'doctor/main-info', to: 'doctors_cabinet#personal_info'
       get 'doctor/extra-info', to: 'doctors_cabinet#professional_info'
-      patch 'doctor/edit', to: 'doctors_cabinet#update'
+      patch 'doctor/edit/:id', to: 'doctors_cabinet#update'
 
       # Advanced options for doctors
       get '/list_doctor_by_hospital',                        to: 'doctors#list_doctor_by_hospital'
       get '/staff_appointments',                             to: 'doctors#appointments'
       post '/create_doctor',                                 to: 'doctors#create_doctor'
-      post '/create_hospital',                               to: 'doctors#create_hospital'
+      post '/create_hospital',                               to: 'hospitals#create'
       delete '/doctors/:id',                                 to: 'doctors#delete'
 
       # list all doctors
@@ -89,7 +94,6 @@ Rails.application.routes.draw do
       get '/appointments/upcoming',                          to: 'appointments#upcoming'
     end
 
-
     namespace :v2 do
       # Search hospitals and doctors
       get '/search', to: 'search#search'
@@ -108,10 +112,10 @@ Rails.application.routes.draw do
       # list all hospitals
       get '/hospitals',                                      to: 'hospitals#index'
 
-      #Additional information of patient
+      # Additional information of patient
       get    'patient/extra-info',                           to: 'additional_info#index'
 
-      #Personal information of patient
+      # Personal information of patient
       get    'patient/main-info',                            to: 'personal_info#index'
       put    'patient/main-info',                            to: 'personal_info#update'
 
@@ -130,6 +134,5 @@ Rails.application.routes.draw do
       put    'patient/work',                                  to: 'patient_work#update'
       delete 'patient/work',                                  to: 'patient_work#destroy'
     end
-
   end
 end
