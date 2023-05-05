@@ -2,6 +2,7 @@
 
 class Api::V1::RegistrationsController < ApplicationController
   # after_action :activate_patient, only: %i[ confirmation ]
+  skip_before_action :authenticate_request
 
   def signup
     if (params[:email] && params[:password]).blank?
@@ -29,9 +30,11 @@ class Api::V1::RegistrationsController < ApplicationController
       @patient.update(patient_params)
       if @patient.save!
         @patient.email_activate
-        render json: {status: 'Email activated, you successfully registered' }, status: :ok
+        @patient.authenticate(@patient.password)
+        token = JWT.encode({ user_id: @patient.id, type: 'patient' }, Rails.application.secret_key_base)
+        render json: { token: token }, status: :ok
       else
-        render json: { error: 'Something went wrong'}, status: :unprocessable_entity
+        render json: { error: 'Something went wrong' }, status: :unprocessable_entity
       end
     else
       render json: { error: 'Link not valid or expired. Try generating a new link.' }, status: :unprocessable_entity

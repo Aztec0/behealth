@@ -2,8 +2,14 @@
 
 class ApplicationController < ActionController::API
   include Pundit::Authorization
+  include Pagy::Backend
+
   before_action :authenticate_request
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   private
+
   def current_user
     @current_patient || @current_doctor
   end
@@ -12,19 +18,23 @@ class ApplicationController < ActionController::API
     return user_not_authorized unless current_user.is_a?(Patient)
   end
 
+  def authenticate_doctor_user
+    return user_not_authorized unless current_user.is_a?(Doctor)
+  end
+
   def user_not_authorized
-    render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
+    render_error('You are not authorized to perform this action', status: :forbidden)
   end
 
   def authenticate_request
     token = extract_token_from_header
-    return render_error('Missing token', :unauthorized) unless token
+    return render_error('Missing token', status: :unauthorized) unless token
 
     decoded_token = decode_token(token)
-    return render_error('Invalid token', :unauthorized) unless decoded_token
+    return render_error('Invalid token', status: :unauthorized) unless decoded_token
 
     user = fetch_user_from_database(decoded_token)
-    return render_error('Invalid token', :unauthorized) unless user
+    return render_error('Invalid token', status: :unauthorized) unless user
 
     set_current_user(user)
   end
@@ -48,6 +58,7 @@ class ApplicationController < ActionController::API
     type.capitalize.constantize.find_by(id: user_id)
   end
 
+  # rubocop don't like names prefix 'set' here
   def set_current_user(user)
     if user.is_a?(Patient)
       @current_patient = user
@@ -56,7 +67,11 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def render_error(message, status)
+  def render_error(message, status: :not_found)
     render json: { error: message }, status: status
+  end
+
+  def render_success(message, status: :ok)
+    render json: { data: message }, status: status
   end
 end

@@ -32,26 +32,47 @@ RSpec.configure do |config|
           }
         },
         {
-          url: 'http://{behealthtHost}',
-          variables: {
-            behealthHost: {
-              default: '64.226.64.5'
-            }
-          }
-        },
-        {
-          url: 'http://{behealth_host}',
-          variables: {
-            behealth_host: {
-              default: '161.35.210.52'
-            }
-          }
-        },
-        {
-          url: 'http://{staging_host}',
+          url: 'https://{staging_host}',
           variables: {
             staging_host: {
-              default: ''
+              default: 'www.behealth.pp.ua'
+            }
+          }
+        }
+      ],
+      components: {
+        securitySchemes: {
+          ApiKeyAuth: {
+            type: :apiKey,
+            name: 'Authorization',
+            in: :header,
+            description: '{token}'
+          }
+        }
+      }
+    },
+    'v2/swagger.yaml' => {
+      openapi: '3.0.1',
+      info: {
+        title: 'API V2',
+        version: 'v2',
+        description: 'This is the second version of behealth API'
+      },
+      paths: {},
+      servers: [
+        {
+          url: 'http://{defaultHost}',
+          variables: {
+            defaultHost: {
+              default: '127.0.0.1:3000'
+            }
+          }
+        },
+        {
+          url: 'https://{staging_host}',
+          variables: {
+            staging_host: {
+              default: 'www.behealth.pp.ua'
             }
           }
         }
@@ -68,7 +89,6 @@ RSpec.configure do |config|
       }
     }
   }
-
 
   # Specify the format of the output Swagger file when running 'rswag:specs:swaggerize'.
   # The swagger_docs configuration option has the filename including format in

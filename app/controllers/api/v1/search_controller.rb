@@ -1,18 +1,73 @@
 # frozen_string_literal: true
 
 class Api::V1::SearchController < ApplicationController
-  before_action :force_json
+
+  skip_before_action :authenticate_request
   def search
-    @hospitals = Hospital.joins(:doctors).ransack(address_or_city_or_name_or_region_i_cont: params[:query],
-                                                  region_i_cont: params[:region]).result(distinct: true).limit(5)
-    @doctors = Doctor.joins(:hospital).ransack(name_or_surname_or_position_i_cont: params[:query],
-                                               region_i_cont: params[:region]).result(distinct: true).limit(5)
-    # render json: { hospitals: hospitals, doctors: doctors }, status: :ok, each_serializer: Api::V1::SearchSerializer
+    region = params[:region]
+    @pagy, hospitals = pagy(Hospital.all)
+    @pagy, doctors = pagy(Doctor.all)
+
+    if region.present? && Hospital.exists?(region: region)
+      @pagy, hospitals = pagy(hospitals.where(region: region))
+      @pagy, doctors = pagy(doctors.joins(:hospital).where(hospitals: { region: region }))
+    end
+
+    if params[:query].present?
+      @pagy, hospitals = pagy(hospitals.where('address ILIKE ? OR city ILIKE ? OR name ILIKE ?', "%#{params[:query]}%",
+                                              "%#{params[:query]}%", "%#{params[:query]}%"))
+      @pagy, doctors = pagy(doctors.where('doctors.name ILIKE ? OR doctors.surname ILIKE ? OR doctors.position ILIKE ?',
+                                          "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"))
+    end
+
+    if hospitals.any? || doctors.any?
+      render json: {
+        hospitals: ActiveModelSerializers::SerializableResource.new(hospitals, each_serializer: HospitalsSerializer),
+        doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorSerializer)
+      }, status: :ok
+    else
+      render json: { message: 'No results found' }, status: :unprocessable_entity
+    end
   end
 
-  private
+  def search_doctors_by_specialty
+    position = params[:position]
 
-  def force_json
-    request.format = :json
+    @pagy, doctors = if position.present?
+                       pagy(Doctor.where('position ILIKE ?', "%#{position}%"))
+                     else
+                       pagy(Doctor.all)
+                     end
+
+    if params[:query].present?
+      @pagy, doctors = pagy(doctors.where('name ILIKE ? OR surname ILIKE ? OR position ILIKE ?',
+                                          "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"))
+    end
+
+    @pagy, doctors = pagy(doctors.order('RANDOM()'))
+
+    if doctors.any?
+      render json: {
+        doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorSerializer)
+      }, status: :ok
+    else
+      render json: { message: 'No results found' }, status: :unprocessable_entity
+    end
+  end
+
+  def search_hospitals
+    if params[:query].present?
+      @pagy, hospitals = pagy(Hospital.where('name ILIKE ?', "%#{params[:query]}%"))
+    else
+      @pagy, hospitals = pagy(Hospital.all)
+    end
+
+    if hospitals.any?
+      render json: {
+        hospitals: ActiveModelSerializers::SerializableResource.new(hospitals, each_serializer: HospitalsSerializer)
+      }, status: :ok
+    else
+      render json: { message: 'No results found' }, status: :unprocessable_entity
+    end
   end
 end
