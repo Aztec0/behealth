@@ -105,14 +105,19 @@ paths:
                 type:
                   type: string
                   default: Must be 'address' or 'work'
-  "/api/v1/doctor/edit":
+  "/api/v1/doctor/edit/:id":
     patch:
       summary: Update doctors params
       tags:
       - Doctors cabinet
       security:
       - ApiKeyAuth: []
-      parameters: []
+      parameters:
+      - name: tag_list
+        in: query
+        description: List of tags for doctor
+        schema:
+          type: string
       responses:
         '200':
           description: OK
@@ -130,10 +135,10 @@ paths:
                 second_phone:
                   type: integer
                   default: '123456789'
-                description:
+                about:
                   type: string
                   default: Something about yourself
-                price:
+                admission_price:
                   type: integer
                   default: '100'
               required:
@@ -169,7 +174,7 @@ paths:
                       type: integer
                     second_phone:
                       type: integer
-                    description:
+                    about:
                       type: string
                   required:
                   - full_name
@@ -205,7 +210,7 @@ paths:
                 items:
                   type: object
                   properties:
-                    price:
+                    admission_price:
                       type: integer
                     position:
                       type: string
@@ -479,6 +484,27 @@ paths:
               - email
               - user_type
         description: The user's email address
+  "/api/v1/password-reset":
+    post:
+      summary: Resets the user's password
+      tags:
+      - Passwords
+      parameters:
+      - name: token
+        in: query
+        description: The password reset token generated for the user
+        required: true
+        schema:
+          type: string
+      - name: user_type
+        in: query
+        description: The user's type
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
   "/api/v1/appointments":
     get:
       summary: List appointments
@@ -553,12 +579,20 @@ paths:
                   type: integer
                 date:
                   type: string
-                  format: date-time
-              required:
-                - patient_id
-                - doctor_id
-                - date
-        description: Appointment details to create
+                  default: 12.04.2023
+    delete:
+      summary: delete personal_info
+      tags:
+      - Personal Information
+      responses:
+        '200':
+          description: successful
+  "/api/v1/signup":
+    post:
+      summary: Sends an email to register user
+      tags:
+      - Signup
+      parameters: []
       responses:
         '201':
           description: Created

@@ -15,7 +15,7 @@
 #  password_digest      :string
 #  phone                :bigint
 #  position             :string
-#  rating               :integer          default(0)
+#  rating               :float            default(0.0)
 #  reset_password_token :string
 #  role                 :integer          default("doctor")
 #  second_email         :string
@@ -38,7 +38,7 @@ class DoctorSerializer < ActiveModel::Serializer
   attributes :full_name, :position, :hospital_name, :rating
 
   def full_name
-    "#{object.name} #{object.surname}"
+    "#{object.first_name} #{object.last_name} #{object.second_name}"
   end
 
   def hospital_name
@@ -56,7 +56,7 @@ class DoctorSerializer < ActiveModel::Serializer
       hash[:hospital_region] = object.hospital&.region
       hash[:hospital_adress] = object.hospital&.address
       hash[:phone] = object.phone
-      hash[:age] = ((Time.zone.now - object.birthday.to_time) / 1.year.seconds)&.floor
+      hash[:age] = object.birthday ? ((Time.zone.now - object.birthday.to_time) / 1.year.seconds).floor : nil
       hash[:feedbacks] = object.feedbacks
     end
     hash

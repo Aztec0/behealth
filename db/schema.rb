@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_100206) do
 
   create_table "appointments", force: :cascade do |t|
     t.datetime "appointment_datetime"
-    t.string "status"
+    t.integer "status"
     t.bigint "doctor_id", null: false
     t.bigint "patient_id", null: false
     t.datetime "created_at", null: false
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_100206) do
     t.string "last_name"
     t.date "birthday"
     t.string "position"
+    t.bigint "hospital_id", null: false
     t.string "email"
     t.bigint "phone"
     t.string "password_digest"
@@ -57,7 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_100206) do
     t.datetime "updated_at", null: false
     t.string "reset_password_token"
     t.datetime "token_sent_at"
-    t.integer "rating", default: 0
+    t.float "rating", default: 0.0
     t.integer "role", default: 0
     t.bigint "hospital_id"
     t.boolean "email_confirmed", default: true
@@ -70,14 +71,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_100206) do
   end
 
   create_table "feedbacks", force: :cascade do |t|
-    t.bigint "doctor_id", null: false
     t.bigint "patient_id", null: false
     t.integer "rating"
     t.string "title"
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["doctor_id"], name: "index_feedbacks_on_doctor_id"
+    t.bigint "doctorable_id"
+    t.string "doctorable_type"
+    t.index ["doctorable_type", "doctorable_id"], name: "index_feedbacks_on_doctorable_type_and_doctorable_id"
     t.index ["patient_id"], name: "index_feedbacks_on_patient_id"
   end
 
@@ -88,6 +90,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_100206) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "rating", default: 0.0
   end
 
   create_table "id_cards", force: :cascade do |t|
@@ -156,6 +159,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_100206) do
     t.integer "tin"
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.string "tag_name"
+    t.string "tagable_type", null: false
+    t.bigint "tagable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tagable_type", "tagable_id"], name: "index_tags_on_tagable"
+  end
+
   add_foreign_key "appointments", "doctors"
   add_foreign_key "appointments", "patients"
   add_foreign_key "calendars", "doctors"
@@ -163,7 +175,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_100206) do
   add_foreign_key "conclusions", "appointments"
   add_foreign_key "conclusions", "doctors"
   add_foreign_key "doctors", "hospitals", on_delete: :nullify
-  add_foreign_key "feedbacks", "doctors"
   add_foreign_key "feedbacks", "patients"
   add_foreign_key "patient_addresses", "patients"
 end
