@@ -28,6 +28,7 @@ class Patient < ApplicationRecord
 
   has_many :feedbacks
   has_many :messages
+  has_many :chats
   has_one :patient_address
   has_one :patient_work
   has_one :patient_document

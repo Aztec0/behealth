@@ -44,6 +44,7 @@ class Doctor < ApplicationRecord
   belongs_to :head_doctor, optional: true
   has_many :feedbacks
   has_many :messages
+  has_many :chats
 
   has_secure_password
 
