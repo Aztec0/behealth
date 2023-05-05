@@ -52,18 +52,33 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
                },
                required: %w[id first_name last_name second_name email phone birthday position hospital_id]
 
+        let(:doctor_params) do
+          {
+            first_name: 'John',
+            last_name: 'Doe',
+            email: 'john.doe@example.com',
+            phone: '1234567890',
+            birthday: '1990-01-01',
+            position: 'Cardiologist',
+            hospital_id: hospital.id,
+            password: 'password123',
+            password_confirmation: 'password123'
+          }
+        end
+
         run_test!
       end
 
       response '422', 'invalid request' do
+        let(:doctor_params) { {} }
         run_test!
       end
 
       response '401', 'unauthorized' do
         let(:doctor_params) do
           {
-            name: 'John',
-            surname: 'Doe',
+            first_name: 'John',
+            last_name: 'Doe',
             email: 'john.doe@example.com',
             phone: '1234567890',
             birthday: '1990-01-01',
@@ -106,7 +121,7 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
                  city: { type: :string },
                  region: { type: :string }
                },
-               required: %w[id name address city region]
+               required: %w[id first_name address city region]
 
         let(:hospital) { { name: 'New Hospital', address: '123 Main St', city: 'Anytown', region: 'NY' } }
         run_test!

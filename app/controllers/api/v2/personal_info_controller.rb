@@ -7,7 +7,7 @@ class Api::V2::PersonalInfoController < ApplicationController
     record = if patient_document.document_type == 'Passport'
                PassportSerializer.new(document)
              else
-                 IdCardSerializer.new(document)
+               IdCardSerializer.new(document)
              end
 
     render_success({ contact_info: current_user.contact_info, main_info: current_user.main_info,

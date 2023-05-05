@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class Api::V1::DoctorsController < ApplicationController
-  skip_before_action :authenticate_request, only: %i[index]
+  skip_before_action :authenticate_request, only: :index
   before_action :authenticate_doctor_user, except: %i[index]
+  before_action :authorize_request, except: %i[index show]
+  before_action :set_doctor, only: :show
   before_action :authorize_request, except: %i[index]
   before_action :set_doctor, only: %i[show delete]
 

@@ -15,7 +15,7 @@
 #  password_digest      :string
 #  phone                :bigint
 #  position             :string
-#  rating               :integer          default(0)
+#  rating               :float            default(0.0)
 #  reset_password_token :string
 #  role                 :integer          default("doctor")
 #  second_email         :string
@@ -39,8 +39,9 @@ class Doctor < ApplicationRecord
   include Constantable
   include Passwordable::Shareable
   include Passwordable::Doctorable
-  belongs_to :hospital
-  has_many :feedbacks
+  belongs_to :hospital, optional: true # потрібно для того , щоб гол.лікар міг створити лікарню, вона потім додається лікарю який її створив
+
+  has_many :feedbacks, as: :doctorable
   has_many :appointments, dependent: :destroy
   has_many :patients, through: :appointments
   has_many :tags, as: :tagable
