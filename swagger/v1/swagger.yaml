@@ -579,20 +579,12 @@ paths:
                   type: integer
                 date:
                   type: string
-                  default: 12.04.2023
-    delete:
-      summary: delete personal_info
-      tags:
-      - Personal Information
-      responses:
-        '200':
-          description: successful
-  "/api/v1/signup":
-    post:
-      summary: Sends an email to register user
-      tags:
-      - Signup
-      parameters: []
+                  format: date-time
+              required:
+                - patient_id
+                - doctor_id
+                - date
+        description: Appointment details to create
       responses:
         '201':
           description: Created
@@ -666,113 +658,192 @@ paths:
           required:
             - date
   "/api/v1/appointments/{appointment_id}/cancel":
-      patch:
-        summary: Cancel an appointment
-        tags:
-          - Appointments
-        security:
-          - ApiKeyAuth: [ ]
-        parameters:
-          - name: appointment_id
-            in: path
-            description: ID of the appointment to cancel
-            required: true
-            schema:
-              type: string
-        responses:
-          '200':
-            description: Appointment was cancelled successfully
-          '404':
-            description: Appointment with the specified ID was not found
-          '409':
-            description: Appointment is already cancelled
-          '422':
-            description: Unprocessable_entity
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    error:
-                      type: string
-                  required:
-                    - error
-
-"/api/v1/conclusions":
-  get:
-    summary: List all conclusions
-    tags:
-      - Conclusions
-    security:
-      - ApiKeyAuth: []
-    responses:
-      '200':
-        description: OK
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
+    patch:
+      summary: Cancel an appointment
+      tags:
+        - Appointments
+      security:
+        - ApiKeyAuth: [ ]
+      parameters:
+        - name: appointment_id
+          in: path
+          description: ID of the appointment to cancel
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Appointment was cancelled successfully
+        '404':
+          description: Appointment with the specified ID was not found
+        '409':
+          description: Appointment is already cancelled
+        '422':
+          description: Unprocessable_entity
+          content:
+            application/json:
+              schema:
                 type: object
                 properties:
-                  id:
-                    type: integer
-                    format: int64
-                    description: Conclusion ID
-                  doctor:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        format: int64
-                        description: Doctor ID
-                      name:
-                        type: string
-                        description: Doctor's first name
-                      surname:
-                        type: string
-                        description: Doctor's last name
-                  patient:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        format: int64
-                        description: Patient ID
-                      name:
-                        type: string
-                        description: Patient's first name
-                      surname:
-                        type: string
-                        description: Patient's last name
-                  appointment:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        format: int64
-                        description: Appointment ID
-                      date:
-                        type: string
-                        format: date-time
-                        description: Appointment date and time
-                  text:
+                  error:
                     type: string
-                    description: Conclusion text
-                  created_at:
+                required:
+                  - error
+  "/api/v1/appointments/{id}/accept":
+    patch:
+      summary: Accept an appointment request
+      tags:
+        - Appointments
+      security:
+        - ApiKeyAuth: [ ]
+      parameters:
+        - in: path
+          name: id
+          description: ID of the appointment
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully accepted appointment
+        '401':
+          description: Unauthorized
+        '404':
+          description: Appointment not found
+        '422':
+          description: Unprocessable_entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
                     type: string
-                    format: date-time
-                    description: Conclusion creation date and time
-                  updated_at:
-                    type: string
-                    format: date-time
-                    description: Conclusion update date and time
-      '401':
-        description: Unauthorized
-      '404':
-        description: Not Found
-    "/api/v1/conclusions":
-      post:
+                required:
+                  - error
+  "/api/v1/appointments/upcoming":
+    get:
+      summary: Get upcoming appointments
+      tags:
+        - Appointments
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    doctor_id:
+                      type: integer
+                    patient_id:
+                      type: integer
+                    date:
+                      type: string
+                      format: date-time
+                    status:
+                      type: string
+                      enum:
+                        - planed
+                        - cancelled
+                        - accepted
+                        - completed
+                  required:
+                    - id
+                    - doctor_id
+                    - patient_id
+                    - date
+                    - status
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  "/api/v1/appointments/past":
+    get:
+      summary: Get past appointments
+      tags:
+        - Appointments
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    doctor_id:
+                      type: integer
+                    patient_id:
+                      type: integer
+                    date:
+                      type: string
+                      format: date-time
+                    status:
+                      type: string
+                      enum:
+                        - planed
+                        - cancelled
+                        - accepted
+                        - completed
+                  required:
+                    - id
+                    - doctor_id
+                    - patient_id
+                    - date
+                    - status
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  "/api/v1/conclusions":
+    get:
+      summary: List of all conclusions
+      tags:
+        - Conclusions
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    patient_id:
+                      type: integer
+                    doctor_id:
+                      type: integer
+                    content:
+                      type: string
+                    created_at:
+                      type: string
+                  required:
+                    - id
+                    - patient_id
+                    - doctor_id
+                    - content
+                    - created_at
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+    post:
         summary: Create a new conclusion
         tags:
           - Conclusions
@@ -810,7 +881,7 @@ paths:
                   - doctor_id
                   - text
           description: Parameters to create a new conclusion
-    "/api/v1/conclusions/{id}":
+  "/api/v1/conclusions/{id}":
       get:
         summary: Get a conclusion by ID
         tags:
@@ -870,7 +941,7 @@ paths:
                       description: The error message
                   required:
                     - error
-      "/api/v1/conclusions/{id}":
+  "/api/v1/conclusions/{id}":
         put:
           summary: Update a conclusion
           tags:
@@ -909,126 +980,6 @@ paths:
               description: Unauthorized
             '404':
               description: Conclusion not found
-
-  "/api/v1/appointments/{id}/accept":
-    patch:
-      summary: Accept an appointment request
-      tags:
-        - Appointments
-      security:
-        - ApiKeyAuth: [ ]
-      parameters:
-        - in: path
-          name: id
-          description: ID of the appointment
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Successfully accepted appointment
-        '401':
-          description: Unauthorized
-        '404':
-          description: Appointment not found
-        '422':
-          description: Unprocessable_entity
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                required:
-                  - error
-  "/api/v1/appointments/upcoming":
-      get:
-        summary: Get upcoming appointments
-        tags:
-          - Appointments
-        security:
-          - ApiKeyAuth: [ ]
-        responses:
-          '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      doctor_id:
-                        type: integer
-                      patient_id:
-                        type: integer
-                      date:
-                        type: string
-                        format: date-time
-                      status:
-                        type: string
-                        enum:
-                          - planed
-                          - cancelled
-                          - accepted
-                          - completed
-                    required:
-                      - id
-                      - doctor_id
-                      - patient_id
-                      - date
-                      - status
-          '401':
-            description: Unauthorized
-          '403':
-            description: Forbidden
-  "/api/v1/appointments/past":
-    get:
-      summary: Get past appointments
-      tags:
-        - Appointments
-      security:
-        - ApiKeyAuth: [ ]
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    doctor_id:
-                      type: integer
-                    patient_id:
-                      type: integer
-                    date:
-                      type: string
-                      format: date-time
-                    status:
-                      type: string
-                      enum:
-                        - planed
-                        - cancelled
-                        - accepted
-                        - completed
-                  required:
-                    - id
-                    - doctor_id
-                    - patient_id
-                    - date
-                    - status
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
 
   "/api/v1/login":
     post:
