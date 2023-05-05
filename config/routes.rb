@@ -63,11 +63,19 @@ Rails.application.routes.draw do
       # list all hospitals
       get '/hospitals',                                      to: 'hospitals#index'
 
-      resources :chats, only: [:index, :create, :show] do
-        resources :messages, only: [:index, :create]
-      end
+      # Chats and messages
+      get '/chats',                                          to: 'chats#index'
+      post '/chats',                                         to: 'chats#create'
+      get '/chats/:id',                                      to: 'chats#show'
+      delete '/chats/:id',                                   to: 'chats#delete'
+      get '/chats/:chat_id/messages',                        to: 'messages#index'
+      post '/chats/:chat_id/messages',                       to: 'messages#create'
+      delete '/chats/:chat_id/messages/:id',                 to: 'messages#destroy'
 
-      # Feedbacks
+      #Feedbacks for doctors
+      get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
+      post   'doctor/:doctor_id/feedback',                   to: 'feedbacks#create'
+      # Feedbacks for doctors
       get    'feedbacks/:type/:id',                          to: 'feedbacks#index'
       post   'feedbacks/:type/:id',                          to: 'feedbacks#create'
       put    'feedbacks/:id',                                to: 'feedbacks#update'
@@ -101,10 +109,21 @@ Rails.application.routes.draw do
       get '/appointments/:id',                               to: 'appointments#show'
       put '/appointments/:id',                               to: 'appointments#update'
       delete '/appointments/:id',                            to: 'appointments#destroy'
-      patch '/appointments/:id/cancel',                      to: 'appointments#cancel'
-      patch '/appointments/:id/accept',                      to: 'appointments#accept'
+      put '/appointments/:id/cancel',                      to: 'appointments#cancel'
+      put '/appointments/:id/accept',                      to: 'appointments#accept'
       get '/appointments/past',                              to: 'appointments#past'
       get '/appointments/upcoming',                          to: 'appointments#upcoming'
+
+
+      # Chats and messages
+      get '/chats',                                          to: 'chats#index'
+      post '/chats',                                         to: 'chats#create'
+      get '/chats/:id',                                      to: 'chats#show'
+      delete '/chats/:id',                                   to: 'chats#delete'
+      get '/chats/:chat_id/messages',                        to: 'messages#index'
+      post '/chats/:chat_id/messages',                       to: 'messages#create'
+      delete '/chats/:chat_id/messages/:id',                 to: 'messages#destroy'
+
 
     # Calendar
     get 'calendars', to: 'calendars#index'
@@ -156,6 +175,41 @@ Rails.application.routes.draw do
       post   'patient/work',                                  to: 'patient_work#create'
       put    'patient/work',                                  to: 'patient_work#update'
       delete 'patient/work',                                  to: 'patient_work#destroy'
+
+      # Appointments
+      get '/appointments',                                   to: 'appointments#index'
+      post '/appointments',                                  to: 'appointments#create'
+      get '/appointments/:id',                               to: 'appointments#show'
+      put '/appointments/:id',                               to: 'appointments#update'
+      delete '/appointments/:id',                            to: 'appointments#destroy'
+      put '/appointments/:id/cancel',                      to: 'appointments#cancel'
+      put '/appointments/:id/accept',                      to: 'appointments#accept'
+      get '/appointments/past',                              to: 'appointments#past'
+      get '/appointments/upcoming',                          to: 'appointments#upcoming'
+
+
+      # Calendar
+      get '/calendars',                                      to: 'calendars#index'
+      post '/calendars',                                     to: 'calendars#create'
+      put '/calendars/:id',                                  to: 'calendars#update'
+
+
+      # Chats and messages
+      get '/chats',                                          to: 'chats#index'
+      post '/chats',                                         to: 'chats#create'
+      get '/chats/:id',                                      to: 'chats#show'
+      delete '/chats/:id',                                   to: 'chats#delete'
+      get '/chats/:chat_id/messages',                        to: 'messages#index'
+      post '/chats/:chat_id/messages',                       to: 'messages#create'
+      delete '/chats/:chat_id/messages/:id',                 to: 'messages#destroy'
+
+
+      # Conclusions
+      get 'conclusions',                                     to: 'conclusions#index'
+      post '/conclusions',                                   to: 'conclusions#create'
+      get '/conclusions/:id',                                to: 'conclusions#show'
+      put '/conclusions/:id',                                to: 'conclusions#update'
+      delete '/conclusions/:id',                             to: 'messages#destroy'
 
       # Feedbacks
       get    'feedbacks/:type/:id',                          to: 'feedbacks#index'

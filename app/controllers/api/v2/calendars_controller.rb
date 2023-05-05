@@ -1,4 +1,4 @@
-class Api::V1::CalendarController < ApplicationController
+class Api::V2::CalendarController < ApplicationController
 
   def index
     render json: appointments_json

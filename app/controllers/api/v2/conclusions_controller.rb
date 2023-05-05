@@ -1,4 +1,4 @@
-class Api::V1::ConclusionsController < ApplicationController
+class Api::V2::ConclusionsController < ApplicationController
   before_action :set_conclusion, only: [:show, :update]
 
   # GET /conclusions

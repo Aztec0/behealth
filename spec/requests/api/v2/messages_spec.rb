@@ -1,7 +1,7 @@
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/messages', swagger_doc: 'v1/swagger.yaml', type: :request do
-  path '/api/v1/messages' do
+RSpec.describe 'api/v2/messages', swagger_doc: 'v2/swagger.yaml', type: :request do
+  path '/api/v2/messages' do
     get('List all messages') do
       tags 'Messages'
       parameter name: :patient_id, in: :query, type: :integer, required: true, description: 'Patient ID'
@@ -74,7 +74,7 @@ RSpec.describe 'api/v1/messages', swagger_doc: 'v1/swagger.yaml', type: :request
         run_test!
       end
     end
-    path '/api/v1/messages/{id}' do
+    path '/api/v2/messages/{id}' do
       patch('Update a message') do
         tags 'Messages'
         security [{ ApiKeyAuth: [] }]
@@ -142,7 +142,7 @@ RSpec.describe 'api/v1/messages', swagger_doc: 'v1/swagger.yaml', type: :request
       end
     end
 
-    path '/api/v1/messages/{id}' do
+    path '/api/v2/messages/{id}' do
       delete('Deletes a message') do
         tags 'Messages'
         security [{ Bearer: [] }]

@@ -1,4 +1,4 @@
-class Api::V1::MessagesController < ApplicationController
+class Api::V2::MessagesController < ApplicationController
   before_action :set_chat
   before_action :set_message, only: [:show, :update, :destroy]
 
