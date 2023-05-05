@@ -1105,6 +1105,129 @@ paths:
           '404':
             description: Not Found
 
+  /api/v1/chats:
+    get:
+      summary: Returns chats for the authenticated user
+      tags:
+        - Chats
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Returns a list of chats
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Chat'
+        '401':
+          description: Unauthorized
+    post:
+      summary: Creates a new chat
+      tags:
+        - Chats
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: body
+          name: chat
+          schema:
+            type: object
+            properties:
+              doctor_id:
+                type: integer
+              patient_id:
+                type: integer
+            required:
+              - doctor_id
+              - patient_id
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Chat'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+      '401':
+        description: Unauthorized
+  /api/v1/chats/{id}:
+      parameters:
+        - in: path
+          name: id
+          description: ID of the chat
+          required: true
+          type: integer
+      get:
+        summary: Returns the chat with the specified ID
+        tags:
+          - Chats
+        security:
+          - ApiKeyAuth: []
+        responses:
+          '200':
+            description: Returns the chat
+            schema:
+              $ref: '#/definitions/Chat'
+          '404':
+            description: Not Found
+      patch:
+        summary: Updates the chat with the specified ID
+        tags:
+          - Chats
+        security:
+          - ApiKeyAuth: []
+        parameters:
+          - in: body
+            name: chat
+            schema:
+              $ref: '#/definitions/Chat'
+          - in: path
+            name: id
+            description: ID of the chat
+            required: true
+            type: integer
+        responses:
+          '200':
+            description: OK
+            schema:
+              $ref: '#/definitions/Chat'
+          '404':
+            description: Not Found
+          '422':
+            description: Unprocessable Entity
+            schema:
+              type: object
+              properties:
+                errors:
+                  type: object
+                  additionalProperties:
+                    type: array
+                    items:
+                      type: string
+        '401':
+          description: Unauthorized
+      delete:
+        summary: Deletes the chat with the specified ID
+        tags:
+          - Chats
+        security:
+          - ApiKeyAuth: []
+        responses:
+          '204':
+            description: No Content
+          '404':
+            description: Not Found
+          '401':
+            description: Unauthorized
+
   "/api/v1/login":
     post:
       summary: create session

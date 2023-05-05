@@ -1,10 +1,9 @@
 class Api::V1::CalendarController < ApplicationController
-  # GET /calendar
+
   def index
     render json: appointments_json
   end
 
-  # POST /calendar
   def create
     appointment = current_user.appointments.build(appointment_params)
 
@@ -15,7 +14,6 @@ class Api::V1::CalendarController < ApplicationController
     end
   end
 
-  # PUT /calendar/:id
   def update
     appointment = current_user.appointments.find(params[:id])
 
@@ -40,7 +38,6 @@ class Api::V1::CalendarController < ApplicationController
     end
   end
 
-  # Only allow a list of trusted parameters through.
   def appointment_params
     params.require(:appointment).permit(:appointment_datetime, :doctor_id, :patient_id)
   end

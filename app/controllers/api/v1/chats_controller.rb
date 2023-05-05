@@ -1,19 +1,16 @@
 class Api::V1::ChatsController < ApplicationController
   before_action :set_chat, only: [:show, :update, :destroy]
-
-  # GET /chats
   def index
+
     @chats = current_user.chats
 
     render json: @chats
   end
 
-  # GET /chats/:id
   def show
     render json: @chat
   end
 
-  # POST /chats
   def create
     @chat = Chat.new(chat_params)
 
@@ -24,7 +21,6 @@ class Api::V1::ChatsController < ApplicationController
     end
   end
 
-  # PUT /chats/:id
   def update
     if @chat.update(chat_params)
       render json: @chat, status: :ok
@@ -33,7 +29,6 @@ class Api::V1::ChatsController < ApplicationController
     end
   end
 
-  # DELETE /chats/:id
   def destroy
     @chat.destroy
   end
@@ -44,7 +39,6 @@ class Api::V1::ChatsController < ApplicationController
     @chat = current_user.chats.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def chat_params
     params.require(:chat).permit(:doctor_id, :patient_id)
   end
