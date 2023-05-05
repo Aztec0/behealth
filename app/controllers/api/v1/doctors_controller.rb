@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::DoctorsController < ApplicationController
-  before_action :authenticate_doctor_user, except: %i[index]
-  before_action :authorize_request, except: %i[index show]
+  before_action :authenticate_doctor_user, except: %i[index show]
   before_action :set_doctor, only: :show
 
   def index
@@ -14,24 +13,6 @@ class Api::V1::DoctorsController < ApplicationController
   def staff_appointments
     @pagy, appointments = pagy(Appointment.staff_appointments(current_user.hospital_id))
     render json: appointments, each_serializer: AppointmentSerializer, action: :show
-  end
-
-  def create_hospital
-    if current_user.hospital.present?
-      if current_user.hospital.update(hospital_params)
-        render json: { message: 'Hospital update successful', hospital: hospital_params }, status: :ok
-      else
-        render json: { error: current_user.hospital.errors.full_messages }, status: :unprocessable_entity
-      end
-    else
-      hospital = Hospital.new(hospital_params)
-      if hospital.save
-        current_user.update(hospital_id: hospital.id)
-        render json: { message: 'Hospital created successfully', hospital: hospital }, status: :created
-      else
-        render json: { error: hospital.errors.full_messages }, status: :unprocessable_entity
-      end
-    end
   end
 
   def create_doctor
@@ -77,10 +58,6 @@ class Api::V1::DoctorsController < ApplicationController
       :name, :surname, :second_name, :email, :phone, :birthday, :position,
       :hospital_id
     )
-  end
-
-  def hospital_params
-    params.permit(:address, :city, :name, :region)
   end
 
   def authorize_request
