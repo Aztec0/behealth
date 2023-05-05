@@ -26,6 +26,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_05_095801) do
   end
 
   create_table "calendars", force: :cascade do |t|
+    t.string "name"
     t.bigint "doctor_id", null: false
     t.bigint "patient_id", null: false
     t.datetime "created_at", null: false
