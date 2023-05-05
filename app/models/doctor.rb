@@ -15,7 +15,7 @@
 #  password_digest      :string
 #  phone                :bigint
 #  position             :string
-#  rating               :integer          default(0)
+#  rating               :float            default(0.0)
 #  reset_password_token :string
 #  role                 :integer          default("doctor")
 #  second_email         :string
@@ -41,7 +41,7 @@ class Doctor < ApplicationRecord
   include Passwordable::Doctorable
   belongs_to :hospital, optional: true # потрібно для того , щоб гол.лікар міг створити лікарню, вона потім додається лікарю який її створив
 
-  has_many :feedbacks
+  has_many :feedbacks, as: :doctorable
   has_many :appointments, dependent: :destroy
   has_many :patients, through: :appointments
   has_many :tags, as: :tagable
@@ -51,20 +51,19 @@ class Doctor < ApplicationRecord
     includes(:hospital).where(doctors: { hospital_id: current_user })
   }
 
-  enum :role, %i[doctor head_doctor], _prefix: true, _suffix: true
+  enum :role, %i[doctor head_doctor admin], _prefix: true, _suffix: true
 
   validates :email, uniqueness: true
   validates :password, presence: true, length: { minimum: PASSWORD_MINIMUM_LENGTH }
   validates :first_name, presence: true
 
-  def create_doctor(params)
-    temp_password = generate_temporary_password
-    doctor = Doctor.new(params)
-    doctor.password = temp_password
+  def self.create_doctor(params)
+    doctor = new(params)
+    doctor.password = doctor.generate_temporary_password
     doctor.generate_password_token!
     doctor.save!
 
-    DoctorMailer.send_temporary_password(doctor, temp_password).deliver_later
+    DoctorMailer.send_temporary_password(doctor, doctor.password).deliver_later
     doctor
   end
 end

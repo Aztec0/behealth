@@ -9,7 +9,7 @@ RSpec.describe 'Api::V1::SearchController', swagger_doc: 'v1/swagger.yaml', type
       produces 'application/json'
       parameter name: :query, in: :query, type: :string,
                 description: 'Searching query for hospital or doctor. Input address, name, city for hospital or
-                              name, surname, specialty for doctor', required: false
+                              First Name, Last Name, specialty(position) for doctor', required: false
       parameter name: :region, in: :query, type: :string,
                 description: 'Region filter. Enter the name of the region to search for a hospital or doctor in that
                               location. If field leave empty, request was for all areas', required: false
@@ -24,15 +24,10 @@ RSpec.describe 'Api::V1::SearchController', swagger_doc: 'v1/swagger.yaml', type
                    type: :array
                  }
                }
-
-        let(:query) { 'John' }
-        let(:region) { 'New York' }
         run_test!
       end
 
       response '422', 'Invalid search query' do
-        let(:query) { '' }
-        let(:region) { '' }
         run_test!
       end
     end
@@ -43,7 +38,7 @@ RSpec.describe 'Api::V1::SearchController', swagger_doc: 'v1/swagger.yaml', type
       tags 'Search'
       produces 'application/json'
       parameter name: :query, in: :query, type: :string,
-                description: 'Searching doctor by name, surname, second name, position ', required: false
+                description: 'Searching doctor by first_name, last_name, position ', required: false
       parameter name: :position, in: :query, type: :string,
                 description: 'Doctor speciality', required: false
 
@@ -54,14 +49,10 @@ RSpec.describe 'Api::V1::SearchController', swagger_doc: 'v1/swagger.yaml', type
                    type: :array
                  }
                }
-        let(:query) { 'John' }
-        let(:region) { 'New York' }
         run_test!
       end
 
       response '422', 'Invalid search query' do
-        let(:query) { '' }
-        let(:region) { '' }
         run_test!
       end
     end
@@ -82,15 +73,10 @@ RSpec.describe 'Api::V1::SearchController', swagger_doc: 'v1/swagger.yaml', type
                    type: :array
                  }
                }
-
-        let(:query) { 'John' }
-        let(:region) { 'New York' }
         run_test!
       end
 
       response '422', 'Invalid search query' do
-        let(:query) { '' }
-        let(:region) { '' }
         run_test!
       end
     end

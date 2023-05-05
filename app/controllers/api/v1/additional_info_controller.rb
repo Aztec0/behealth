@@ -2,13 +2,12 @@
 
 class Api::V1::AdditionalInfoController < ApplicationController
   before_action :authenticate_patient_user
-  # позбутись тернарні оператори(6-8)
 
   def index
     address = PatientAddressSerializer.new(current_user.patient_address) if current_user.patient_address.present?
     work = PatientWorkSerializer.new(current_user.patient_work) if current_user.patient_work.present?
 
-    render json: { address: address, workPlace: work, preferenceCategories: 'undefined' }
+    render json: { address: address, workPlace: work, preferenceCategories: nil }
   end
 
   def create

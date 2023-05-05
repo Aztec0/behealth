@@ -1,24 +1,30 @@
 # frozen_string_literal: true
 
 class Api::V1::HospitalsController < ApplicationController
-  skip_before_action :authenticate_request
+  skip_before_action :authenticate_request, only: %i[index]
+  before_action :authorize_request, except: %i[index]
+  before_action :set_hospital, only: %i[show update delete]
   def index
     @pagy, hospitals = pagy(Hospital.all)
 
     render json: hospitals, each_serializer: HospitalsSerializer
   end
 
+  def show
+    render json: @hospital
+  end
+
   def create
-    if current_user.hospital.present?
-      if current_user.hospital.update(hospital_params)
-        render json: { message: 'Hospital update successful', hospital: hospital_params }, status: :ok
+    @hospital = Hospital.find_by(hospital_params)
+    if @hospital.present?
+      if @hospital.update(hospital_params)
+        render json: { message: 'Hospital update successful', hospital: @hospital }, status: :ok
       else
-        render json: { error: current_user.hospital.errors.full_messages }, status: :unprocessable_entity
+        render json: { error: @hospital.errors.full_messages }, status: :unprocessable_entity
       end
     else
       hospital = Hospital.new(hospital_params)
       if hospital.save
-        current_user.update(hospital_id: hospital.id)
         render json: { message: 'Hospital created successfully', hospital: hospital }, status: :created
       else
         render json: { error: hospital.errors.full_messages }, status: :unprocessable_entity
@@ -27,24 +33,32 @@ class Api::V1::HospitalsController < ApplicationController
   end
 
   def update
-    hospital = Hospital.find_by(id: params[:id])
-    if hospital.update(hospital_params)
-      if params[:tag_list].present?
-        hospital.tags.destroy_all
-        params[:tag_list].split(',').map do |n|
-          Tag.where(tag_name: n.strip, tagable: hospital).first_or_create!
-        end
-      end
-      render json: hospital, each_serializer: HospitalsSerializer
+    if @hospital.update(hospital_params)
+      render json: @hospital
     else
-      render json: 'Something went wrong', status: :unprocessable_entity
+      render json: @hospital.errors, status: :unprocessable_entity
+    end
+  end
+
+  def delete
+    if @hospital.destroy
+      render json: { message: 'Hospital deleted' }, status: :ok
+    else
+      render json: @hospital.errors, status: :unprocessable_entity
     end
   end
 
   private
 
   def hospital_params
-    params.permit(:address, :city, :name, :region)
+    params.permit(:name, :address, :region, :city)
+  end
+
+  def set_hospital
+    @hospital = Hospital.find(params[:id])
+  end
+
+  def authorize_request
+    authorize Hospital
   end
 end
-

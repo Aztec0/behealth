@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::API
   include Pundit::Authorization
   include Pagy::Backend
+  before_action :authenticate_request
 
   before_action :authenticate_request
 

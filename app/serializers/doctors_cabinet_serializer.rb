@@ -5,7 +5,7 @@ class DoctorsCabinetSerializer < ActiveModel::Serializer
   def attributes(*args)
     hash = super
     if @instance_options[:action] == :professional_info
-      hash[:price] = object.price
+      hash[:price] = object.admission_price
       hash[:position] = object.position
       hash[:hospital_city] = object.hospital.city
       hash[:hospital_region] = object.hospital.region
