@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_25_071737) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_04_100206) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,6 +33,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_071737) do
     t.datetime "updated_at", null: false
     t.index ["doctor_id"], name: "index_calendars_on_doctor_id"
     t.index ["patient_id"], name: "index_calendars_on_patient_id"
+  end
+
+  create_table "conclusions", force: :cascade do |t|
+    t.string "description"
+    t.bigint "doctor_id"
+    t.bigint "appointment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["appointment_id"], name: "index_conclusions_on_appointment_id"
+    t.index ["doctor_id"], name: "index_conclusions_on_doctor_id"
   end
 
   create_table "doctors", force: :cascade do |t|
@@ -150,6 +160,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_071737) do
   add_foreign_key "appointments", "patients"
   add_foreign_key "calendars", "doctors"
   add_foreign_key "calendars", "patients"
+  add_foreign_key "conclusions", "appointments"
+  add_foreign_key "conclusions", "doctors"
   add_foreign_key "doctors", "hospitals", on_delete: :nullify
   add_foreign_key "feedbacks", "doctors"
   add_foreign_key "feedbacks", "patients"

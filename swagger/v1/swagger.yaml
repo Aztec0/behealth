@@ -612,6 +612,95 @@ paths:
       responses:
         '200':
           description: successful
+  "/api/v1/calendars":
+    get:
+      summary: List all calendars
+      tags:
+        - Calendars
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    description:
+                      type: string
+                  required:
+                    - id
+                    - name
+      description: Returns a list of all available calendars
+  "/api/v1/calendars/{calendar_id}":
+      get:
+        summary: Get a specific calendar
+        tags:
+          - Calendars
+        security:
+          - ApiKeyAuth: [ ]
+        parameters:
+          - name: calendar_id
+            in: path
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: successful
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    description:
+                      type: string
+                  required:
+                    - id
+                    - name
+        description: Returns a specific calendar by ID
+      patch:
+        summary: Update a specific calendar
+        tags:
+          - Calendars
+        security:
+          - ApiKeyAuth: [ ]
+        parameters:
+          - name: calendar_id
+            in: path
+            type: integer
+            required: true
+        responses:
+          '200':
+            description: successful
+          '400':
+            description: Bad Request
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    default: New Name
+                  description:
+                    type: string
+                    default: New Description
+                required:
+                  - name
+                  - description
+        description: Updates a specific calendar by ID
   "/api/v1/signup":
     post:
       summary: Sends an email to register user
