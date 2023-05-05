@@ -26,35 +26,36 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
       parameter name: :doctor_params, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string, default: 'John' },
-          surname: { type: :string, default: 'Doe' },
+          first_name: { type: :string, default: 'John' },
+          last_name: { type: :string, default: 'Doe' },
           second_name: { type: :string, default: 'Doe' },
           email: { type: :string, default: 'john.doe@example.com' },
           phone: { type: :integer, default: '1234567890' },
           birthday: { type: :string, default: '1990-01-01' },
           position: { type: :string, default: 'Cardiologist' }
         },
-        required: %w[name surname second_name email phone birthday position]
+        required: %w[first_name last_name second_name email phone birthday position]
       }
 
       response '201', 'returns the newly created doctor' do
         schema type: :object,
                properties: {
                  id: { type: :integer },
-                 name: { type: :string },
-                 surname: { type: :string },
+                 first_name: { type: :string },
+                 last_name: { type: :string },
+                 second_name: { type: :string },
                  email: { type: :string },
                  phone: { type: :integer },
                  birthday: { type: :string },
                  position: { type: :string },
                  hospital_id: { type: :integer }
                },
-               required: %w[id name surname email phone birthday position hospital_id]
+               required: %w[id first_name last_name second_name email phone birthday position hospital_id]
 
         let(:doctor_params) do
           {
-            name: 'John',
-            surname: 'Doe',
+            first_name: 'John',
+            last_name: 'Doe',
             email: 'john.doe@example.com',
             phone: '1234567890',
             birthday: '1990-01-01',
@@ -76,8 +77,8 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
       response '401', 'unauthorized' do
         let(:doctor_params) do
           {
-            name: 'John',
-            surname: 'Doe',
+            first_name: 'John',
+            last_name: 'Doe',
             email: 'john.doe@example.com',
             phone: '1234567890',
             birthday: '1990-01-01',
@@ -120,7 +121,7 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
                  city: { type: :string },
                  region: { type: :string }
                },
-               required: %w[id name address city region]
+               required: %w[id first_name address city region]
 
         let(:hospital) { { name: 'New Hospital', address: '123 Main St', city: 'Anytown', region: 'NY' } }
         run_test!
@@ -139,7 +140,7 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
     end
   end
 
-  path '/api/v1/doctors/{id}' do
+  path '/api/v1/delete_doctor/{id}' do
     delete 'Deletes a doctor by id' do
       tags 'Doctors'
       security [{ ApiKeyAuth: [] }]
@@ -166,8 +167,9 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
                  type: :object,
                  properties: {
                    id: { type: :integer },
-                   name: { type: :string },
-                   surname: { type: :string },
+                   first_name: { type: :string },
+                   last_name: { type: :string },
+                   second_name: { type: :string },
                    email: { type: :string },
                    phone: { type: :integer },
                    birthday: { type: :string },
@@ -177,7 +179,7 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
                    updated_at: { type: :string },
                    hospital_id: { type: :integer }
                  },
-                 required: %w[id name surname email phone birthday position rating created_at updated_at hospital_id]
+                 required: %w[id first_name last_name second_name email phone birthday position rating created_at updated_at hospital_id]
                }
 
         run_test!

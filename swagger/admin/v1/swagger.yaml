@@ -1,0 +1,376 @@
+---
+openapi: 3.0.1
+info:
+  title: Admin API V1
+  version: v1
+paths:
+  "/api/v1/doctors":
+    get:
+      summary: Get all doctors
+      tags:
+      - Doctors section
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: successful
+  "/api/v1/doctors/{id}":
+    get:
+      summary: Doctor by ID
+      tags:
+      - Doctors section
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: id
+        in: path
+        description: Hospital ID
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+        '401':
+          description: unauthorized
+        '404':
+          description: Hospital not found
+  "/api/v1/doctors/create":
+    post:
+      summary: Create a doctor
+      tags:
+      - Doctors section
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '201':
+          description: returns the newly created doctor
+        '401':
+          description: unauthorized
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  default: John
+                last_name:
+                  type: string
+                  default: Doe
+                second_name:
+                  type: string
+                  default: Doe
+                email:
+                  type: string
+                  default: john.doe@example.com
+                phone:
+                  type: integer
+                  default: '1234567890'
+                birthday:
+                  type: string
+                  default: '1990-01-01'
+                position:
+                  type: string
+                  default: Cardiologist
+                hospital_id:
+                  type: integer
+                  default: '1'
+                role:
+                  type: string
+                  default: head_doctor
+              required:
+              - first_name
+              - last_name
+              - second_name
+              - email
+              - phone
+              - birthday
+              - position
+              - hospital_id
+              - role
+  "/api/v1/delete_doctor/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Doctor ID
+      required: true
+      schema:
+        type: integer
+    delete:
+      summary: Delete a doctor
+      tags:
+      - Doctors section
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '204':
+          description: Doctor deleted
+        '404':
+          description: Doctor not found
+  "/api/v1/doctor/{id}/update":
+    patch:
+      summary: Update doctors params
+      tags:
+      - Doctors section
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: id
+        in: path
+        description: ID of the doctor to update
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  default: John
+                last_name:
+                  type: string
+                  default: Doe
+                second_name:
+                  type: string
+                  default: Doe
+                email:
+                  type: string
+                  default: john.doe@example.com
+                phone:
+                  type: integer
+                  default: '1234567890'
+                birthday:
+                  type: string
+                  default: '1990-01-01'
+                position:
+                  type: string
+                  default: Cardiologist
+                hospital_id:
+                  type: integer
+                  default: '1'
+                role:
+                  type: string
+                  default: head_doctor
+                second_email:
+                  type: string
+                  default: "@gmail.com"
+                second_phone:
+                  type: integer
+                  default: '123456789'
+                description:
+                  type: string
+                  default: Something about yourself
+                admission_price:
+                  type: integer
+                  default: '100'
+              required:
+              - first_name
+              - last_name
+              - second_name
+              - email
+              - phone
+              - birthday
+              - position
+              - hospital_id
+              - role
+        description: Doctors params to update
+  "/api/v1/index":
+    get:
+      summary: List all hospitals
+      tags:
+      - Hospitals section
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: successful
+  "/api/v1/hospitals/{id}":
+    get:
+      summary: Hospital by ID
+      tags:
+      - Hospitals section
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: id
+        in: path
+        description: Hospital ID
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+        '401':
+          description: unauthorized
+        '404':
+          description: Hospital not found
+  "/api/v1/hospitals/create":
+    post:
+      summary: Create a hospital
+      tags:
+      - Hospitals section
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '201':
+          description: returns the newly created hospital
+        '401':
+          description: unauthorized
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                region:
+                  type: string
+                  default: Some region
+                city:
+                  type: string
+                  default: Some city
+                address:
+                  type: string
+                  default: Some address
+                name:
+                  type: string
+                  default: Some name
+              required:
+              - region
+              - city
+              - address
+              - name
+  "/api/v1/hospitals/{id}/delete":
+    parameters:
+    - name: id
+      in: path
+      description: Hospital ID
+      required: true
+      schema:
+        type: integer
+    delete:
+      summary: Delete a hospital
+      tags:
+      - Hospitals section
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '204':
+          description: Hospital deleted
+        '404':
+          description: Hospital not found
+  "/api/v1/hospitals/{id}/update":
+    patch:
+      summary: Update hospital parameters
+      tags:
+      - Hospitals section
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: id
+        in: path
+        description: ID of the hospital to update
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful update
+        '400':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: Some name
+                address:
+                  type: string
+                  default: Some address
+                city:
+                  type: string
+                  default: Some city
+                region:
+                  type: string
+                  default: Some region
+              required:
+              - name
+              - address
+              - city
+              - region
+        description: Hospital parameters to update
+  "/api/v1/patient/{id}":
+    get:
+      summary: Patient by ID
+      tags:
+      - Patient section
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: id
+        in: path
+        description: Patient ID
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+        '401':
+          description: unauthorized
+        '404':
+          description: Patient not found
+  "/api/v1/patient/{id}/delete":
+    parameters:
+    - name: id
+      in: path
+      description: Patient ID
+      required: true
+      schema:
+        type: integer
+    delete:
+      summary: Delete a patient
+      tags:
+      - Patient section
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '204':
+          description: Patient deleted
+        '404':
+          description: Patient not found
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: 127.0.0.1:3000
+- url: https://{staging_host}
+  variables:
+    staging_host:
+      default: www.behealth.pp.ua
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: "{token}"
