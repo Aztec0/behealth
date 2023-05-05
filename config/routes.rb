@@ -109,6 +109,13 @@ Rails.application.routes.draw do
     post 'calendars', to: 'calendars#create'
     put 'calendars/:id', to: 'calendars#update'
 
+      # Conclusions
+      get '/api/v1/conclusions', to: 'conclusions#index'
+      post '/api/v1/conclusions', to: 'conclusions#create'
+      get '/api/v1/conclusions/:id', to: 'conclusions#show'
+      put '/api/v1/conclusions/:id', to: 'conclusions#update'
+      delete '/api/v1/conclusions/:id', to: 'conclusions#destroy'
+    end
     namespace :v2 do
       # Search hospitals and doctors
       get '/search', to: 'search#search'
