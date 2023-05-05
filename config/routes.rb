@@ -5,12 +5,6 @@ Rails.application.routes.draw do
   mount Rswag::Api::Engine => '/api-docs'
   namespace :api do
     namespace :v1 do
-      resources :appointments, only: [:index, :show, :create, :update] do
-        member do
-          post :cancel
-          post :accept
-        end
-      end
 
       # Search hospitals and doctors
       get '/search', to: 'search#search'
@@ -66,16 +60,20 @@ Rails.application.routes.draw do
       post   'patient/main-info',                            to: 'personal_info#create'
       put    'patient/main-info',                            to: 'personal_info#update'
       delete 'patient/main-info',                            to: 'personal_info#destroy'
+
+      # Appointments
+      get '/appointments',                                   to: 'appointments#index'
+      post '/appointments',                                  to: 'appointments#create'
+      get '/appointments/:id',                               to: 'appointments#show'
+      put '/appointments/:id',                               to: 'appointments#update'
+      delete '/appointments/:id',                            to: 'appointments#destroy'
+      patch '/appointments/:id/cancel',                      to: 'appointments#cancel'
+      patch '/appointments/:id/accept',                      to: 'appointments#accept'
+      get '/appointments/past',                              to: 'appointments#past'
+      get '/appointments/upcoming',                          to: 'appointments#upcoming'
     end
     
-    resources :calendars, only: [:index, :show, :create, :update] do
-        member do
-          get :events
-        end
-      end
 
-      resources :doctors, only: [:index, :show, :create, :update]
-      resources :patients, only: [:index, :show, :create, :update]
 
     namespace :v2 do
       # Advanced options for doctors
