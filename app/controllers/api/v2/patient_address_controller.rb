@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V2::PatientAddressController < ApplicationController
   before_action :authenticate_patient_user
   before_action :set_address

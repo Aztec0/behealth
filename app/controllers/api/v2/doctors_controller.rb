@@ -41,7 +41,7 @@ class Api::V2::DoctorsController < ApplicationController
     @pagy, doctors = pagy(Doctor.list_doctor_by_hospital(current_user.hospital_id))
     if doctors
       render_success({ doctors: ActiveModelSerializers::SerializableResource.new(doctors,
-                                                                               each_serializer: DoctorByHospitalSerializer) })
+                                                                                 each_serializer: DoctorByHospitalSerializer) })
     else
       render_error('Unable to fetch doctors', status: :unprocessable_entity)
     end

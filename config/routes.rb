@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+
 require 'sidekiq/web'
 require 'sidekiq-scheduler/web'
 
 # Configure Sidekiq-specific session middleware
 Sidekiq::Web.use ActionDispatch::Cookies
-Sidekiq::Web.use ActionDispatch::Session::CookieStore, key: "_interslice_session"
+Sidekiq::Web.use ActionDispatch::Session::CookieStore, key: '_interslice_session'
 
 Rails.application.routes.draw do
   mount Sidekiq::Web => "/sidekiq"
@@ -12,7 +13,6 @@ Rails.application.routes.draw do
   mount Rswag::Api::Engine => '/api-docs'
   namespace :api do
     namespace :v1 do
-
       # admin section with additional options
       # Doctors section
       get '/doctors/:id', to: 'doctors#show'
@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       patch '/patient/:id/update', to: 'patient#update'
       delete '/patient/:id/delete', to: 'patient#delete'
       # end admin section
+
       get 'tags/index', to: 'tags#index'
       get 'tags/create'
       get 'tags/show'
@@ -53,21 +54,20 @@ Rails.application.routes.draw do
 
       # Advanced options for doctors
       get '/list_doctor_by_hospital',                        to: 'doctors#list_doctor_by_hospital'
-      get '/staff_appointments',                             to: 'doctors#appointments'
+      get '/staff_appointments',                             to: 'doctors#staff_appointments'
       post '/create_doctor',                                 to: 'doctors#create_doctor'
-      post '/create_hospital',                               to: 'doctors#create_hospital'
-      delete '/doctors/:id',                                 to: 'doctors#delete'
+      delete '/doctors/:id',                                 to: 'doctors#delete_doctor'
 
       # list all doctors
       get '/doctors',                                        to: 'doctors#index'
       # list all hospitals
       get '/hospitals',                                      to: 'hospitals#index'
 
-      resources :chats, only: [:index, :create, :show] do
-        resources :messages, only: [:index, :create]
+      resources :chats, only: %i[index create show] do
+        resources :messages, only: %i[index create]
       end
 
-      #Feedbacks for doctors
+      # Feedbacks for doctors
       get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
       post   'doctor/:doctor_id/feedback',                   to: 'feedbacks#create'
       # Feedbacks for doctors
@@ -110,57 +110,55 @@ Rails.application.routes.draw do
       get '/appointments/upcoming',                          to: 'appointments#upcoming'
     end
 
-
     # Calendar
     get 'calendars', to: 'calendars#index'
     post 'calendars', to: 'calendars#create'
     put 'calendars/:id', to: 'calendars#update'
 
-      # Conclusions
-      get '/api/v1/conclusions', to: 'conclusions#index'
-      post '/api/v1/conclusions', to: 'conclusions#create'
-      get '/api/v1/conclusions/:id', to: 'conclusions#show'
-      put '/api/v1/conclusions/:id', to: 'conclusions#update'
-      delete '/api/v1/conclusions/:id', to: 'conclusions#destroy'
-    end
-    namespace :v2 do
-      # Search hospitals and doctors
-      get '/search', to: 'search#search'
-      get '/search_doctors_by_specialty', to: 'search#search_doctors_by_specialty'
-      get '/search_hospitals', to: 'search#search_hospitals'
+    # Conclusions
+    get '/api/v1/conclusions', to: 'conclusions#index'
+    post '/api/v1/conclusions', to: 'conclusions#create'
+    get '/api/v1/conclusions/:id', to: 'conclusions#show'
+    put '/api/v1/conclusions/:id', to: 'conclusions#update'
+    delete '/api/v1/conclusions/:id', to: 'conclusions#destroy'
+  end
+  namespace :v2 do
+    # Search hospitals and doctors
+    get '/search', to: 'search#search'
+    get '/search_doctors_by_specialty', to: 'search#search_doctors_by_specialty'
+    get '/search_hospitals', to: 'search#search_hospitals'
 
-      # Advanced options for doctors
-      get '/list_doctor_by_hospital',                        to: 'doctors#list_doctor_by_hospital'
-      get '/staff_appointments',                             to: 'doctors#staff_appointments'
-      post '/create_doctor',                                 to: 'doctors#create_doctor'
-      delete '/delete_doctor/:id',                           to: 'doctors#delete_doctor'
+    # Advanced options for doctors
+    get '/list_doctor_by_hospital',                        to: 'doctors#list_doctor_by_hospital'
+    get '/staff_appointments',                             to: 'doctors#staff_appointments'
+    post '/create_doctor',                                 to: 'doctors#create_doctor'
+    delete '/delete_doctor/:id',                           to: 'doctors#delete_doctor'
 
-      # list all doctors
-      get '/doctors',                                        to: 'doctors#index'
-      # list all hospitals
-      get '/hospitals',                                      to: 'hospitals#index'
+    # list all doctors
+    get '/doctors',                                        to: 'doctors#index'
+    # list all hospitals
+    get '/hospitals',                                      to: 'hospitals#index'
 
-      # Additional information of patient
-      get    'patient/extra-info',                           to: 'additional_info#index'
+    # Additional information of patient
+    get    'patient/extra-info',                           to: 'additional_info#index'
 
-      # Personal information of patient
-      get    'patient/main-info',                            to: 'personal_info#index'
-      put    'patient/main-info',                            to: 'personal_info#update'
+    # Personal information of patient
+    get    'patient/main-info',                            to: 'personal_info#index'
+    put    'patient/main-info',                            to: 'personal_info#update'
 
-      # Address of patient
-      post   'patient/address',                              to: 'patient_address#create'
-      put    'patient/address',                              to: 'patient_address#update'
-      delete 'patient/address',                              to: 'patient_address#destroy'
+    # Address of patient
+    post   'patient/address',                              to: 'patient_address#create'
+    put    'patient/address',                              to: 'patient_address#update'
+    delete 'patient/address',                              to: 'patient_address#destroy'
 
-      # Document of patient
-      post   'patient/document',                              to: 'patient_document#create'
-      put    'patient/document',                              to: 'patient_document#update'
-      delete 'patient/document',                              to: 'patient_document#destroy'
+    # Document of patient
+    post   'patient/document',                              to: 'patient_document#create'
+    put    'patient/document',                              to: 'patient_document#update'
+    delete 'patient/document',                              to: 'patient_document#destroy'
 
-      # Workplace of patient
-      post   'patient/work',                                  to: 'patient_work#create'
-      put    'patient/work',                                  to: 'patient_work#update'
-      delete 'patient/work',                                  to: 'patient_work#destroy'
-    end
+    # Workplace of patient
+    post   'patient/work',                                  to: 'patient_work#create'
+    put    'patient/work',                                  to: 'patient_work#update'
+    delete 'patient/work',                                  to: 'patient_work#destroy'
   end
 end

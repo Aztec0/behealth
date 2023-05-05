@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 class Api::V1::DoctorsController < ApplicationController
-  skip_before_action :authenticate_request, only: :index
+  skip_before_action :authenticate_request, only: %i[index]
   before_action :authenticate_doctor_user, except: %i[index]
   before_action :authorize_request, except: %i[index show]
-  before_action :set_doctor, only: :show
-  before_action :authorize_request, except: %i[index]
   before_action :set_doctor, only: %i[show delete]
 
   def index
@@ -13,7 +11,6 @@ class Api::V1::DoctorsController < ApplicationController
     render json: doctors, each_serializer: DoctorShowSerializer
   end
 
-  # in progress
   def staff_appointments
     @pagy, appointments = pagy(Appointment.staff_appointments(current_user.hospital_id))
     render json: appointments, each_serializer: AppointmentSerializer, action: :show

@@ -8,7 +8,6 @@
 #  about                :text
 #  admission_price      :decimal(, )
 #  birthday             :date
-#  description          :text
 #  email                :string
 #  email_confirmed      :boolean          default(TRUE)
 #  first_name           :string
@@ -16,7 +15,7 @@
 #  password_digest      :string
 #  phone                :bigint
 #  position             :string
-#  rating               :integer          default(0)
+#  rating               :float            default(0.0)
 #  reset_password_token :string
 #  role                 :integer          default("doctor")
 #  second_email         :string

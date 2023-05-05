@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChatsController < ApplicationController
   before_action :authenticate_request
   before_action :set_chat, only: [:show, :update, :destroy]

@@ -27,7 +27,7 @@ RSpec.describe 'Appointments API', swagger_doc: 'v1/swagger.yaml', type: :reques
           doctor_id: { type: :integer },
           patient_id: { type: :integer },
           appointment_datetime: { type: :datetime },
-          status: { type: integer }
+          status: { type: :integer }
         },
         required: %w[doctor_id patient_id appointment_datetime status]
       }
@@ -179,8 +179,7 @@ RSpec.describe 'Appointments API', swagger_doc: 'v1/swagger.yaml', type: :reques
 
           run_test!
         end
-
       end
     end
   end
-  end
+end

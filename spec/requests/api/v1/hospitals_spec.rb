@@ -33,7 +33,7 @@ RSpec.describe 'api/v1/index', swagger_doc: 'v1/swagger.yaml', type: :request do
           city: { type: :string, default: 'Some city' },
           name: { type: :string, default: 'Some name' },
           region: { type: :string, default: 'Some region' }
-          },
+        },
         required: %w[second_email second_phone description price]
       }
 
@@ -42,50 +42,6 @@ RSpec.describe 'api/v1/index', swagger_doc: 'v1/swagger.yaml', type: :request do
       end
 
       response '422', 'Unprocessable entity' do
-        run_test!
-      end
-    end
-  end
-
-  path '/api/v1/create_hospital' do
-    post 'Creates a hospital' do
-      tags 'Doctors'
-      security [{ ApiKeyAuth: [] }]
-      consumes 'application/json'
-      parameter name: :hospital, in: :body, schema: {
-        type: :object,
-        properties: {
-          name: { type: :string, default: 'New Hospital' },
-          address: { type: :string, default: '123 Main St' },
-          city: { type: :string, default: 'Anytown' },
-          region: { type: :string, default: 'NY' }
-        },
-        required: %w[name address city region]
-      }
-
-      response '201', 'returns the newly created hospital' do
-        schema type: :object,
-               properties: {
-                 id: { type: :integer },
-                 name: { type: :string },
-                 address: { type: :string },
-                 city: { type: :string },
-                 region: { type: :string }
-               },
-               required: %w[id name address city region]
-
-        let(:hospital) { { name: 'New Hospital', address: '123 Main St', city: 'Anytown', region: 'NY' } }
-        run_test!
-      end
-
-      response '422', 'returns an error message if hospital cannot be created' do
-        schema type: :object,
-               properties: {
-                 error: { type: :string }
-               },
-               required: %w[error]
-
-        let(:hospital) { { name: '', address: '', city: '', region: '' } }
         run_test!
       end
     end

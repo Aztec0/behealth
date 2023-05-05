@@ -52,33 +52,18 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
                },
                required: %w[id first_name last_name second_name email phone birthday position hospital_id]
 
-        let(:doctor_params) do
-          {
-            first_name: 'John',
-            last_name: 'Doe',
-            email: 'john.doe@example.com',
-            phone: '1234567890',
-            birthday: '1990-01-01',
-            position: 'Cardiologist',
-            hospital_id: hospital.id,
-            password: 'password123',
-            password_confirmation: 'password123'
-          }
-        end
-
         run_test!
       end
 
       response '422', 'invalid request' do
-        let(:doctor_params) { {} }
         run_test!
       end
 
       response '401', 'unauthorized' do
         let(:doctor_params) do
           {
-            first_name: 'John',
-            last_name: 'Doe',
+            name: 'John',
+            surname: 'Doe',
             email: 'john.doe@example.com',
             phone: '1234567890',
             birthday: '1990-01-01',
@@ -91,50 +76,6 @@ RSpec.describe 'api/v1/doctors', swagger_doc: 'v1/swagger.yaml', type: :request 
 
         let(:Authorization) { '' }
 
-        run_test!
-      end
-    end
-  end
-
-  path '/api/v1/create_hospital' do
-    post 'Creates a hospital' do
-      tags 'Doctors'
-      security [{ ApiKeyAuth: [] }]
-      consumes 'application/json'
-      parameter name: :hospital, in: :body, schema: {
-        type: :object,
-        properties: {
-          name: { type: :string, default: 'New Hospital' },
-          address: { type: :string, default: '123 Main St' },
-          city: { type: :string, default: 'Anytown' },
-          region: { type: :string, default: 'NY' }
-        },
-        required: %w[name address city region]
-      }
-
-      response '201', 'returns the newly created hospital' do
-        schema type: :object,
-               properties: {
-                 id: { type: :integer },
-                 name: { type: :string },
-                 address: { type: :string },
-                 city: { type: :string },
-                 region: { type: :string }
-               },
-               required: %w[id first_name address city region]
-
-        let(:hospital) { { name: 'New Hospital', address: '123 Main St', city: 'Anytown', region: 'NY' } }
-        run_test!
-      end
-
-      response '422', 'returns an error message if hospital cannot be created' do
-        schema type: :object,
-               properties: {
-                 error: { type: :string }
-               },
-               required: %w[error]
-
-        let(:hospital) { { name: '', address: '', city: '', region: '' } }
         run_test!
       end
     end
