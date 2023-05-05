@@ -28,9 +28,10 @@ class Api::V1::RegistrationsController < ApplicationController
     @patient = Patient.find_by(confirm_token: token)
     if @patient.present? && @patient.token_valid?
       @patient.assign_attributes(patient_params)
-      if @patient.save!
+      if @patient.save!(validates: false)
         @patient.email_activate
-        render json: { status: 'Email activated, you successfully registered' }, status: :ok
+        token = JWT.encode({ user_id: @patient.id, type: "patient" }, Rails.application.secret_key_base)
+        render json: { data: token }, status: :ok
       else
         render json: { error: 'Something went wrong' }, status: :unprocessable_entity
       end
@@ -42,6 +43,6 @@ class Api::V1::RegistrationsController < ApplicationController
   private
 
   def patient_params
-    params.permit(:birthday, :name, :second_name, :surname, :phone)
+    params.permit(:birthday, :first_name, :second_name, :last_name, :phone)
   end
 end

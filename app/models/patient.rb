@@ -29,6 +29,8 @@ class Patient < ApplicationRecord
   include Confirmable
 
   has_many :feedbacks
+  has_many :messages
+  has_many :chats
   has_one :patient_address
   has_one :patient_work
   has_one :patient_document
@@ -46,7 +48,7 @@ class Patient < ApplicationRecord
   end
 
   def main_info
-    fullname = "#{surname} #{name} #{fathername unless fathername.nil?}".strip
-    { fullname: fullname, birthday: birthday.strftime('%d.%m.%Y'), tin: tin, sex: sex }
+    birthday = birthday.present? ? birthday.strftime('%d.%m.%Y') : nil
+    { first_name: first_name, last_name: last_name, second_name: second_name, birthday: birthday, tin: tin, sex: sex }
   end
 end

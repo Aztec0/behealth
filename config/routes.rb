@@ -12,12 +12,27 @@ Rails.application.routes.draw do
   mount Rswag::Api::Engine => '/api-docs'
   namespace :api do
     namespace :v1 do
-      resources :appointments, only: [:index, :show, :create, :update] do
-        member do
-          post :cancel
-          post :accept
-        end
-      end
+
+      # admin section with additional options
+      # Doctors section
+      get '/doctors/:id', to: 'doctors#show'
+      patch '/doctors/:id/update', to: 'doctors#update'
+      post '/doctors/create', to: 'doctors#create'
+      delete '/doctors/:id/delete', to: 'doctors#destroy'
+      # Hospitals section
+      get '/hospitals/:id', to: 'hospitals#show'
+      patch '/hospitals/:id/update', to: 'hospitals#update'
+      post '/hospitals/create', to: 'hospitals#create'
+      delete '/hospitals/:id/delete', to: 'hospitals#delete'
+      # Patient section
+      get '/patient/:id', to: 'patient#show'
+      patch '/patient/:id/update', to: 'patient#update'
+      delete '/patient/:id/delete', to: 'patient#delete'
+      # end admin section
+      get 'tags/index', to: 'tags#index'
+      get 'tags/create'
+      get 'tags/show'
+      patch 'hospital/update/:id', to: 'hospitals#update'
 
       # Search hospitals and doctors
       get '/search', to: 'search#search'
@@ -48,9 +63,28 @@ Rails.application.routes.draw do
       # list all hospitals
       get '/hospitals',                                      to: 'hospitals#index'
 
-      # Feedbacks for doctors
+      resources :chats, only: [:index, :create, :show] do
+        resources :messages, only: [:index, :create]
+      end
+
+      #Feedbacks for doctors
       get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
       post   'doctor/:doctor_id/feedback',                   to: 'feedbacks#create'
+      # Feedbacks for doctors
+      get    'feedbacks/:type/:id',                          to: 'feedbacks#index'
+      post   'feedbacks/:type/:id',                          to: 'feedbacks#create'
+      put    'feedbacks/:id',                                to: 'feedbacks#update'
+      delete 'feedbacks/:id',                                to: 'feedbacks#destroy'
+
+      # Links for front-end
+      get    'patient-account/additional-data',              to: 'additional_info#index'
+      post   'patient-account/additional-data',              to: 'additional_info#create'
+      put    'patient-account/additional-data',              to: 'additional_info#update'
+      delete 'patient-account/additional-data',              to: 'additional_info#destroy'
+      get    'patient-account/personal-information',         to: 'personal_info#index'
+      post   'patient-account/personal-information',         to: 'personal_info#create'
+      put    'patient-account/personal-information',         to: 'personal_info#update'
+      delete 'patient-account/personal-information',         to: 'personal_info#destroy'
 
       # Additional information of patient
       get    'patient/extra-info',                           to: 'additional_info#index'
@@ -63,34 +97,53 @@ Rails.application.routes.draw do
       post   'patient/main-info',                            to: 'personal_info#create'
       put    'patient/main-info',                            to: 'personal_info#update'
       delete 'patient/main-info',                            to: 'personal_info#destroy'
+
+      # Appointments
+      get '/appointments',                                   to: 'appointments#index'
+      post '/appointments',                                  to: 'appointments#create'
+      get '/appointments/:id',                               to: 'appointments#show'
+      put '/appointments/:id',                               to: 'appointments#update'
+      delete '/appointments/:id',                            to: 'appointments#destroy'
+      patch '/appointments/:id/cancel',                      to: 'appointments#cancel'
+      patch '/appointments/:id/accept',                      to: 'appointments#accept'
+      get '/appointments/past',                              to: 'appointments#past'
+      get '/appointments/upcoming',                          to: 'appointments#upcoming'
     end
-    
-    resources :calendars, only: [:index, :show, :create, :update] do
-        member do
-          get :events
-        end
-      end
 
-      resources :doctors, only: [:index, :show, :create, :update]
-      resources :patients, only: [:index, :show, :create, :update]
 
+    # Calendar
+    get 'calendars', to: 'calendars#index'
+    post 'calendars', to: 'calendars#create'
+    put 'calendars/:id', to: 'calendars#update'
+
+      # Conclusions
+      get '/api/v1/conclusions', to: 'conclusions#index'
+      post '/api/v1/conclusions', to: 'conclusions#create'
+      get '/api/v1/conclusions/:id', to: 'conclusions#show'
+      put '/api/v1/conclusions/:id', to: 'conclusions#update'
+      delete '/api/v1/conclusions/:id', to: 'conclusions#destroy'
+    end
     namespace :v2 do
+      # Search hospitals and doctors
+      get '/search', to: 'search#search'
+      get '/search_doctors_by_specialty', to: 'search#search_doctors_by_specialty'
+      get '/search_hospitals', to: 'search#search_hospitals'
+
       # Advanced options for doctors
       get '/list_doctor_by_hospital',                        to: 'doctors#list_doctor_by_hospital'
-      get '/staff_appointments',                             to: 'doctors#appointments'
+      get '/staff_appointments',                             to: 'doctors#staff_appointments'
       post '/create_doctor',                                 to: 'doctors#create_doctor'
-      post '/create_hospital',                               to: 'doctors#create_hospital'
-      delete '/doctors/:id',                                 to: 'doctors#delete'
+      delete '/delete_doctor/:id',                           to: 'doctors#delete_doctor'
 
       # list all doctors
       get '/doctors',                                        to: 'doctors#index'
       # list all hospitals
       get '/hospitals',                                      to: 'hospitals#index'
 
-      #Additional information of patient
+      # Additional information of patient
       get    'patient/extra-info',                           to: 'additional_info#index'
 
-      #Personal information of patient
+      # Personal information of patient
       get    'patient/main-info',                            to: 'personal_info#index'
       put    'patient/main-info',                            to: 'personal_info#update'
 
@@ -109,6 +162,5 @@ Rails.application.routes.draw do
       put    'patient/work',                                  to: 'patient_work#update'
       delete 'patient/work',                                  to: 'patient_work#destroy'
     end
-
   end
 end

@@ -5,6 +5,16 @@ info:
   version: v2
   description: This is the second version of behealth API
 paths:
+  "/api/v2/patient/extra-info":
+    get:
+      summary: list additional_infos
+      tags:
+      - Additional Information
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: successful
   "/api/v2/doctors":
     get:
       summary: List all doctors
@@ -34,10 +44,10 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                first_name:
                   type: string
                   default: John
-                surname:
+                last_name:
                   type: string
                   default: Doe
                 second_name:
@@ -56,50 +66,14 @@ paths:
                   type: string
                   default: Cardiologist
               required:
-              - name
-              - surname
+              - first_name
+              - last_name
               - second_name
               - email
               - phone
               - birthday
               - position
-  "/api/v2/create_hospital":
-    post:
-      summary: Creates a hospital
-      tags:
-      - Doctors
-      security:
-      - ApiKeyAuth: []
-      parameters: []
-      responses:
-        '201':
-          description: returns the newly created hospital
-        '422':
-          description: returns an error message if hospital cannot be created
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  default: New Hospital
-                address:
-                  type: string
-                  default: 123 Main St
-                city:
-                  type: string
-                  default: Anytown
-                region:
-                  type: string
-                  default: NY
-              required:
-              - name
-              - address
-              - city
-              - region
-  "/api/v2/doctors/{id}":
+  "/api/v2/doctor/{id}":
     delete:
       summary: Deletes a doctor by id
       tags:
@@ -137,9 +111,11 @@ paths:
                   properties:
                     id:
                       type: integer
-                    name:
+                    first_name:
                       type: string
-                    surname:
+                    last_name:
+                      type: string
+                    second_name:
                       type: string
                     email:
                       type: string
@@ -159,8 +135,9 @@ paths:
                       type: integer
                   required:
                   - id
-                  - name
-                  - surname
+                  - first_name
+                  - last_name
+                  - second_name
                   - email
                   - phone
                   - birthday
@@ -235,6 +212,254 @@ paths:
       responses:
         '200':
           description: successful
+  "/api/v2/patient/address":
+    post:
+      summary: create patient_address
+      tags:
+      - Patient Address
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address_type:
+                  type: string
+                  default: Основна
+                settlement:
+                  type: string
+                  default: Черкаси
+                house:
+                  type: string
+                  default: '1'
+                apartments:
+                  type: string
+                  default: '1'
+    put:
+      summary: update patient_address
+      tags:
+      - Patient Address
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address_type:
+                  type: string
+                  default: Основна
+                settlement:
+                  type: string
+                  default: Черкаси
+                house:
+                  type: string
+                  default: '1'
+                apartments:
+                  type: string
+                  default: '1'
+    delete:
+      summary: delete patient_address
+      tags:
+      - Patient Address
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: successful
+  "/api/v2/patient/document":
+    post:
+      summary: create patient_document
+      tags:
+      - Patient Document
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                document_type:
+                  type: string
+                  default: Must be 'Passport' or 'IdCard'
+                series:
+                  type: string
+                  default: Dont use for IdCard
+                number:
+                  type: string
+                  default: '1111'
+                issued_by:
+                  type: string
+                  default: '1111'
+                date:
+                  type: string
+                  default: 12.04.2023
+    put:
+      summary: update patient_document
+      tags:
+      - Patient Document
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                document_type:
+                  type: string
+                  default: Must be 'Passport' or 'IdCard'
+                series:
+                  type: string
+                  default: Dont use for IdCard
+                number:
+                  type: string
+                  default: '1111'
+                issued_by:
+                  type: string
+                  default: '1111'
+                date:
+                  type: string
+                  default: 12.04.2023
+    delete:
+      summary: delete patient_document
+      tags:
+      - Patient Document
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: successful
+  "/api/v2/patient/work":
+    post:
+      summary: create patient_work
+      tags:
+      - Patient Work
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_type:
+                  type: string
+                  default: Основна
+                place:
+                  type: string
+                  default: GeekHub
+                position:
+                  type: string
+                  default: Студент
+    put:
+      summary: update patient_work
+      tags:
+      - Patient Work
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_type:
+                  type: string
+                  default: Основна
+                place:
+                  type: string
+                  default: GeekHub
+                position:
+                  type: string
+                  default: Студент
+    delete:
+      summary: delete patient_work
+      tags:
+      - Patient Work
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: successful
+  "/api/v2/patient/main-info":
+    get:
+      summary: list personal_infos
+      tags:
+      - Personal Information
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update personal_info
+      tags:
+      - Personal Information
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  default: Юзер
+                last_name:
+                  type: string
+                  default: Юзеренко
+                second_name:
+                  type: string
+                  default: Юзеренкович
+                email:
+                  type: string
+                  default: user@test.rb
+                phone:
+                  type: string
+                  default: "+380000000000"
+                birthday:
+                  type: string
+                  default: 05.11.2003
+                itn:
+                  type: string
+                  default: '1111111111'
+                sex:
+                  type: string
+                  default: "'nothing', 'male' or 'female'"
   "/api/v2/search":
     get:
       summary: Search for a hospital or doctor in the region

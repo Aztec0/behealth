@@ -16,16 +16,16 @@ class Api::V2::SearchController < ApplicationController
     if params[:query].present?
       @pagy, hospitals = pagy(hospitals.where('address ILIKE ? OR city ILIKE ? OR name ILIKE ?', "%#{params[:query]}%",
                                               "%#{params[:query]}%", "%#{params[:query]}%"))
-      @pagy, doctors = pagy(doctors.where('doctors.name ILIKE ? OR doctors.surname ILIKE ? OR doctors.position ILIKE ?',
+      @pagy, doctors = pagy(doctors.where('doctors.first_name ILIKE ? OR doctors.last_name ILIKE ? OR doctors.position ILIKE ?',
                                           "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"))
     end
 
     if hospitals.any? || doctors.any?
       render_success({
                        hospitals: ActiveModelSerializers::SerializableResource.new(hospitals,
-                                                                                   each_serializer: HospitalsSerializer),
+                                                                                   each_serializer: HospitalsSearchSerializer),
                        doctors: ActiveModelSerializers::SerializableResource.new(doctors,
-                                                                                 each_serializer: DoctorSerializer) })
+                                                                                 each_serializer: DoctorSearchSerializer) })
     else
       render_error('No results found', status: :unprocessable_entity)
     end
@@ -49,7 +49,7 @@ class Api::V2::SearchController < ApplicationController
 
     if doctors.any?
       render_success({ doctors: ActiveModelSerializers::SerializableResource.new(doctors,
-                                                                                each_serializer: DoctorSerializer) })
+                                                                                 each_serializer: DoctorSearchSerializer) })
     else
       render_error('No results found', status: :unprocessable_entity)
     end
@@ -64,7 +64,7 @@ class Api::V2::SearchController < ApplicationController
 
     if hospitals.any?
       render_success({ hospitals: ActiveModelSerializers::SerializableResource.new(hospitals,
-                                                                                   each_serializer: HospitalsSerializer) })
+                                                                                   each_serializer: HospitalsSearchSerializer) })
     else
       render_error('No results found', status: :unprocessable_entity)
     end

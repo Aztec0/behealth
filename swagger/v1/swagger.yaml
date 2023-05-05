@@ -4,7 +4,7 @@ info:
   title: API V1
   version: v1
 paths:
-  "/api/v1/patient/extra-info":
+  "/api/v1/patient-account/additional-data":
     get:
       summary: list additional_infos
       tags:
@@ -105,14 +105,19 @@ paths:
                 type:
                   type: string
                   default: Must be 'address' or 'work'
-  "/api/v1/doctor/edit":
+  "/api/v1/doctor/edit/:id":
     patch:
       summary: Update doctors params
       tags:
       - Doctors cabinet
       security:
       - ApiKeyAuth: []
-      parameters: []
+      parameters:
+      - name: tag_list
+        in: query
+        description: List of tags for doctor
+        schema:
+          type: string
       responses:
         '200':
           description: OK
@@ -130,10 +135,10 @@ paths:
                 second_phone:
                   type: integer
                   default: '123456789'
-                description:
+                about:
                   type: string
                   default: Something about yourself
-                price:
+                admission_price:
                   type: integer
                   default: '100'
               required:
@@ -169,7 +174,7 @@ paths:
                       type: integer
                     second_phone:
                       type: integer
-                    description:
+                    about:
                       type: string
                   required:
                   - full_name
@@ -205,7 +210,7 @@ paths:
                 items:
                   type: object
                   properties:
-                    price:
+                    admission_price:
                       type: integer
                     position:
                       type: string
@@ -500,108 +505,78 @@ paths:
       responses:
         '200':
           description: OK
-        '400':
-          description: Bad Request
-        '404':
-          description: Not Found
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                password:
-                  type: string
-              required:
-              - password
-        description: The new password for the user
-  "/api/v1/patient/main-info":
+  "/api/v1/appointments":
     get:
-      summary: list personal_infos
+      summary: List appointments
       tags:
-      - Personal Information
+        - Appointments
+      security:
+        - ApiKeyAuth: [ ]
+      parameters:
+        - name: date
+          in: query
+          description: Date in format YYYY-MM-DD
+          schema:
+            type: string
+            format: date
       responses:
         '200':
-          description: successful
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    patient:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        first_name:
+                          type: string
+                        last_name:
+                          type: string
+                    doctor:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        first_name:
+                          type: string
+                        last_name:
+                          type: string
+                    date:
+                      type: string
+                      format: date-time
+                    notes:
+                      type: string
+                required:
+                  - id
+                  - patient
+                  - doctor
+                  - date
+      description: List appointments for the given date (or all appointments if date is not specified)
+
     post:
-      summary: create personal_info
+      summary: Create an appointment
       tags:
-      - Personal Information
-      parameters: []
-      responses:
-        '200':
-          description: successful
+        - Appointments
+      security:
+        - ApiKeyAuth: [ ]
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                document_type:
-                  type: string
-                  default: Must be 'Passport' or 'IdCard'
-                series:
-                  type: string
-                  default: Dont use for IdCard
-                number:
-                  type: string
-                  default: '1111'
-                issued_by:
-                  type: string
-                  default: '1111'
-                date:
-                  type: string
-                  default: 12.04.2023
-    put:
-      summary: update personal_info
-      tags:
-      - Personal Information
-      parameters: []
-      responses:
-        '200':
-          description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                type:
-                  type: string
-                  default: Must be 'patient_info' or 'document'
-                name:
-                  type: string
-                  default: Юзер
-                surname:
-                  type: string
-                  default: Юзеренко
-                fathername:
-                  type: string
-                  default: Юзеренкович
-                email:
-                  type: string
-                  default: user@test.rb
-                phone:
-                  type: string
-                  default: "+380000000000"
-                birthday:
-                  type: string
-                  default: 05.11.2003
-                itn:
-                  type: string
-                  default: '1111111111'
-                sex:
-                  type: string
-                  default: "'nothing', 'male' or 'female'"
-                series:
-                  type: string
-                  default: Use for Passport
-                number:
-                  type: string
-                  default: '1111'
-                issued_by:
-                  type: string
-                  default: '1111'
+                patient_id:
+                  type: integer
+                doctor_id:
+                  type: integer
                 date:
                   type: string
                   default: 12.04.2023
@@ -619,154 +594,442 @@ paths:
       - Signup
       parameters: []
       responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              description: The URL of the newly created appointment
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+  "/api/v1/appointments/{id}":
+    patch:
+      summary: Update an appointment
+      description: Update an existing appointment with the given ID.
+      tags:
+        - Appointments
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the appointment to update
+          schema:
+            type: integer
+      requestBody:
+        description: Appointment object to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppointmentUpdate'
+      responses:
+        '200':
+          description: Appointment updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        '400':
+          description: Bad request, invalid parameters
+        '404':
+          description: Appointment not found
+        '500':
+          description: Internal server error
+    components:
+      schemas:
+        Appointment:
+          type: object
+          properties:
+            id:
+              type: integer
+            patient_id:
+              type: integer
+            doctor_id:
+              type: integer
+            date:
+              type: string
+              format: date-time
+          required:
+            - id
+            - patient_id
+            - doctor_id
+            - date
+        AppointmentUpdate:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date-time
+          required:
+            - date
+  "/api/v1/appointments/{appointment_id}/cancel":
+      patch:
+        summary: Cancel an appointment
+        tags:
+          - Appointments
+        security:
+          - ApiKeyAuth: [ ]
+        parameters:
+          - name: appointment_id
+            in: path
+            description: ID of the appointment to cancel
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Appointment was cancelled successfully
+          '404':
+            description: Appointment with the specified ID was not found
+          '409':
+            description: Appointment is already cancelled
+          '422':
+            description: Unprocessable_entity
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                  required:
+                    - error
+
+"/api/v1/conclusions":
+  get:
+    summary: List all conclusions
+    tags:
+      - Conclusions
+    security:
+      - ApiKeyAuth: []
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    description: Conclusion ID
+                  doctor:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int64
+                        description: Doctor ID
+                      name:
+                        type: string
+                        description: Doctor's first name
+                      surname:
+                        type: string
+                        description: Doctor's last name
+                  patient:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int64
+                        description: Patient ID
+                      name:
+                        type: string
+                        description: Patient's first name
+                      surname:
+                        type: string
+                        description: Patient's last name
+                  appointment:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int64
+                        description: Appointment ID
+                      date:
+                        type: string
+                        format: date-time
+                        description: Appointment date and time
+                  text:
+                    type: string
+                    description: Conclusion text
+                  created_at:
+                    type: string
+                    format: date-time
+                    description: Conclusion creation date and time
+                  updated_at:
+                    type: string
+                    format: date-time
+                    description: Conclusion update date and time
+      '401':
+        description: Unauthorized
+      '404':
+        description: Not Found
+    "/api/v1/conclusions":
+      post:
+        summary: Create a new conclusion
+        tags:
+          - Conclusions
+        security:
+          - ApiKeyAuth: [ ]
+        parameters: [ ]
+        responses:
+          '201':
+            description: Created
+          '400':
+            description: Bad Request
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '500':
+            description: Internal Server Error
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  patient_id:
+                    type: integer
+                    description: ID of the patient
+                  doctor_id:
+                    type: integer
+                    description: ID of the doctor
+                  text:
+                    type: string
+                    description: Text of the conclusion
+                required:
+                  - patient_id
+                  - doctor_id
+                  - text
+          description: Parameters to create a new conclusion
+    "/api/v1/conclusions/{id}":
+      get:
+        summary: Get a conclusion by ID
+        tags:
+          - Conclusions
+        security:
+          - ApiKeyAuth: [ ]
+        parameters:
+          - in: path
+            name: id
+            required: true
+            schema:
+              type: integer
+              format: int64
+              example: 123
+            description: The ID of the conclusion to get
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                      example: 123
+                      description: The ID of the conclusion
+                    patient_id:
+                      type: integer
+                      format: int64
+                      example: 456
+                      description: The ID of the patient
+                    doctor_id:
+                      type: integer
+                      format: int64
+                      example: 789
+                      description: The ID of the doctor
+                    diagnosis:
+                      type: string
+                      example: "Headache"
+                      description: The diagnosis for the patient
+                    notes:
+                      type: string
+                      example: "Patient needs rest and hydration"
+                      description: Additional notes about the diagnosis
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "Conclusion not found"
+                      description: The error message
+                  required:
+                    - error
+      "/api/v1/conclusions/{id}":
+        put:
+          summary: Update a conclusion
+          tags:
+            - Conclusions
+          parameters:
+            - in: path
+              name: id
+              required: true
+              description: ID of the conclusion to update
+              schema:
+                type: integer
+            - in: header
+              name: Authorization
+              description: Access token
+              required: true
+              schema:
+                type: string
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    content:
+                      type: string
+                      description: Content of the conclusion
+                  required:
+                    - content
+          responses:
+            '200':
+              description: OK
+            '400':
+              description: Bad request
+            '401':
+              description: Unauthorized
+            '404':
+              description: Conclusion not found
+
+  "/api/v1/appointments/{id}/accept":
+    patch:
+      summary: Accept an appointment request
+      tags:
+        - Appointments
+      security:
+        - ApiKeyAuth: [ ]
+      parameters:
+        - in: path
+          name: id
+          description: ID of the appointment
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully accepted appointment
+        '401':
+          description: Unauthorized
+        '404':
+          description: Appointment not found
+        '422':
+          description: Unprocessable_entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+  "/api/v1/appointments/upcoming":
+      get:
+        summary: Get upcoming appointments
+        tags:
+          - Appointments
+        security:
+          - ApiKeyAuth: [ ]
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      doctor_id:
+                        type: integer
+                      patient_id:
+                        type: integer
+                      date:
+                        type: string
+                        format: date-time
+                      status:
+                        type: string
+                        enum:
+                          - planed
+                          - cancelled
+                          - accepted
+                          - completed
+                    required:
+                      - id
+                      - doctor_id
+                      - patient_id
+                      - date
+                      - status
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+  "/api/v1/appointments/past":
+    get:
+      summary: Get past appointments
+      tags:
+        - Appointments
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
         '200':
           description: OK
-        '400':
-          description: Bad Request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                password:
-                  type: string
-              required:
-              - email
-              - password
-        description: The user's email and password
-  "/api/v1/confirmation":
-    post:
-      summary: Confirmation user's email and input other data
-      tags:
-      - Signup
-      parameters:
-      - name: token
-        in: query
-        description: The confirm reset token generated for the patient
-        required: true
-        schema:
-          type: string
-      responses:
-        '400':
-          description: Bad Request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                birthday:
-                  type: string
-                  format: datetime
-                name:
-                  type: string
-                second_name:
-                  type: string
-                surname:
-                  type: string
-                phone:
-                  type: string
-                  format: bigint
-              required:
-              - birthday
-              - name
-              - surname
-              - phone
-        description: Patient data
-  "/api/v1/search":
-    get:
-      summary: Search for a hospital or doctor in the region
-      tags:
-      - Search
-      parameters:
-      - name: query
-        in: query
-        description: |-
-          Searching query for hospital or doctor. Input address, name, city for hospital or
-                                        name, surname, specialty for doctor
-        required: false
-        schema:
-          type: string
-      - name: region
-        in: query
-        description: |-
-          Region filter. Enter the name of the region to search for a hospital or doctor in that
-                                        location. If field leave empty, request was for all areas
-        required: false
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Hospitals and doctors found
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  hospitals:
-                    type: array
-                  doctors:
-                    type: array
-        '422':
-          description: Invalid search query
-  "/api/v1/search_doctors_by_specialty":
-    get:
-      summary: Searching doctors by specialty
-      tags:
-      - Search
-      parameters:
-      - name: query
-        in: query
-        description: 'Searching doctor by name, surname, second name, position '
-        required: false
-        schema:
-          type: string
-      - name: position
-        in: query
-        description: Doctor speciality
-        required: false
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Doctors found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  doctors:
-                    type: array
-        '422':
-          description: Invalid search query
-  "/api/v1/search_hospitals":
-    get:
-      summary: Searching hospitals
-      tags:
-      - Search
-      parameters:
-      - name: query
-        in: query
-        description: Searching hospital by name. If field leave empty request was
-          for all hospitals
-        required: false
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Hospitals found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  hospitals:
-                    type: array
-        '422':
-          description: Invalid search query
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    doctor_id:
+                      type: integer
+                    patient_id:
+                      type: integer
+                    date:
+                      type: string
+                      format: date-time
+                    status:
+                      type: string
+                      enum:
+                        - planed
+                        - cancelled
+                        - accepted
+                        - completed
+                  required:
+                    - id
+                    - doctor_id
+                    - patient_id
+                    - date
+                    - status
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
   "/api/v1/login":
     post:
       summary: create session

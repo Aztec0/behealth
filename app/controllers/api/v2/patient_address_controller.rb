@@ -1,12 +1,12 @@
 class Api::V2::PatientAddressController < ApplicationController
-  before_action :check_patient
+  before_action :authenticate_patient_user
   before_action :set_address
   before_action :address_check, only: %i[update destroy]
 
   def create
     return render_error('Address already present', status: :unprocessable_entity) if @address.present?
 
-    address = @current_patient.build_patient_address(patient_address_params)
+    address = current_user.build_patient_address(patient_address_params)
 
     if address.save
       render_success('Address was created successfully!', status: :created)
@@ -37,12 +37,8 @@ class Api::V2::PatientAddressController < ApplicationController
     params.permit(:address_type, :settlement, :house, :apartments)
   end
 
-  def check_patient
-    render_error('Log In as patient please', status: :unauthorized) if @current_patient.nil?
-  end
-
   def set_address
-    @address = @current_patient.patient_address
+    @address = current_user.patient_address
   end
 
   def address_check

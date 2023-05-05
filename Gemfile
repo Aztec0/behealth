@@ -97,5 +97,5 @@ group :development do
   gem 'capistrano-rvm'
   gem 'capistrano-upload-config'
   gem 'sshkit-sudo'
+  gem 'capistrano-sidekiq'
 end
-

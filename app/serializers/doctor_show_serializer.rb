@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DoctorShowSerializer < ActiveModel::Serializer
   attributes :first_name, :second_name, :last_name, :position, :age, :phone, :second_phone, :email, :second_email,
              :admission_price, :hospital, :rating, :feedbacks

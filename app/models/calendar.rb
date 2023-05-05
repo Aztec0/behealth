@@ -22,9 +22,4 @@
 class Calendar < ApplicationRecord
   belongs_to :doctor
   belongs_to :patient
-
-  has_many :appointments, dependent: :destroy
-
-  validates :name, presence: true
-
 end

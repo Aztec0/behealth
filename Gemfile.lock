@@ -66,7 +66,7 @@ GEM
       activesupport (= 7.0.4.3)
       marcel (~> 1.0)
       mini_mime (>= 1.1.0)
-    activesupport (7.0.4.3)
+    activesupport (7.0.4.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -99,6 +99,10 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
+    capistrano-sidekiq (2.3.0)
+      capistrano (>= 3.9.0)
+      capistrano-bundler
+      sidekiq (>= 6.0)
     capistrano-upload-config (0.9.0)
       capistrano (>= 3.0)
     capistrano3-puma (5.2.0)
@@ -108,10 +112,10 @@ GEM
     case_transform (0.2)
       activesupport
     concurrent-ruby (1.2.2)
-    connection_pool (2.3.0)
+    connection_pool (2.4.0)
     crass (1.0.6)
     date (3.3.3)
-    debug (1.7.2)
+    debug (1.7.1)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     diff-lcs (1.5.0)
@@ -168,6 +172,19 @@ GEM
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     loofah (2.20.0)
+    jbuilder (2.11.5)
+      actionview (>= 5.0.0)
+      activesupport (>= 5.0.0)
+    json (2.6.3)
+    json-schema (3.0.0)
+      addressable (>= 2.8)
+    jsonapi-renderer (0.2.2)
+    jwt (2.7.0)
+    launchy (2.5.2)
+      addressable (~> 2.8)
+    letter_opener (1.8.1)
+      launchy (>= 2.2, < 3)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.8.1)
@@ -179,6 +196,8 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.18.0)
+    msgpack (1.6.1)
+    multipart-post (2.3.0)
     msgpack (1.7.0)
     multipart-post (2.3.0)
     net-imap (0.3.4)
@@ -194,15 +213,22 @@ GEM
       net-protocol
     net-ssh (7.1.0)
     nio4r (2.5.8)
-    nokogiri (1.14.2-x86_64-darwin)
+    nokogiri (1.14.3-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.14.2-x86_64-linux)
+    nokogiri (1.14.3-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.14.3-x86_64-linux)
       racc (~> 1.4)
     pagy (6.0.3)
     parallel (1.23.0)
     parser (3.2.2.1)
       ast (~> 2.4.1)
     pg (1.5.2)
+    public_suffix (5.0.1)
+    parallel (1.23.0)
+    parser (3.2.2.1)
+      ast (~> 2.4.1)
+    pg (1.4.6)
     public_suffix (5.0.1)
     puma (5.6.5)
       nio4r (~> 2.0)
@@ -337,6 +363,8 @@ GEM
 
 PLATFORMS
   arm64-darwin-22
+  x86_64-darwin-20
+  x86_64-darwin-20
   x86_64-darwin-22
   x86_64-linux
 
@@ -350,9 +378,17 @@ DEPENDENCIES
   capistrano-nginx
   capistrano-rails
   capistrano-rvm
+  capistrano-sidekiq
   capistrano-upload-config
   capistrano3-puma
   debug
+  faker
+  jbuilder
+  jwt
+  letter_opener
+  net-imap
+  net-pop
+  net-smtp
   faker
   figaro
   jwt
@@ -372,6 +408,17 @@ DEPENDENCIES
   rubocop-performance (~> 1.15)
   rubocop-rails (~> 2.17)
   rubocop-rspec
+  sshkit-sudo
+  telegram-bot-ruby
+  ransack
+  rspec-rails
+  rswag-api
+  rswag-specs
+  rswag-ui
+  rubocop (~> 1.40)
+  rubocop-performance (~> 1.15)
+  rubocop-rails (~> 2.17)
+  securerandom
   sidekiq
   sidekiq-scheduler
   sshkit-sudo

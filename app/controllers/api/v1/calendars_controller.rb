@@ -1,7 +1,4 @@
 class CalendarController < ApplicationController
-  before_action :authenticate_request
-  before_action :set_current_user
-
   # GET /calendar
   def index
     render json: appointments_json

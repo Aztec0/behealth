@@ -38,20 +38,20 @@ RSpec.describe 'api/registrations', swagger_doc: 'v1/swagger.yaml', type: :reque
           birthday: {
             type: :string, format: :datetime
           },
-          name: {
+          first_name: {
             type: :string
           },
           second_name: {
             type: :string
           },
-          surname: {
+          last_name: {
             type: :string
           },
           phone: {
             type: :string, format: :bigint
           }
         },
-        required: %w[birthday name surname phone]
+        required: %w[birthday first_name second_name last_name phone]
       }
 
       response '400', 'Bad Request' do
