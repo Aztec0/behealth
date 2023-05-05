@@ -8,4 +8,8 @@ class DoctorSearchSerializer < ActiveModel::Serializer
   def age
     object.birthday ? ((Time.zone.now - object.birthday.to_time) / 1.year.seconds).floor : nil
   end
+
+  def rating
+    object.rating.round(2)
+  end
 end

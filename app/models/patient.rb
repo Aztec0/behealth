@@ -48,7 +48,7 @@ class Patient < ApplicationRecord
   end
 
   def main_info
-    birthday = birthday.present? ? birthday.strftime('%d.%m.%Y') : nil
-    { first_name: first_name, last_name: last_name, second_name: second_name, birthday: birthday, tin: tin, sex: sex }
+    birthday = self.birthday.present? ? self.birthday.strftime('%d.%m.%Y') : nil
+    { name: first_name, surname: last_name, second_name: second_name, birthday: birthday, tin: tin, sex: sex }
   end
 end

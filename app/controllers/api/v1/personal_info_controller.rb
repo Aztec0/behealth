@@ -83,7 +83,8 @@ class Api::V1::PersonalInfoController < ApplicationController
   end
 
   def patient_params
-    params.permit(:email, :phone, :first_name, :last_name, :second_name, :birthday, :tin, :sex)
+    params.permit(:email, :phone, :second_name, :birthday, :tin, :sex).merge(first_name: params[:name],
+                                                                             last_name: params[:surname])
   end
 
   def set_document

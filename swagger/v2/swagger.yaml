@@ -984,7 +984,7 @@ paths:
                 birthday:
                   type: string
                   default: 05.11.2003
-                itn:
+                tin:
                   type: string
                   default: '1111111111'
                 sex:

@@ -5,15 +5,10 @@ class Api::V2::PersonalInfoController < ApplicationController
 
   def index
     patient_document = current_user.patient_document
-    document = patient_document.document_type.constantize.find(patient_document.document_id)
-    record = if patient_document.document_type == 'Passport'
-               PassportSerializer.new(document)
-             else
-               IdCardSerializer.new(document)
-             end
+    document = patient_document.document if patient_document.present?
 
     render_success({ contact_info: current_user.contact_info, main_info: current_user.main_info,
-                     document: record })
+                     document: document })
   end
 
   def update

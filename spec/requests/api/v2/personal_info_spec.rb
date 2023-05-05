@@ -37,7 +37,7 @@ RSpec.describe 'api/v2/personal_info', swagger_doc: 'v2/swagger.yaml', type: :re
             email: { type: :string, default: 'user@test.rb' },
             phone: { type: :string, default: '+380000000000' },
             birthday: { type: :string, default: '05.11.2003' },
-            itn: { type: :string, default: '1111111111' },
+            tin: { type: :string, default: '1111111111' },
             sex: { type: :string, default: "'nothing', 'male' or 'female'" }
           }
         }

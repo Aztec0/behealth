@@ -61,4 +61,8 @@ class DoctorSerializer < ActiveModel::Serializer
     end
     hash
   end
+
+  def rating
+    object.rating.round(2)
+  end
 end

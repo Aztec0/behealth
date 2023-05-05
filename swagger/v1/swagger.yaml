@@ -1189,7 +1189,7 @@ paths:
                   default: Dont use for IdCard
                 number:
                   type: string
-                  default: '1111'
+                  default: '123456789'
                 issued_by:
                   type: string
                   default: '1111'
@@ -1215,10 +1215,10 @@ paths:
                 type:
                   type: string
                   default: Must be 'patient_info' or 'document'
-                first_name:
+                name:
                   type: string
                   default: Юзер
-                last_name:
+                surname:
                   type: string
                   default: Юзеренко
                 second_name:
@@ -1309,9 +1309,9 @@ paths:
                 birthday:
                   type: string
                   format: datetime
-                first_name:
+                name:
                   type: string
-                second_name:
+                surname:
                   type: string
                 last_name:
                   type: string

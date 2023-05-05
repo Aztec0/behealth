@@ -35,12 +35,7 @@
 /config/database.yml
 /.env
 /config/credentials.yml
-/config/database.production.yml
-/config/secrets.production.yml
 
-# Ignore application configuration
-/config/credentials.yml
-/config/credentials.yml
 
 # Ignore application configuration
 /config/application.yml

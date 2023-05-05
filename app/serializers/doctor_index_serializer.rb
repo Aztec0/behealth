@@ -40,4 +40,8 @@
 class DoctorIndexSerializer < ActiveModel::Serializer
   attributes :first_name, :second_name, :last_name, :position, :hospital, :rating
   has_one :hospital
+
+  def rating
+    object.rating.round(2)
+  end
 end
