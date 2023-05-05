@@ -1228,6 +1228,154 @@ paths:
           '401':
             description: Unauthorized
 
+  /api/v1/chats/{chat_id}/messages:
+    get:
+      summary: Get all messages for a chat
+      tags:
+        - Messages
+      parameters:
+        - name: chat_id
+          in: path
+          description: ID of the chat to retrieve messages for
+          required: true
+          type: integer
+        - name: Authorization
+          in: header
+          description: JWT token for authorization
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Message'
+        '401':
+          $ref: '#/responses/Unauthorized'
+
+    post:
+      summary: Create a new message in a chat
+      tags:
+        - Messages
+      parameters:
+        - name: chat_id
+          in: path
+          description: ID of the chat to create a message in
+          required: true
+          type: integer
+        - name: Authorization
+          in: header
+          description: JWT token for authorization
+          required: true
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/MessageInput'
+      responses:
+        '201':
+          description: Message created successfully
+          schema:
+            $ref: '#/definitions/Message'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+
+  /api/v1/chats/{chat_id}/messages/{id}:
+    patch:
+      summary: Update a message in a chat
+      tags:
+        - Messages
+      security:
+        - ApiKeyAuth: [ ]
+      parameters:
+        - in: path
+          name: chat_id
+          description: ID of the chat
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: id
+          description: ID of the message
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Updated message object
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: object
+                  properties:
+                    content:
+                      type: string
+                  required:
+                    - content
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  chat_id:
+                    type: integer
+                  user_id:
+                    type: integer
+                  content:
+                    type: string
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+                required:
+                  - id
+                  - chat_id
+                  - user_id
+                  - content
+                  - created_at
+                  - updated_at
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+
+    delete:
+      summary: Delete a message in a chat
+      tags:
+        - Messages
+      security:
+        - ApiKeyAuth: [ ]
+      parameters:
+        - in: path
+          name: chat_id
+          description: ID of the chat
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: id
+          description: ID of the message
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
   "/api/v1/login":
     post:
       summary: create session
