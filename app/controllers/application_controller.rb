@@ -5,24 +5,20 @@ class ApplicationController < ActionController::API
   include Pagy::Backend
   before_action :authenticate_request
 
-  before_action :authenticate_request
-
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  before_action :authenticate_request
-
   private
-
+  
   def current_user
     @current_patient || @current_doctor
   end
 
   def authenticate_patient_user
-    return user_not_authorized unless current_user.is_a?(Patient)
+    user_not_authorized unless current_user.is_a?(Patient)
   end
 
   def authenticate_doctor_user
-    return user_not_authorized unless current_user.is_a?(Doctor)
+    user_not_authorized unless current_user.is_a?(Doctor)
   end
 
   def user_not_authorized
@@ -48,7 +44,7 @@ class ApplicationController < ActionController::API
   end
 
   def decode_token(token)
-    JWT.decode(token, Rails.application.secret_key_base, true, algorithm: 'HS256').first
+    JWT.decode(token, Rails.application.secret_key_base, true, algorithm: ENV['JWT_SECRET']).first
   rescue JWT::DecodeError
     nil
   end

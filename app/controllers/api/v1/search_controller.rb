@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Api::V1::SearchController < ApplicationController
-
   skip_before_action :authenticate_request
   def search
     region = params[:region]
@@ -22,7 +21,8 @@ class Api::V1::SearchController < ApplicationController
 
     if hospitals.any? || doctors.any?
       render json: {
-        hospitals: ActiveModelSerializers::SerializableResource.new(hospitals, each_serializer: HospitalsSearchSerializer),
+        hospitals: ActiveModelSerializers::SerializableResource.new(hospitals,
+                                                                    each_serializer: HospitalsSearchSerializer),
         doctors: ActiveModelSerializers::SerializableResource.new(doctors, each_serializer: DoctorSearchSerializer)
       }, status: :ok
     else

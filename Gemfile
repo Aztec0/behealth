@@ -22,7 +22,7 @@ gem 'jwt'
 # gem 'jbuilder'
 
 # Use Redis adapter to run Action Cable in production
-# gem "redis", "~> 4.0"
+# gem 'redis'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -54,7 +54,7 @@ gem 'rswag-ui'
 gem 'telegram-bot-ruby'
 # for pagination
 gem 'pagy'
-
+# for sidekiq worker (https://github.com/mperham/sidekiq)
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
 
@@ -95,7 +95,7 @@ group :development do
   gem 'capistrano-nginx'
   gem 'capistrano-rails'
   gem 'capistrano-rvm'
+  gem 'capistrano-sidekiq'
   gem 'capistrano-upload-config'
   gem 'sshkit-sudo'
-  gem 'capistrano-sidekiq'
 end

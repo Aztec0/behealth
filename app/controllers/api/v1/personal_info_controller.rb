@@ -47,7 +47,7 @@ class Api::V1::PersonalInfoController < ApplicationController
     case params[:type]
     when 'patient_info'
       if @current_patient.update(patient_params)
-        render json: { message: 'Patient information was updated successfully'}, status: :ok
+        render json: { message: 'Patient information was updated successfully' }, status: :ok
       else
         render json: { message: 'Patient information cannot be updated' }, status: :unprocessable_entity
       end
@@ -83,7 +83,7 @@ class Api::V1::PersonalInfoController < ApplicationController
   end
 
   def patient_params
-    params.permit(:email, :phone, :name, :surname, :fathername, :birthday, :tin, :sex)
+    params.permit(:email, :phone, :first_name, :last_name, :second_name, :birthday, :tin, :sex)
   end
 
   def set_document

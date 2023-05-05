@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 class Api::V2::PatientDocumentController < ApplicationController
   before_action :authenticate_patient_user
   before_action :set_document
-  before_action :find_document, only: %i[update destroy]
   before_action :check_document, only: %i[update destroy]
 
   def create
@@ -58,6 +59,6 @@ class Api::V2::PatientDocumentController < ApplicationController
   end
 
   def check_document
-    render_error("You haven't got any documents here") if @patient_document.nil?
+    render_error('You haven\'t got any documents here') if @patient_document.nil?
   end
 end

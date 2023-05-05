@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::TagsController < ApplicationController
   skip_before_action :authenticate_request
   def index
@@ -5,7 +7,5 @@ class Api::V1::TagsController < ApplicationController
     render json: tags
   end
 
-  def show
-
-  end
+  def show; end
 end

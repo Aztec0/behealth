@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Api::V2::SearchController < ApplicationController
-
   skip_before_action :authenticate_request
   def search
     region = params[:region]
@@ -25,7 +24,8 @@ class Api::V2::SearchController < ApplicationController
                        hospitals: ActiveModelSerializers::SerializableResource.new(hospitals,
                                                                                    each_serializer: HospitalsSearchSerializer),
                        doctors: ActiveModelSerializers::SerializableResource.new(doctors,
-                                                                                 each_serializer: DoctorSearchSerializer) })
+                                                                                 each_serializer: DoctorSearchSerializer)
+                     })
     else
       render_error('No results found', status: :unprocessable_entity)
     end
