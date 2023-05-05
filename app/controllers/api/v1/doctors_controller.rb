@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class Api::V1::DoctorsController < ApplicationController
-  before_action :authenticate_doctor_user, except: %i[index show]
-  before_action :set_doctor, only: :show
+  skip_before_action :authenticate_request, only: %i[index]
+  before_action :authenticate_doctor_user, except: %i[index]
+  before_action :authorize_request, except: %i[index]
+  before_action :set_doctor, only: %i[show delete]
 
   def index
     @pagy, doctors = pagy(Doctor.all)
@@ -15,8 +17,21 @@ class Api::V1::DoctorsController < ApplicationController
     render json: appointments, each_serializer: AppointmentSerializer, action: :show
   end
 
+  def show
+    render json: @doctor, serializer: DoctorSerializer, action: :show
+  end
+
+  def create
+    @doctor = Doctor.create_doctor(doctor_params)
+    if @doctor.persisted?
+      render json: @doctor, status: :created
+    else
+      render json: { error: @doctor.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   def create_doctor
-    doctor = current_user.create_doctor(doctor_params.merge(hospital_id: current_user.hospital_id))
+    doctor = Doctor.create_doctor(doctor_params.merge(hospital_id: current_user.hospital_id))
     if doctor.save!
       render json: doctor, status: :created
     else
@@ -25,6 +40,14 @@ class Api::V1::DoctorsController < ApplicationController
   end
 
   def delete
+    if @doctor.destroy
+      render json: { message: 'Doctor deleted successfully' }, status: :ok
+    else
+      render json: { error: 'Unable to delete doctor' }, status: :unprocessable_entity
+    end
+  end
+
+  def delete_doctor
     doctor = Doctor.find_by(id: params[:id])
     if doctor.present? && doctor.hospital_id == current_user.hospital_id && current_user.id != doctor.id
       doctor.destroy
@@ -41,22 +64,19 @@ class Api::V1::DoctorsController < ApplicationController
   def list_doctor_by_hospital
     @pagy, doctors = pagy(Doctor.list_doctor_by_hospital(current_user.hospital_id))
     if doctors
-      render json: doctors, each_serializer: DoctorSerializer, action: :index, status: :ok
+      render json: doctors, each_serializer: DoctorShowSerializer, action: :index, status: :ok
     else
       render json: { error: 'Unable to fetch doctors' }, status: :unauthorized
     end
   end
 
-  def show
-    render json: @doctor, serializer: DoctorSerializer, action: :show
-  end
 
   private
 
   def doctor_params
     params.permit(
-      :name, :surname, :second_name, :email, :phone, :birthday, :position,
-      :hospital_id
+      :first_name, :second_name, :last_name, :email, :phone, :birthday, :position,
+      :hospital_id, :password, :role
     )
   end
 

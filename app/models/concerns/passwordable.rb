@@ -38,10 +38,6 @@ module Passwordable
       validates :password, presence: true, length: { minimum: 6 }
     end
 
-    #Передивитися всі self
-
-    private
-
     def generate_temporary_password
       SecureRandom.alphanumeric(10)
     end
