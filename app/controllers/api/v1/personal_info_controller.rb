@@ -3,6 +3,7 @@
 class Api::V1::PersonalInfoController < ApplicationController
   before_action :authenticate_patient_user
   before_action :set_document
+  before_action :check_document, only: :destroy
   before_action :find_document, only: %i[index update destroy]
 
   def index
@@ -51,6 +52,8 @@ class Api::V1::PersonalInfoController < ApplicationController
         render json: { message: 'Patient information cannot be updated' }, status: :unprocessable_entity
       end
     when 'document'
+      check_document
+
       if @document.update(document_params)
         render json: { message: 'Document was updated successfully' }, status: :ok
       else
@@ -62,9 +65,7 @@ class Api::V1::PersonalInfoController < ApplicationController
   end
 
   def destroy
-    return render json: { message: "You haven't got any documents here" } if @patient_document.nil?
-
-    if @document && @patient_document.destroy
+    if @document.destroy && @patient_document.destroy
       render json: { message: 'Document was deleted successfully' }, status: :ok
     else
       render json: { message: 'Document does not exist' }, status: :bad_request
@@ -72,6 +73,10 @@ class Api::V1::PersonalInfoController < ApplicationController
   end
 
   private
+
+  def check_document
+    render json: { message: "You haven't got any documents here" } if @patient_document.nil?
+  end
 
   def document_params
     params.permit(:series, :number, :issued_by, :date)
@@ -87,7 +92,7 @@ class Api::V1::PersonalInfoController < ApplicationController
 
   def find_document
     if @patient_document.present?
-      @document = @patient_document.document_type.constantize.find(@patient_document.document_id)
+      @document = @patient_document.document
     end
   end
 end

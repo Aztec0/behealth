@@ -9,6 +9,8 @@ RSpec.describe 'api/v1/personal_info', swagger_doc: 'v1/swagger.yaml', type: :re
     get('list personal_infos') do
       tags 'Personal Information'
 
+      security [{ ApiKeyAuth: [] }]
+
       response(200, 'successful') do
 
         after do |example|
@@ -26,6 +28,8 @@ RSpec.describe 'api/v1/personal_info', swagger_doc: 'v1/swagger.yaml', type: :re
   path '/api/v1/patient-account/personal-information' do
     post('create personal_info') do
       tags 'Personal Information'
+
+      security [{ ApiKeyAuth: [] }]
 
       consumes "application/json"
       parameter name: :post, in: :body, schema: {
@@ -57,6 +61,8 @@ RSpec.describe 'api/v1/personal_info', swagger_doc: 'v1/swagger.yaml', type: :re
     put('update personal_info') do
       tags 'Personal Information'
 
+      security [{ ApiKeyAuth: [] }]
+
       consumes "application/json"
       parameter name: :post, in: :body, schema: {
         type: :object,
@@ -68,7 +74,7 @@ RSpec.describe 'api/v1/personal_info', swagger_doc: 'v1/swagger.yaml', type: :re
           email: { type: :string, default: 'user@test.rb' },
           phone: { type: :string, default: '+380000000000' },
           birthday: { type: :string, default: '05.11.2003' },
-          itn: { type: :string, default: '1111111111' },
+          tin: { type: :string, default: '1111111111' },
           sex: { type: :string, default: "'nothing', 'male' or 'female'" },
           series: { type: :string, default: 'Use for Passport' },
           number: { type: :string, default: '1111' },
@@ -93,6 +99,9 @@ RSpec.describe 'api/v1/personal_info', swagger_doc: 'v1/swagger.yaml', type: :re
   path '/api/v1/patient-account/personal-information' do
     delete('delete personal_info') do
       tags 'Personal Information'
+
+      security [{ ApiKeyAuth: [] }]
+
       response(200, 'successful') do
 
         after do |example|

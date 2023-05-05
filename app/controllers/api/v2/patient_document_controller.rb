@@ -27,9 +27,7 @@ class Api::V2::PatientDocumentController < ApplicationController
   end
 
   def update
-    document = @document.document_type.constantize.find(patient_document.document_id)
-
-    if document.update(document_params)
+    if @document.update(document_params)
       render_success('Document was updated successfully')
     else
       render_error('Document cannot be updated', status: :unprocessable_entity)
@@ -37,7 +35,7 @@ class Api::V2::PatientDocumentController < ApplicationController
   end
 
   def destroy
-    if patient_document.document_type.constantize.find(patient_document.document_id).destroy && patient_document.destroy
+    if @document.destroy && @patient_document.destroy
       render_success('Document was deleted successfully')
     else
       render_error('Document does not exist', status: :bad_request)
@@ -51,10 +49,16 @@ class Api::V2::PatientDocumentController < ApplicationController
   end
 
   def set_document
-    @document = current_user.patient_document
+    @patient_document = current_user.patient_document
+  end
+
+  def find_document
+    if @patient_document.present?
+      @document = @patient_document.document
+    end
   end
 
   def check_document
-    render_error('You haven\'t got any documents here') if @document.nil?
+    render_error('You haven\'t got any documents here') if @patient_document.nil?
   end
 end

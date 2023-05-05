@@ -6,7 +6,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  appointment_datetime :datetime
-#  status               :string
+#  status               :integer
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  doctor_id            :bigint           not null
