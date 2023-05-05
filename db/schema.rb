@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_100206) do
 
   create_table "appointments", force: :cascade do |t|
     t.datetime "appointment_datetime"
-    t.string "status"
+    t.integer "status"
     t.bigint "doctor_id", null: false
     t.bigint "patient_id", null: false
     t.datetime "created_at", null: false
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_100206) do
     t.string "last_name"
     t.date "birthday"
     t.string "position"
+    t.bigint "hospital_id", null: false
     t.string "email"
     t.bigint "phone"
     t.string "password_digest"
