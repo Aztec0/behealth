@@ -1,5 +1,5 @@
 class AppointmentsController < ApplicationController
-  # before_action :authenticate_request
+  before_action :authenticate_request
   before_action :set_current_user
   before_action :set_appointment, only: [:show, :update, :cancel, :accept]
 

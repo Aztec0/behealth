@@ -676,6 +676,219 @@ paths:
               - surname
               - phone
         description: Patient data
+
+"/api/v1/conclusions":
+  get:
+    summary: List all conclusions
+    tags:
+      - Conclusions
+    security:
+      - ApiKeyAuth: []
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    description: Conclusion ID
+                  doctor:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int64
+                        description: Doctor ID
+                      name:
+                        type: string
+                        description: Doctor's first name
+                      surname:
+                        type: string
+                        description: Doctor's last name
+                  patient:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int64
+                        description: Patient ID
+                      name:
+                        type: string
+                        description: Patient's first name
+                      surname:
+                        type: string
+                        description: Patient's last name
+                  appointment:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int64
+                        description: Appointment ID
+                      date:
+                        type: string
+                        format: date-time
+                        description: Appointment date and time
+                  text:
+                    type: string
+                    description: Conclusion text
+                  created_at:
+                    type: string
+                    format: date-time
+                    description: Conclusion creation date and time
+                  updated_at:
+                    type: string
+                    format: date-time
+                    description: Conclusion update date and time
+      '401':
+        description: Unauthorized
+      '404':
+        description: Not Found
+    "/api/v1/conclusions":
+      post:
+        summary: Create a new conclusion
+        tags:
+          - Conclusions
+        security:
+          - ApiKeyAuth: [ ]
+        parameters: [ ]
+        responses:
+          '201':
+            description: Created
+          '400':
+            description: Bad Request
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '500':
+            description: Internal Server Error
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  patient_id:
+                    type: integer
+                    description: ID of the patient
+                  doctor_id:
+                    type: integer
+                    description: ID of the doctor
+                  text:
+                    type: string
+                    description: Text of the conclusion
+                required:
+                  - patient_id
+                  - doctor_id
+                  - text
+          description: Parameters to create a new conclusion
+    "/api/v1/conclusions/{id}":
+      get:
+        summary: Get a conclusion by ID
+        tags:
+          - Conclusions
+        security:
+          - ApiKeyAuth: [ ]
+        parameters:
+          - in: path
+            name: id
+            required: true
+            schema:
+              type: integer
+              format: int64
+              example: 123
+            description: The ID of the conclusion to get
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                      example: 123
+                      description: The ID of the conclusion
+                    patient_id:
+                      type: integer
+                      format: int64
+                      example: 456
+                      description: The ID of the patient
+                    doctor_id:
+                      type: integer
+                      format: int64
+                      example: 789
+                      description: The ID of the doctor
+                    diagnosis:
+                      type: string
+                      example: "Headache"
+                      description: The diagnosis for the patient
+                    notes:
+                      type: string
+                      example: "Patient needs rest and hydration"
+                      description: Additional notes about the diagnosis
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "Conclusion not found"
+                      description: The error message
+                  required:
+                    - error
+      "/api/v1/conclusions/{id}":
+        put:
+          summary: Update a conclusion
+          tags:
+            - Conclusions
+          parameters:
+            - in: path
+              name: id
+              required: true
+              description: ID of the conclusion to update
+              schema:
+                type: integer
+            - in: header
+              name: Authorization
+              description: Access token
+              required: true
+              schema:
+                type: string
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    content:
+                      type: string
+                      description: Content of the conclusion
+                  required:
+                    - content
+          responses:
+            '200':
+              description: OK
+            '400':
+              description: Bad request
+            '401':
+              description: Unauthorized
+            '404':
+              description: Conclusion not found
+
   "/api/v1/search":
     get:
       summary: Search for a hospital or doctor in the region
