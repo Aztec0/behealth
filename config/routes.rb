@@ -109,8 +109,8 @@ Rails.application.routes.draw do
       get '/appointments/:id',                               to: 'appointments#show'
       put '/appointments/:id',                               to: 'appointments#update'
       delete '/appointments/:id',                            to: 'appointments#destroy'
-      patch '/appointments/:id/cancel',                      to: 'appointments#cancel'
-      patch '/appointments/:id/accept',                      to: 'appointments#accept'
+      put '/appointments/:id/cancel',                      to: 'appointments#cancel'
+      put '/appointments/:id/accept',                      to: 'appointments#accept'
       get '/appointments/past',                              to: 'appointments#past'
       get '/appointments/upcoming',                          to: 'appointments#upcoming'
 
@@ -130,12 +130,12 @@ Rails.application.routes.draw do
       post '/calendars',                                     to: 'calendars#create'
       put '/calendars/:id',                                  to: 'calendars#update'
 
+
       # Conclusions
       get 'conclusions',                                     to: 'conclusions#index'
       post '/conclusions',                                   to: 'conclusions#create'
       get '/conclusions/:id',                                to: 'conclusions#show'
       put '/conclusions/:id',                                to: 'conclusions#update'
-      delete '/conclusions/:id',                             to: 'conclusions#destroy'
     end
     namespace :v2 do
       # Search hospitals and doctors
@@ -182,8 +182,8 @@ Rails.application.routes.draw do
       get '/appointments/:id',                               to: 'appointments#show'
       put '/appointments/:id',                               to: 'appointments#update'
       delete '/appointments/:id',                            to: 'appointments#destroy'
-      patch '/appointments/:id/cancel',                      to: 'appointments#cancel'
-      patch '/appointments/:id/accept',                      to: 'appointments#accept'
+      put '/appointments/:id/cancel',                      to: 'appointments#cancel'
+      put '/appointments/:id/accept',                      to: 'appointments#accept'
       get '/appointments/past',                              to: 'appointments#past'
       get '/appointments/upcoming',                          to: 'appointments#upcoming'
 
