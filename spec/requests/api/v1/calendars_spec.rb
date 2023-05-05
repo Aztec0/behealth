@@ -1,14 +1,12 @@
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/calendars', swagger_doc: 'v1/swagger.yaml', type: :request do
-  path '/api/v1/calendars' do
-    get('List all calendars') do
-      tags 'Calendars'
-      security [{ ApiKeyAuth: [] }]
-      parameter name: :doctor_id, in: :query, type: :integer
-      response(200, 'successful') do
-        let(:doctor_id) { doctor.id }
+RSpec.describe 'api/v1/calendar', swagger_doc: 'v1/swagger.yaml', type: :request do
 
+  path '/api/v1/calendar' do
+    get('List appointments') do
+      tags 'Appointments'
+      security [{ ApiKeyAuth: [] }]
+      response(200, 'successful') do
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -16,12 +14,57 @@ RSpec.describe 'api/v1/calendars', swagger_doc: 'v1/swagger.yaml', type: :reques
             }
           }
         end
+        run_test!
+      end
+    end
+
+    post('Create an appointment') do
+      tags 'Appointments'
+      security [{ ApiKeyAuth: [] }]
+      consumes 'application/json'
+      parameter name: :appointment, in: :body, schema: {
+        type: :object,
+        properties: {
+          appointment_datetime: { type: :string, format: 'date-time' },
+          doctor_id: { type: :integer },
+          patient_id: { type: :integer }
+        },
+        required: %w[appointment_datetime doctor_id patient_id]
+      }
+
+      response '201', 'returns the newly created appointment' do
+        schema type: :object,
+               properties: {
+                 message: { type: :string },
+                 id: { type: :integer }
+               },
+               required: %w[message id]
+
+        let(:appointment) do
+          {
+            appointment_datetime: '2023-05-10T10:00:00Z',
+            doctor_id: 1,
+            patient_id: 2
+          }
+        end
 
         run_test!
       end
 
+      response '422', 'invalid request' do
+        let(:appointment) { {} }
+        run_test!
+      end
+
       response '401', 'unauthorized' do
-        let(:doctor_id) { doctor.id }
+        let(:appointment) do
+          {
+            appointment_datetime: '2023-05-10T10:00:00Z',
+            doctor_id: 1,
+            patient_id: 2
+          }
+        end
+
         let(:Authorization) { '' }
 
         run_test!
@@ -29,99 +72,68 @@ RSpec.describe 'api/v1/calendars', swagger_doc: 'v1/swagger.yaml', type: :reques
     end
   end
 
-  path '/api/v1/calendars/{id}' do
+  path '/api/v1/calendar/{id}' do
     parameter name: :id, in: :path, type: :integer
-    get('Show a calendar') do
-    tags 'Calendars'
-    security [{ ApiKeyAuth: [] }]
 
-    response(200, 'successful') do
-    let(:id) { calendar.id }
+    get('Show an appointment') do
+      tags 'Appointments'
 
-    after do |example|
-      example.metadata[:response][:content] = {
-        'application/json' => {
-          example: JSON.parse(response.body, symbolize_names: true)
-        }
-      }
+      response(200, 'successful') do
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
+
+      response(404, 'not found') do
+        let(:id) { -1 }
+        run_test!
+      end
     end
 
-    run_test!
-  end
+    put('Update an appointment') do
+      tags 'Appointments'
+      parameter name: :id, in: :path, type: :integer, required: true
 
-  response '404', 'not found' do
-    let(:id) { 0 }
-
-    run_test!
-  end
-
-  response '401', 'unauthorized' do
-    let(:id) { calendar.id }
-    let(:Authorization) { '' }
-
-    run_test!
-  end
-    path '/api/v1/calendars/{id}' do
-      patch('Update a calendar') do
-        tags 'Calendars'
-        security [{ ApiKeyAuth: [] }]
-        consumes 'application/json'
-        parameter name: :id, in: :path, type: :string
-        parameter name: :calendar_params, in: :body, schema: {
-          type: :object,
-          properties: {
-            start_time: { type: :string, default: '2023-05-05 10:00:00' },
-            end_time: { type: :string, default: '2023-05-05 11:00:00' },
-          },
-          required: %w[start_time end_time]
+      security [{ ApiKeyAuth: [] }]
+      consumes 'application/json'
+      parameter name: :appointment_params, in: :body, schema: {
+        type: :object,
+        properties: {
+          appointment_datetime: { type: :string, format: 'date-time' },
+          doctor_id: { type: :integer },
+          patient_id: { type: :integer }
         }
+      }
 
-        response '200', 'returns the updated calendar' do
-          schema type: :object,
-                 properties: {
-                   id: { type: :integer },
-                   start_time: { type: :string },
-                   end_time: { type: :string },
-                   current_user_id: { type: :integer }
-                 },
-                 required: %w[id start_time end_time current_user_id]
+      response '200', 'appointment updated' do
+        let(:id) { create(:appointment, user: user).id }
+        let(:appointment_params) { { appointment: { appointment_datetime: Time.now + 1.hour } } }
+        run_test!
+      end
 
-          let(:id) { create(:calendar).id }
-          let(:calendar_params) do
-            {
-              start_time: '2023-05-05 12:00:00',
-              end_time: '2023-05-05 13:00:00'
-            }
-          end
+      response '401', 'unauthorized' do
+        let(:id) { create(:appointment, user: user).id }
+        let(:appointment_params) { { appointment: { appointment_datetime: Time.now + 1.hour } } }
+        let(:Authorization) { '' }
+        run_test!
+      end
 
-          run_test!
-        end
+      response '422', 'invalid request' do
+        let(:id) { create(:appointment, user: user).id }
+        let(:appointment_params) { { appointment: { appointment_datetime: nil } } }
+        run_test!
+      end
 
-        response '404', 'calendar not found' do
-          let(:id) { 'invalid' }
-          let(:calendar_params) do
-            {
-              start_time: '2023-05-05 12:00:00',
-              end_time: '2023-05-05 13:00:00'
-            }
-          end
-
-          run_test!
-        end
-
-        response '401', 'unauthorized' do
-          let(:id) { create(:calendar).id }
-          let(:calendar_params) do
-            {
-              start_time: '2023-05-05 12:00:00',
-              end_time: '2023-05-05 13:00:00'
-            }
-          end
-
-          let(:Authorization) { '' }
-
-          run_test!
-        end
+      response '404', 'not found' do
+        let(:id) { -1 }
+        let(:appointment_params) { { appointment: { appointment_datetime: Time.now + 1.hour } } }
+        run_test!
       end
     end
   end
+

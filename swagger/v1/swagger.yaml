@@ -981,6 +981,130 @@ paths:
             '404':
               description: Conclusion not found
 
+  "/api/v1/calendar":
+    get:
+      summary: Get appointments for current user
+      tags:
+        - Calendar
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                title:
+                  type: string
+                start_time:
+                  type: string
+                  format: date-time
+                end_time:
+                  type: string
+                  format: date-time
+                id:
+                  type: integer
+                status:
+                  type: string
+    post:
+      summary: Create a new appointment
+      tags:
+        - Calendar
+      security:
+        - ApiKeyAuth: [ ]
+      parameters:
+        - in: body
+          name: appointment
+          schema:
+            type: object
+            properties:
+              appointment_datetime:
+                type: string
+                format: date-time
+              doctor_id:
+                type: integer
+              patient_id:
+                type: integer
+            required:
+              - appointment_datetime
+              - doctor_id
+              - patient_id
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              id:
+                type: integer
+        '422':
+          description: Unprocessable_entity
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+            required:
+              - error
+    put:
+      summary: Update an existing appointment
+      tags:
+        - Calendar
+      security:
+        - ApiKeyAuth: [ ]
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+        - in: body
+          name: appointment
+          schema:
+            type: object
+            properties:
+              appointment_datetime:
+                type: string
+                format: date-time
+              doctor_id:
+                type: integer
+              patient_id:
+                type: integer
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable_entity
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+            required:
+              - error
+  "/api/v1/calendar/{id}":
+      delete:
+        summary: Delete an appointment
+        tags:
+          - Calendar
+        security:
+          - ApiKeyAuth: [ ]
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          '204':
+            description: No Content
+          '404':
+            description: Not Found
+
   "/api/v1/login":
     post:
       summary: create session

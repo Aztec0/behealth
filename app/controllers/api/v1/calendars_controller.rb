@@ -32,8 +32,8 @@ class Api::V1::CalendarController < ApplicationController
     @current_user.appointments.map do |appointment|
       {
         title: "#{appointment.doctor.name} - #{appointment.patient.name}",
-        start: appointment.appointment_datetime,
-        end: appointment.appointment_datetime + 1.hour,
+        start_time: appointment.appointment_datetime,
+        end_time: appointment.appointment_datetime + 1.hour,
         id: appointment.id,
         status: appointment.status
       }
