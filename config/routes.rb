@@ -48,7 +48,8 @@ Rails.application.routes.draw do
       get '/list_doctor_by_hospital',                        to: 'doctors#list_doctor_by_hospital'
       get '/staff_appointments',                             to: 'doctors#appointments'
       post '/create_doctor',                                 to: 'doctors#create_doctor'
-      delete '/delete_doctor/:id',                           to: 'doctors#delete'
+      post '/create_hospital',                               to: 'doctors#create_hospital'
+      delete '/doctors/:id',                                 to: 'doctors#delete'
 
       # list all doctors
       get '/doctors',                                        to: 'doctors#index'
