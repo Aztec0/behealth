@@ -22,6 +22,10 @@ Rails.application.routes.draw do
       patch '/patient/:id/update', to: 'patient#update'
       delete '/patient/:id/delete', to: 'patient#delete'
       # end admin section
+      get 'tags/index', to: 'tags#index'
+      get 'tags/create'
+      get 'tags/show'
+      patch 'hospital/update/:id', to: 'hospitals#update'
 
       # Search hospitals and doctors
       get '/search', to: 'search#search'
@@ -129,6 +133,5 @@ Rails.application.routes.draw do
       put    'patient/work',                                  to: 'patient_work#update'
       delete 'patient/work',                                  to: 'patient_work#destroy'
     end
-
   end
 end
