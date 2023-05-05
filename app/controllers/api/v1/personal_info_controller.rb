@@ -8,9 +8,9 @@ class Api::V1::PersonalInfoController < ApplicationController
   def index
     if @patient_document.present?
       document = if @patient_document.document_type == 'Passport'
-                 PassportSerializer.new(@document)
-               else
-                 IdCardSerializer.new(@document)
+                   PassportSerializer.new(@document)
+                 elsif @patient_document.document_type == 'IdCard'
+                   IdCardSerializer.new(@document)
                  end
     end
 
@@ -62,7 +62,7 @@ class Api::V1::PersonalInfoController < ApplicationController
   end
 
   def destroy
-    return render json: { message: "You haven't got any documents here" } if patient_document.nil?
+    return render json: { message: "You haven't got any documents here" } if @patient_document.nil?
 
     if @document && @patient_document.destroy
       render json: { message: 'Document was deleted successfully' }, status: :ok
