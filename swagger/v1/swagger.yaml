@@ -510,14 +510,18 @@ paths:
                       properties:
                         id:
                           type: integer
-                        name:
+                        first_name:
+                          type: string
+                        last_name:
                           type: string
                     doctor:
                       type: object
                       properties:
                         id:
                           type: integer
-                        name:
+                        first_name:
+                          type: string
+                        last_name:
                           type: string
                     date:
                       type: string
@@ -550,8 +554,6 @@ paths:
                 date:
                   type: string
                   format: date-time
-                notes:
-                  type: string
               required:
                 - patient_id
                 - doctor_id

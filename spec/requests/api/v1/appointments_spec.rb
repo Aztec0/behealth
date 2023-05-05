@@ -26,10 +26,10 @@ RSpec.describe 'Appointments API', swagger_doc: 'v1/swagger.yaml', type: :reques
         properties: {
           doctor_id: { type: :integer },
           patient_id: { type: :integer },
-          appointment_time: { type: :string },
-          status: { type: :string }
+          appointment_datetime: { type: :datetime },
+          status: { type: integer }
         },
-        required: %w[doctor_id patient_id appointment_time status]
+        required: %w[doctor_id patient_id appointment_datetime status]
       }
 
       response '201', 'creates a new appointment' do
@@ -37,7 +37,7 @@ RSpec.describe 'Appointments API', swagger_doc: 'v1/swagger.yaml', type: :reques
           {
             doctor_id: doctor.id,
             patient_id: patient.id,
-            appointment_time: '2023-05-10 15:00:00',
+            appointment_datetime: '2023-05-10 15:00:00',
             status: 'unconfirmed'
           }
         end
@@ -82,7 +82,7 @@ RSpec.describe 'Appointments API', swagger_doc: 'v1/swagger.yaml', type: :reques
       parameter name: :appointment_params, in: :body, schema: {
         type: :object,
         properties: {
-          status: { type: :string }
+          status: { type: :integer }
         }
       }
 
@@ -109,7 +109,7 @@ RSpec.describe 'Appointments API', swagger_doc: 'v1/swagger.yaml', type: :reques
         parameter name: :appointment_params, in: :body, schema: {
           type: :object,
           properties: {
-            status: { type: :string }
+            status: { type: :integer }
           }
         }
 
@@ -149,8 +149,7 @@ RSpec.describe 'Appointments API', swagger_doc: 'v1/swagger.yaml', type: :reques
         tags 'Appointments'
         security [{ ApiKeyAuth: [] }]
         parameter name: :doctor_id, in: :query, type: :integer, required: true
-        parameter name: :start_date, in: :query, type: :string, required: true
-        parameter name: :end_date, in: :query, type: :string, required: true
+        parameter name: :appointment_datetime, in: :query, type: :string, required: true
 
         response(200, 'successful') do
           after do |example|
@@ -162,35 +161,25 @@ RSpec.describe 'Appointments API', swagger_doc: 'v1/swagger.yaml', type: :reques
           end
 
           let(:doctor_id) { doctor.id }
-          let(:start_date) { Date.today.to_s }
-          let(:end_date) { 1.month.from_now.to_date.to_s }
+          let(:appointment_datetime) { Date.today.to_s }
 
           run_test!
         end
 
         response '400', 'when doctor_id is not provided' do
           let(:doctor_id) { nil }
-          let(:start_date) { Date.today.to_s }
-          let(:end_date) { 1.month.from_now.to_date.to_s }
+          let(:appointment_datetime) { Date.today.to_s }
 
           run_test!
         end
 
         response '400', 'when start_date is not provided' do
           let(:doctor_id) { doctor.id }
-          let(:start_date) { nil }
-          let(:end_date) { 1.month.from_now.to_date.to_s }
+          let(:appointment_datetime) { nil }
 
           run_test!
         end
 
-        response '400', 'when end_date is not provided' do
-          let(:doctor_id) { doctor.id }
-          let(:start_date) { Date.today.to_s }
-          let(:end_date) { nil }
-
-          run_test!
-        end
       end
     end
   end
