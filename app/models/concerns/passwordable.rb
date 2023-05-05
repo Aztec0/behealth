@@ -10,12 +10,12 @@ module Passwordable
 
     def generate_password_token!
       self.reset_password_token = generate_token
-      self.token_sent_at = Time.now.utc
+      self.token_sent_at = Time.now
       save!(validate: false)
     end
 
     def token_valid?
-      (token_sent_at + 4.hours) > Time.now.utc
+      (token_sent_at + 4.hours) > Time.now
     end
 
     def reset_password!(password)

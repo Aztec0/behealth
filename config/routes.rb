@@ -43,11 +43,10 @@ Rails.application.routes.draw do
       get '/index', to: 'hospitals#index'
       post '/login', to: 'sessions#create'
       post '/forgot', to: 'passwords#forgot'
-      post '/reset', to: 'passwords#reset'
+      post '/password-reset', to: 'passwords#reset'
       post '/signup', to: 'registrations#signup'
       post '/confirmation', to: 'registrations#confirmation'
 
-      post '/password-reset', to: 'password#reset'
       get 'doctor/main-info', to: 'doctors_cabinet#personal_info'
       get 'doctor/extra-info', to: 'doctors_cabinet#professional_info'
       patch 'doctor/edit', to: 'doctors_cabinet#update'
