@@ -87,6 +87,42 @@ RSpec.configure do |config|
           }
         }
       }
+    },
+    'admin/v1/swagger.yaml' => {
+      openapi: '3.0.1',
+      info: {
+        title: 'Admin API V1',
+        version: 'v1'
+      },
+      paths: {},
+      servers: [
+        {
+          url: 'http://{defaultHost}',
+          variables: {
+            defaultHost: {
+              default: '127.0.0.1:3000'
+            }
+          }
+        },
+        {
+          url: 'https://{staging_host}',
+          variables: {
+            staging_host: {
+              default: 'www.behealth.pp.ua'
+            }
+          }
+        }
+      ],
+      components: {
+        securitySchemes: {
+          ApiKeyAuth: {
+            type: :apiKey,
+            name: 'Authorization',
+            in: :header,
+            description: '{token}'
+          }
+        }
+      }
     }
   }
 
