@@ -37,7 +37,7 @@ class Patient < ApplicationRecord
 
   enum sex: %i[nothing male female]
 
-  validates :name, :surname, :fathername, format: { with: NAME_REGEX }, allow_blank: true
+  validates :first_name, :last_name, :second_name, format: { with: NAME_REGEX }, allow_blank: true
   validates :tin, length: { is: TIN_LENGTH }, numericality: { only_integer: true }, allow_blank: true
   validates :email, uniqueness: true
 
@@ -46,7 +46,7 @@ class Patient < ApplicationRecord
   end
 
   def main_info
-    fullname = "#{surname} #{name} #{fathername unless fathername.nil?}".strip
-    { fullname: fullname, birthday: birthday.strftime('%d.%m.%Y'), tin: tin, sex: sex }
+    birthday = birthday.present? ? birthday.strftime('%d.%m.%Y') : nil
+    { first_name: first_name, last_name: last_name, second_name: second_name, birthday: birthday, tin: tin, sex: sex }
   end
 end

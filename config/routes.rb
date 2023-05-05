@@ -5,12 +5,6 @@ Rails.application.routes.draw do
   mount Rswag::Api::Engine => '/api-docs'
   namespace :api do
     namespace :v1 do
-      resources :appointments, only: [:index, :show, :create, :update] do
-        member do
-          post :cancel
-          post :accept
-        end
-      end
 
       get 'tags/index', to: 'tags#index'
       get 'tags/create'
@@ -50,6 +44,16 @@ Rails.application.routes.draw do
       get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
       post   'doctor/:doctor_id/feedback',                   to: 'feedbacks#create'
 
+      # Links for front-end
+      get    'patient-account/additional-data',              to: 'additional_info#index'
+      post   'patient-account/additional-data',              to: 'additional_info#create'
+      put    'patient-account/additional-data',              to: 'additional_info#update'
+      delete 'patient-account/additional-data',              to: 'additional_info#destroy'
+      get    'patient-account/personal-information',         to: 'personal_info#index'
+      post   'patient-account/personal-information',         to: 'personal_info#create'
+      put    'patient-account/personal-information',         to: 'personal_info#update'
+      delete 'patient-account/personal-information',         to: 'personal_info#destroy'
+
       # Additional information of patient
       get    'patient/extra-info',                           to: 'additional_info#index'
       post   'patient/extra-info',                           to: 'additional_info#create'
@@ -61,16 +65,20 @@ Rails.application.routes.draw do
       post   'patient/main-info',                            to: 'personal_info#create'
       put    'patient/main-info',                            to: 'personal_info#update'
       delete 'patient/main-info',                            to: 'personal_info#destroy'
+
+      # Appointments
+      get '/appointments',                                   to: 'appointments#index'
+      post '/appointments',                                  to: 'appointments#create'
+      get '/appointments/:id',                               to: 'appointments#show'
+      put '/appointments/:id',                               to: 'appointments#update'
+      delete '/appointments/:id',                            to: 'appointments#destroy'
+      patch '/appointments/:id/cancel',                      to: 'appointments#cancel'
+      patch '/appointments/:id/accept',                      to: 'appointments#accept'
+      get '/appointments/past',                              to: 'appointments#past'
+      get '/appointments/upcoming',                          to: 'appointments#upcoming'
     end
     
-    resources :calendars, only: [:index, :show, :create, :update] do
-        member do
-          get :events
-        end
-      end
 
-      resources :doctors, only: [:index, :show, :create, :update]
-      resources :patients, only: [:index, :show, :create, :update]
 
     namespace :v2 do
       # Advanced options for doctors

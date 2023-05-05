@@ -1,5 +1,5 @@
 class Api::V2::PatientDocumentController < ApplicationController
-  before_action :check_patient
+  before_action :authenticate_patient_user
   before_action :set_document
   before_action :check_document, only: %i[update destroy]
 
@@ -16,7 +16,7 @@ class Api::V2::PatientDocumentController < ApplicationController
     end
 
     if record.save
-      PatientDocument.create(patient: @current_patient, document_type: params[:document_type].to_s,
+      PatientDocument.create(patient: current_user, document_type: params[:document_type].to_s,
                              document_id: document.id)
       render_success("#{params[:document_type]} was created successfully!", status: :created)
     else
@@ -48,12 +48,8 @@ class Api::V2::PatientDocumentController < ApplicationController
     params.permit(:series, :number, :issued_by, :date)
   end
 
-  def check_patient
-    render_error('Log In as patient please', status: :unauthorized) if @current_patient.nil?
-  end
-
   def set_document
-    @document = @current_patient.patient_document
+    @document = current_user.patient_document
   end
 
   def check_document

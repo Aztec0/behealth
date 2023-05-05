@@ -4,6 +4,8 @@ class ApplicationController < ActionController::API
   include Pundit::Authorization
   include Pagy::Backend
 
+  before_action :authenticate_request
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   before_action :authenticate_request
@@ -23,7 +25,7 @@ class ApplicationController < ActionController::API
   end
 
   def user_not_authorized
-    render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
+    render_error('You are not authorized to perform this action', status: :forbidden)
   end
 
   def authenticate_request
