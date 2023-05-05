@@ -105,14 +105,19 @@ paths:
                 type:
                   type: string
                   default: Must be 'address' or 'work'
-  "/api/v1/doctor/edit":
+  "/api/v1/doctor/edit/:id":
     patch:
       summary: Update doctors params
       tags:
       - Doctors cabinet
       security:
       - ApiKeyAuth: []
-      parameters: []
+      parameters:
+      - name: tag_list
+        in: query
+        description: List of tags for doctor
+        schema:
+          type: string
       responses:
         '200':
           description: OK
@@ -130,10 +135,10 @@ paths:
                 second_phone:
                   type: integer
                   default: '123456789'
-                description:
+                about:
                   type: string
                   default: Something about yourself
-                price:
+                admission_price:
                   type: integer
                   default: '100'
               required:
@@ -169,7 +174,7 @@ paths:
                       type: integer
                     second_phone:
                       type: integer
-                    description:
+                    about:
                       type: string
                   required:
                   - full_name
@@ -205,7 +210,7 @@ paths:
                 items:
                   type: object
                   properties:
-                    price:
+                    admission_price:
                       type: integer
                     position:
                       type: string
@@ -454,167 +459,6 @@ paths:
       responses:
         '200':
           description: successful
-  "/api/v1/chats":
-    get:
-      summary: Returns a list of all chats
-      tags:
-        - Chats
-      security:
-        - ApiKeyAuth: [ ]
-      responses:
-        '200':
-          description: OK
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Chat'
-  "/api/v1/chats/create":
-    post:
-        summary: Creates a new chat between a doctor and a patient
-        tags:
-          - Chats
-        security:
-          - ApiKeyAuth: [ ]
-        requestBody:
-          description: Chat object that needs to be added to the database
-          required: true
-          content:
-            application/json:
-              schema:
-                $ref: '#/definitions/ChatInput'
-        responses:
-          '201':
-            description: Chat created successfully
-            schema:
-              $ref: '#/definitions/Chat'
-          '422':
-            description: Unprocessable entity
-            schema:
-              type: object
-              properties:
-                error:
-                  type: string
-                details:
-                  type: object
-          '401':
-            description: Unauthorized
-            schema:
-              type: object
-              properties:
-                error:
-                  type: string
-  "/api/v1/chats/{id}":
-      get:
-        summary: Returns a specific chat by ID
-        tags:
-          - Chats
-        security:
-          - ApiKeyAuth: [ ]
-        parameters:
-          - in: path
-            name: id
-            required: true
-            type: integer
-            format: int64
-        responses:
-          '200':
-            description: OK
-            schema:
-              $ref: '#/definitions/Chat'
-          '404':
-            description: Chat not found
-            schema:
-              type: object
-              properties:
-                error:
-                  type: string
-      patch:
-        summary: Updates a specific chat by ID
-        tags:
-          - Chats
-        security:
-          - ApiKeyAuth: [ ]
-        parameters:
-          - in: path
-            name: id
-            required: true
-            type: integer
-            format: int64
-        requestBody:
-          description: Updated chat object
-          required: true
-          content:
-            application/json:
-              schema:
-                $ref: '#/definitions/ChatInput'
-        responses:
-          '200':
-            description: OK
-            schema:
-              $ref: '#/definitions/Chat'
-          '400':
-            description: Bad Request
-      delete:
-      summary: Delete a chat by ID
-      tags:
-        - Chats
-      security:
-        - ApiKeyAuth: [ ]
-      parameters:
-        - in: path
-      name: id
-      schema:
-      type: integer
-      required: true
-      description: ID of the chat to delete
-      responses:
-      '204':
-      description: Chat deleted successfully
-      '404':
-      description: Chat not found
-      '401':
-      description: Unauthorized
-      '403':
-      description: Forbidden
-      requestBody:
-      required: true
-      content:
-      application/json:
-      schema:
-      $ref: '#/definitions/Chat'
-      definitions:
-      Chat:
-      type: object
-      properties:
-      id:
-      type: integer
-      doctor_id:
-      type: integer
-      patient_id:
-      type: integer
-      messages:
-      type: array
-      items:
-      type: object
-      properties:
-      id:
-      type: integer
-      author_id:
-      type: integer
-      text:
-      type: string
-      created_at:
-      type: string
-      format: date-time
-      updated_at:
-      type: string
-      format: date-time
-      required:
-        - id
-        - author_id
-        - text
-        - created_at
-        - updated_at
   "/api/v1/forgot":
     post:
       summary: Sends an email to reset the user's password
@@ -640,6 +484,27 @@ paths:
               - email
               - user_type
         description: The user's email address
+  "/api/v1/password-reset":
+    post:
+      summary: Resets the user's password
+      tags:
+      - Passwords
+      parameters:
+      - name: token
+        in: query
+        description: The password reset token generated for the user
+        required: true
+        schema:
+          type: string
+      - name: user_type
+        in: query
+        description: The user's type
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
   "/api/v1/appointments":
     get:
       summary: List appointments
@@ -714,12 +579,20 @@ paths:
                   type: integer
                 date:
                   type: string
-                  format: date-time
-              required:
-                - patient_id
-                - doctor_id
-                - date
-        description: Appointment details to create
+                  default: 12.04.2023
+    delete:
+      summary: delete personal_info
+      tags:
+      - Personal Information
+      responses:
+        '200':
+          description: successful
+  "/api/v1/signup":
+    post:
+      summary: Sends an email to register user
+      tags:
+      - Signup
+      parameters: []
       responses:
         '201':
           description: Created
