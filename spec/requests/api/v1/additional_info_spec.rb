@@ -8,6 +8,8 @@ RSpec.describe 'api/v1/additional_info', swagger_doc: 'v1/swagger.yaml', type: :
     get('list additional_infos') do
       tags 'Additional Information'
 
+      security [{ ApiKeyAuth: [] }]
+
       response(200, 'successful') do
         after do |example|
           example.metadata[:response][:content] = {
@@ -24,6 +26,8 @@ RSpec.describe 'api/v1/additional_info', swagger_doc: 'v1/swagger.yaml', type: :
   path '/api/v1/patient-account/additional-data' do
     post('create additional_info') do
       tags 'Additional Information'
+
+      security [{ ApiKeyAuth: [] }]
 
       consumes "application/json"
       parameter name: :post, in: :body, schema: {
@@ -57,6 +61,8 @@ RSpec.describe 'api/v1/additional_info', swagger_doc: 'v1/swagger.yaml', type: :
     put('update additional_info') do
       tags 'Additional Information'
 
+      security [{ ApiKeyAuth: [] }]
+
       consumes "application/json"
       parameter name: :post, in: :body, schema: {
         type: :object,
@@ -88,6 +94,8 @@ RSpec.describe 'api/v1/additional_info', swagger_doc: 'v1/swagger.yaml', type: :
   path '/api/v1/patient-account/additional-data' do
     delete('delete additional_info') do
       tags 'Additional Information'
+
+      security [{ ApiKeyAuth: [] }]
 
       consumes "application/json"
       parameter name: :post, in: :body, schema: {

@@ -1,6 +1,7 @@
 require 'swagger_helper'
 
 RSpec.describe 'api/v1/calendars', swagger_doc: 'v1/swagger.yaml', type: :request do
+
   path '/api/v1/calendars' do
     get('List all calendars') do
       tags 'Calendars'
@@ -61,6 +62,8 @@ RSpec.describe 'api/v1/calendars', swagger_doc: 'v1/swagger.yaml', type: :reques
 
     run_test!
   end
+    end
+
     path '/api/v1/calendars/{id}' do
       patch('Update a calendar') do
         tags 'Calendars'
@@ -123,5 +126,6 @@ RSpec.describe 'api/v1/calendars', swagger_doc: 'v1/swagger.yaml', type: :reques
           run_test!
         end
       end
+    end
     end
   end

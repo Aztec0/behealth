@@ -67,10 +67,7 @@ Rails.application.routes.draw do
         resources :messages, only: [:index, :create]
       end
 
-      #Feedbacks for doctors
-      get    'doctor/:doctor_id/feedbacks',                  to: 'feedbacks#index'
-      post   'doctor/:doctor_id/feedback',                   to: 'feedbacks#create'
-      # Feedbacks for doctors
+      # Feedbacks
       get    'feedbacks/:type/:id',                          to: 'feedbacks#index'
       post   'feedbacks/:type/:id',                          to: 'feedbacks#create'
       put    'feedbacks/:id',                                to: 'feedbacks#update'
@@ -108,8 +105,6 @@ Rails.application.routes.draw do
       patch '/appointments/:id/accept',                      to: 'appointments#accept'
       get '/appointments/past',                              to: 'appointments#past'
       get '/appointments/upcoming',                          to: 'appointments#upcoming'
-    end
-
 
     # Calendar
     get 'calendars', to: 'calendars#index'
@@ -161,6 +156,12 @@ Rails.application.routes.draw do
       post   'patient/work',                                  to: 'patient_work#create'
       put    'patient/work',                                  to: 'patient_work#update'
       delete 'patient/work',                                  to: 'patient_work#destroy'
+
+      # Feedbacks
+      get    'feedbacks/:type/:id',                          to: 'feedbacks#index'
+      post   'feedbacks/:type/:id',                          to: 'feedbacks#create'
+      put    'feedbacks/:id',                                to: 'feedbacks#update'
+      delete 'feedbacks/:id',                                to: 'feedbacks#destroy'
     end
   end
 end
