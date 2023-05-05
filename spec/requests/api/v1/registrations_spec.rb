@@ -38,10 +38,10 @@ RSpec.describe 'api/registrations', swagger_doc: 'v1/swagger.yaml', type: :reque
           birthday: {
             type: :string, format: :datetime
           },
-          first_name: {
+          name: {
             type: :string
           },
-          second_name: {
+          surname: {
             type: :string
           },
           last_name: {

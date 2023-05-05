@@ -37,7 +37,7 @@ RSpec.describe 'api/v1/personal_info', swagger_doc: 'v1/swagger.yaml', type: :re
         properties: {
           document_type: { type: :string, default: "Must be 'Passport' or 'IdCard'" },
           series: { type: :string, default: 'Dont use for IdCard' },
-          number: { type: :string, default: '1111' },
+          number: { type: :string, default: '123456789' },
           issued_by: { type: :string, default: '1111' },
           date: { type: :string, default: '12.04.2023' }
         }
@@ -68,8 +68,8 @@ RSpec.describe 'api/v1/personal_info', swagger_doc: 'v1/swagger.yaml', type: :re
         type: :object,
         properties: {
           type: { type: :string, default: "Must be 'patient_info' or 'document'" },
-          first_name: { type: :string, default: 'Юзер' },
-          last_name: { type: :string, default: 'Юзеренко' },
+          name: { type: :string, default: 'Юзер' },
+          surname: { type: :string, default: 'Юзеренко' },
           second_name: { type: :string, default: 'Юзеренкович' },
           email: { type: :string, default: 'user@test.rb' },
           phone: { type: :string, default: '+380000000000' },

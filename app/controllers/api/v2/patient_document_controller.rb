@@ -4,6 +4,7 @@ class Api::V2::PatientDocumentController < ApplicationController
   before_action :authenticate_patient_user
   before_action :set_document
   before_action :check_document, only: %i[update destroy]
+  before_action :find_document, only: %i[update destroy]
 
   def create
     return render_error('You already have a document', status: :unprocessable_entity) if @document.present?
@@ -17,12 +18,12 @@ class Api::V2::PatientDocumentController < ApplicationController
       return render_error('Type is invalid', status: :unprocessable_entity)
     end
 
-    if record.save
+    if document.save
       PatientDocument.create(patient: current_user, document_type: params[:document_type].to_s,
                              document_id: document.id)
       render_success("#{params[:document_type]} was created successfully!", status: :created)
     else
-      render_error(record.errors, status: :unprocessable_entity)
+      render_error(document.errors, status: :unprocessable_entity)
     end
   end
 
@@ -53,9 +54,7 @@ class Api::V2::PatientDocumentController < ApplicationController
   end
 
   def find_document
-    if @patient_document.present?
-      @document = @patient_document.document
-    end
+    @document = @patient_document.document if @patient_document.present?
   end
 
   def check_document

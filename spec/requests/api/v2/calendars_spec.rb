@@ -136,4 +136,6 @@ RSpec.describe 'api/v2/calendar', swagger_doc: 'v2/swagger.yaml', type: :request
       end
     end
   end
+end
+
 

@@ -14,5 +14,9 @@
 #  updated_at :datetime         not null
 #
 class HospitalSerializer < ActiveModel::Serializer
-  attributes :id, :region, :city, :address, :name
+  attributes :id, :region, :city, :address, :name, :rating
+
+  def rating
+    object.rating.round(2)
+  end
 end

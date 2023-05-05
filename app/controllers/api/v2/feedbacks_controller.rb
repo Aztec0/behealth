@@ -20,7 +20,7 @@ class Api::V2::FeedbacksController < ApplicationController
                                                                   doctorable_id: params[:id]))
 
     if feedback.save
-      @object.update(rating: @object.feedbacks.average(:rating).to_f)
+      @object.update_columns(rating: @object.feedbacks.average(:rating).to_f)
       render_success('Feedback was created successfully!', status: :created)
     else
       render_error(feedback.errors, status: :unprocessable_entity)
@@ -31,7 +31,7 @@ class Api::V2::FeedbacksController < ApplicationController
     object = @feedback.doctorable
 
     if @feedback.update(feedback_params)
-      object.update(rating: object.feedbacks.average(:rating).to_f)
+      object.update_columns(rating: object.feedbacks.average(:rating).to_f)
       render_success('Feedback was updated successfully!')
     else
       render_error(@feedback.errors, status: :unprocessable_entity)
