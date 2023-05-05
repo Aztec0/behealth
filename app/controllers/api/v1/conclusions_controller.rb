@@ -1,6 +1,4 @@
 class ConclusionsController < ApplicationController
-  before_action :authenticate_request
-  before_action :set_current_user
   before_action :set_conclusion, only: [:show, :update]
 
   # GET /conclusions
