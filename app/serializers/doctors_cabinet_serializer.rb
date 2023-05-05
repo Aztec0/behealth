@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DoctorsCabinetSerializer < ActiveModel::Serializer
-
+  attributes :tags, :admission_price
   def attributes(*args)
     hash = super
     if @instance_options[:action] == :professional_info
@@ -17,7 +17,7 @@ class DoctorsCabinetSerializer < ActiveModel::Serializer
       hash[:second_email] = object.second_email
       hash[:phone] = object.phone
       hash[:second_phone] = object.second_phone
-      # hash[:description] = object.description
+      hash[:description] = object.about
     end
     hash
   end

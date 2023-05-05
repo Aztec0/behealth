@@ -105,14 +105,19 @@ paths:
                 type:
                   type: string
                   default: Must be 'address' or 'work'
-  "/api/v1/doctor/edit":
+  "/api/v1/doctor/edit/:id":
     patch:
       summary: Update doctors params
       tags:
       - Doctors cabinet
       security:
       - ApiKeyAuth: []
-      parameters: []
+      parameters:
+      - name: tag_list
+        in: query
+        description: List of tags for doctor
+        schema:
+          type: string
       responses:
         '200':
           description: OK
@@ -130,10 +135,10 @@ paths:
                 second_phone:
                   type: integer
                   default: '123456789'
-                description:
+                about:
                   type: string
                   default: Something about yourself
-                price:
+                admission_price:
                   type: integer
                   default: '100'
               required:
@@ -169,7 +174,7 @@ paths:
                       type: integer
                     second_phone:
                       type: integer
-                    description:
+                    about:
                       type: string
                   required:
                   - full_name
@@ -205,7 +210,7 @@ paths:
                 items:
                   type: object
                   properties:
-                    price:
+                    admission_price:
                       type: integer
                     position:
                       type: string
@@ -253,10 +258,10 @@ paths:
             schema:
               type: object
               properties:
-                first_name:
+                name:
                   type: string
                   default: John
-                last_name:
+                surname:
                   type: string
                   default: Doe
                 second_name:
@@ -275,14 +280,50 @@ paths:
                   type: string
                   default: Cardiologist
               required:
-              - first_name
-              - last_name
+              - name
+              - surname
               - second_name
               - email
               - phone
               - birthday
               - position
-  "/api/v1/delete_doctor/{id}":
+  "/api/v1/create_hospital":
+    post:
+      summary: Creates a hospital
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '201':
+          description: returns the newly created hospital
+        '422':
+          description: returns an error message if hospital cannot be created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: New Hospital
+                address:
+                  type: string
+                  default: 123 Main St
+                city:
+                  type: string
+                  default: Anytown
+                region:
+                  type: string
+                  default: NY
+              required:
+              - name
+              - address
+              - city
+              - region
+  "/api/v1/doctors/{id}":
     delete:
       summary: Deletes a doctor by id
       tags:
@@ -320,11 +361,9 @@ paths:
                   properties:
                     id:
                       type: integer
-                    first_name:
+                    name:
                       type: string
-                    last_name:
-                      type: string
-                    second_name:
+                    surname:
                       type: string
                     email:
                       type: string
@@ -344,9 +383,8 @@ paths:
                       type: integer
                   required:
                   - id
-                  - first_name
-                  - last_name
-                  - second_name
+                  - name
+                  - surname
                   - email
                   - phone
                   - birthday
@@ -413,7 +451,7 @@ paths:
                     type: string
                 required:
                 - error
-  "/api/v1/index":
+  "/api/v1/hospitals":
     get:
       summary: List all hospitals
       tags:
@@ -421,6 +459,84 @@ paths:
       responses:
         '200':
           description: successful
+  "/api/v1/hospital/update/:id":
+    patch:
+      summary: Update hospital params
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: tag_list
+        in: query
+        description: List of tags for hospital
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '422':
+          description: Unprocessable entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                  default: Some addres
+                city:
+                  type: string
+                  default: Some city
+                name:
+                  type: string
+                  default: Some name
+                region:
+                  type: string
+                  default: Some region
+              required:
+              - second_email
+              - second_phone
+              - description
+              - price
+        description: Hospital`s params to update
+  "/api/v1/create_hospital":
+    post:
+      summary: Creates a hospital
+      tags:
+      - Doctors
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '201':
+          description: returns the newly created hospital
+        '422':
+          description: returns an error message if hospital cannot be created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: New Hospital
+                address:
+                  type: string
+                  default: 123 Main St
+                city:
+                  type: string
+                  default: Anytown
+                region:
+                  type: string
+                  default: NY
+              required:
+              - name
+              - address
+              - city
+              - region
   "/api/v1/forgot":
     post:
       summary: Sends an email to reset the user's password
@@ -446,6 +562,27 @@ paths:
               - email
               - user_type
         description: The user's email address
+  "/api/v1/password-reset":
+    post:
+      summary: Resets the user's password
+      tags:
+      - Passwords
+      parameters:
+      - name: token
+        in: query
+        description: The password reset token generated for the user
+        required: true
+        schema:
+          type: string
+      - name: user_type
+        in: query
+        description: The user's type
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
   "/api/v1/appointments":
     get:
       summary: List appointments
