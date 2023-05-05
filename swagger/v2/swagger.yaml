@@ -204,6 +204,94 @@ paths:
                     type: string
                 required:
                 - error
+  "/api/v2/feedbacks/{type}/{id}":
+    parameters:
+    - name: type
+      in: path
+      description: type
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list feedbacks
+      tags:
+      - Feedbacks
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create feedback
+      tags:
+      - Feedbacks
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  default: Test
+                body:
+                  type: string
+                  default: It's just a test feedback
+                rating:
+                  type: integer
+                  default: 5
+  "/api/v2/feedbacks/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    put:
+      summary: update feedback
+      tags:
+      - Feedbacks
+      security:
+      - ApiKeyAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  default: Test
+                body:
+                  type: string
+                  default: It's just a test feedback
+                rating:
+                  type: integer
+                  default: 5
+    delete:
+      summary: delete feedback
+      tags:
+      - Feedbacks
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: successful
   "/api/v2/hospitals":
     get:
       summary: List all hospitals
@@ -470,7 +558,7 @@ paths:
         in: query
         description: |-
           Searching query for hospital or doctor. Input address, name, city for hospital or
-                                        name, surname, specialty for doctor
+                                        First Name, Last Name, specialty(position) for doctor
         required: false
         schema:
           type: string
@@ -504,7 +592,7 @@ paths:
       parameters:
       - name: query
         in: query
-        description: 'Searching doctor by name, surname, second name, position '
+        description: 'Searching doctor by First Name, Last Name, position '
         required: false
         schema:
           type: string

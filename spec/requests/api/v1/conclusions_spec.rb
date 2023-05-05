@@ -91,4 +91,9 @@ RSpec.describe 'Api::V1::ConclusionsController', swagger_doc: 'v1/swagger.yaml',
 
         response(404, 'not found') do
           let(:id) { -1 }
-          let(:conclusion_params) { { content: 'The patient is doing better'
+          let(:conclusion_params) { { content: 'The patient is doing better' } }
+        end
+      end
+    end
+  end
+end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::FeedbacksController < ApplicationController
+class Api::V2::FeedbacksController < ApplicationController
   skip_before_action :authenticate_request, only: :index
   before_action :authenticate_patient_user, only: %i[create update destroy]
   before_action :check_type, only: %i[index create]
@@ -11,9 +11,8 @@ class Api::V1::FeedbacksController < ApplicationController
   def index
     feedbacks = @object.feedbacks
 
-    render json: { feedbacks: ActiveModelSerializers::SerializableResource.new(feedbacks,
-                                                                               each_serializer: FeedbacksSerializer) },
-           status: :ok
+    render_success({ feedbacks: ActiveModelSerializers::SerializableResource.new(feedbacks,
+                                                                                 each_serializer: FeedbacksSerializer) })
   end
 
   def create
@@ -22,9 +21,9 @@ class Api::V1::FeedbacksController < ApplicationController
 
     if feedback.save
       @object.update(rating: @object.feedbacks.average(:rating).to_f)
-      render json: { message: 'Feedback was created successfully!', data: feedback }, status: :created
+      render_success('Feedback was created successfully!', status: :created)
     else
-      render json: feedback.errors, status: :unprocessable_entity
+      render_error(feedback.errors, status: :unprocessable_entity)
     end
   end
 
@@ -33,17 +32,17 @@ class Api::V1::FeedbacksController < ApplicationController
 
     if @feedback.update(feedback_params)
       object.update(rating: object.feedbacks.average(:rating).to_f)
-      render json: { message: 'Feedback was updated successfully!', data: @feedback }, status: :ok
+      render_success('Feedback was updated successfully!')
     else
-      render json: @feedback.errors, status: :unprocessable_entity
+      render_error(@feedback.errors, status: :unprocessable_entity)
     end
   end
 
   def destroy
     if @feedback.destroy
-      render json: { message: 'Feedback was destroyed successfully!' }, status: :ok
+      render_success('Feedback was destroyed successfully!')
     else
-      render json: @feedback.errors, status: :unprocessable_entity
+      render_error(@feedback.errors, status: :unprocessable_entity)
     end
   end
 
