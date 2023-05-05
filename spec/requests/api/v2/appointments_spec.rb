@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe Api::V1::AppointmentsController, type: :request, swagger_doc: 'v1/swagger.yaml' do
+RSpec.describe Api::V2::AppointmentsController, type: :request, swagger_doc: 'v2/swagger.yaml' do
   let(:appointment_params) do
     {
       appointment_datetime: Time.zone.now + 1.hour,
@@ -10,7 +10,7 @@ RSpec.describe Api::V1::AppointmentsController, type: :request, swagger_doc: 'v1
     }
   end
 
-  path '/api/v1/appointments' do
+  path '/api/v2/appointments' do
     get('List all appointments') do
       tags 'Appointments'
       parameter name: :upcoming, in: :query, type: :boolean, description: 'List only upcoming appointments'
@@ -95,7 +95,7 @@ RSpec.describe Api::V1::AppointmentsController, type: :request, swagger_doc: 'v1
       end
     end
 
-    path '/api/v1/appointments/{id}' do
+    path '/api/v2/appointments/{id}' do
       parameter name: :id, in: :path, type: :integer, required: true, description: 'Appointment ID'
       get('Get an appointment') do
         tags 'Appointments'
@@ -190,7 +190,7 @@ RSpec.describe Api::V1::AppointmentsController, type: :request, swagger_doc: 'v1
       end
     end
 
-    path '/api/v1/appointments/{id}/accept' do
+    path '/api/v2/appointments/{id}/accept' do
       put('Accept appointment') do
         tags 'Appointments'
         produces 'application/json'
@@ -221,7 +221,7 @@ RSpec.describe Api::V1::AppointmentsController, type: :request, swagger_doc: 'v1
       end
     end
 
-    put('/api/v1/appointments/{id}/cancel') do
+    put('/api/v2/appointments/{id}/cancel') do
       tags 'Appointments'
       consumes 'application/json'
       parameter name: :id, in: :path, type: :integer

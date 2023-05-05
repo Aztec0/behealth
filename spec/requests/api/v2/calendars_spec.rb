@@ -1,8 +1,8 @@
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/calendar', swagger_doc: 'v1/swagger.yaml', type: :request do
+RSpec.describe 'api/v2/calendar', swagger_doc: 'v2/swagger.yaml', type: :request do
 
-  path '/api/v1/calendar' do
+  path '/api/v2/calendar' do
     get('List appointments') do
       tags 'Appointments'
       security [{ ApiKeyAuth: [] }]
@@ -72,7 +72,7 @@ RSpec.describe 'api/v1/calendar', swagger_doc: 'v1/swagger.yaml', type: :request
     end
   end
 
-  path '/api/v1/calendar/{id}' do
+  path '/api/v2/calendar/{id}' do
     parameter name: :id, in: :path, type: :integer
 
     get('Show an appointment') do

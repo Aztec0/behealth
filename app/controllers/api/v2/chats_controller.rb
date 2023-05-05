@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-class Api::V1::ChatsController < ApplicationController
+class Api::V2::ChatsController < ApplicationController
   before_action :set_chat, only: [:show, :update, :destroy]
   def index
 

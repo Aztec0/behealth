@@ -1,4 +1,4 @@
-class Api::V1::AppointmentsController < ApplicationController
+class Api::V2::AppointmentsController < ApplicationController
   before_action :set_appointment, only: [:show, :update, :cancel, :accept]
 
   def index

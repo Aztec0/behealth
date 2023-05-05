@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-class Api::V1::ConclusionsController < ApplicationController
+class Api::V2::ConclusionsController < ApplicationController
   before_action :set_conclusion, only: [:show, :update]
 
   # GET /conclusions
@@ -36,7 +34,6 @@ class Api::V1::ConclusionsController < ApplicationController
   end
 
   private
-
   # Use callbacks to share common setup or constraints between actions.
   def set_conclusion
     @conclusion = Conclusion.find(params[:id])

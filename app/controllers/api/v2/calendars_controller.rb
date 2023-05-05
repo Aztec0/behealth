@@ -1,7 +1,5 @@
-# frozen_string_literal: true
+class Api::V2::CalendarController < ApplicationController
 
-class CalendarsController < ApplicationController
-  # GET /calendar
   def index
     render json: appointments_json
   end
