@@ -670,37 +670,40 @@ paths:
                     - name
         description: Returns a specific calendar by ID
       patch:
-        summary: Update a specific calendar
+        summary: "Update an appointment in a calendar"
         tags:
-          - Calendars
+          - "Calendars"
         security:
           - ApiKeyAuth: [ ]
         parameters:
-          - name: calendar_id
-            in: path
-            type: integer
+          - name: "id"
+            in: "path"
+            description: "ID of the appointment to update"
             required: true
+            type: "integer"
         responses:
           '200':
-            description: successful
+            description: "Success"
           '400':
-            description: Bad Request
+            description: "Bad Request"
         requestBody:
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  name:
+                  start_time:
                     type: string
-                    default: New Name
-                  description:
+                    format: date-time
+                    example: "2023-05-10T10:00:00Z"
+                  end_time:
                     type: string
-                    default: New Description
+                    format: date-time
+                    example: "2023-05-10T11:00:00Z"
                 required:
-                  - name
-                  - description
-        description: Updates a specific calendar by ID
+                  - start_time
+                  - end_time
+          description: "Appointment start and end time to update"
   "/api/v1/signup":
     post:
       summary: Sends an email to register user
