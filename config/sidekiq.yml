@@ -1,0 +1,6 @@
+:scheduler:
+  :schedule:
+    telegram_worker:
+      cron: "0 8 * * * Europe/Kiev"
+      class: "TelegramWorker"
+      description: "Send telegram іmessage for appointments within 2 days"

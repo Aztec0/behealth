@@ -1,6 +1,13 @@
 # frozen_string_literal: true
+require 'sidekiq/web'
+require 'sidekiq-scheduler/web'
+
+# Configure Sidekiq-specific session middleware
+Sidekiq::Web.use ActionDispatch::Cookies
+Sidekiq::Web.use ActionDispatch::Session::CookieStore, key: "_interslice_session"
 
 Rails.application.routes.draw do
+  mount Sidekiq::Web => "/sidekiq"
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   namespace :api do
